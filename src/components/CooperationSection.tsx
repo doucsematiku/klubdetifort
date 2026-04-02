@@ -125,6 +125,8 @@ export default function CooperationSection() {
               </label>
               <input
                 type="text"
+                name="name"
+                autoComplete="name"
                 required
                 value={form.name}
                 onChange={(e) => update("name", e.target.value)}
@@ -138,6 +140,8 @@ export default function CooperationSection() {
               </label>
               <input
                 type="email"
+                name="email"
+                autoComplete="email"
                 required
                 value={form.email}
                 onChange={(e) => update("email", e.target.value)}
@@ -154,6 +158,8 @@ export default function CooperationSection() {
               </label>
               <input
                 type="tel"
+                name="phone"
+                autoComplete="tel"
                 value={form.phone}
                 onChange={(e) => update("phone", e.target.value)}
                 placeholder="775 123 456"

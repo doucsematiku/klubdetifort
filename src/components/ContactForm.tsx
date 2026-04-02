@@ -78,6 +78,8 @@ export default function ContactForm() {
           </label>
           <input
             id="parentName"
+            name="name"
+            autoComplete="name"
             type="text"
             required
             value={form.parentName}
@@ -94,6 +96,8 @@ export default function ContactForm() {
           </label>
           <input
             id="email"
+            name="email"
+            autoComplete="email"
             type="email"
             required
             value={form.email}
@@ -110,6 +114,8 @@ export default function ContactForm() {
           </label>
           <input
             id="phone"
+            name="phone"
+            autoComplete="tel"
             type="tel"
             required
             value={form.phone}

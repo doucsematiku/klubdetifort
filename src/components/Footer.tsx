@@ -51,7 +51,7 @@ export default function Footer() {
               </p>
               <p className="mt-3">
                 <a
-                  href="https://facebook.com/farmafort"
+                  href="https://facebook.com/klubdetifarmafort"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 hover:text-orange transition-colors"
