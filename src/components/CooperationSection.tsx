@@ -25,6 +25,7 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
 export default function CooperationSection() {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState<CoopFormData>(initialForm);
+  const [formLoadedAt, setFormLoadedAt] = useState(0);
   const [cvFile, setCvFile] = useState<File | null>(null);
   const [fileError, setFileError] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
@@ -69,6 +70,7 @@ export default function CooperationSection() {
       body.append("interest", form.interest);
       body.append("message", form.message);
       body.append("gdpr", String(form.gdpr));
+      body.append("_t", String(formLoadedAt));
       if (cvFile) {
         body.append("cv", cvFile);
       }
@@ -130,7 +132,7 @@ export default function CooperationSection() {
 
       <div className="text-center">
         <button
-          onClick={() => setOpen(!open)}
+          onClick={() => { setOpen(!open); if (!open) setFormLoadedAt(Date.now()); }}
           className="inline-flex items-center gap-2 bg-forest hover:bg-forest-light text-white font-bold px-8 py-4 rounded-full transition-colors text-lg"
         >
           {open ? "Skrýt formulář" : "Chci se zapojit"}
@@ -155,6 +157,14 @@ export default function CooperationSection() {
           onSubmit={handleSubmit}
           className="max-w-2xl mx-auto mt-8 bg-white rounded-2xl p-6 sm:p-10 shadow-sm space-y-5"
         >
+          {/* Honeypot — hidden from humans, filled by bots */}
+          <div className="absolute -left-[9999px]" aria-hidden="true">
+            <label>
+              Website
+              <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+            </label>
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold text-dark mb-1">

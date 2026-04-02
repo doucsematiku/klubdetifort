@@ -31,7 +31,17 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const body = (await req.json()) as ContactPayload;
+    const body = (await req.json()) as ContactPayload & { website?: string; _t?: number };
+
+    // Honeypot spam protection — bots fill hidden fields
+    if (body.website?.trim()) {
+      return NextResponse.json({ success: true });
+    }
+
+    // Timing-based spam protection — form filled in < 2s is likely a bot
+    if (body._t && Date.now() - body._t < 2000) {
+      return NextResponse.json({ success: true });
+    }
 
     // Server-side validation
     if (!body.parentName?.trim() || !body.email?.trim() || !body.phone?.trim()) {
@@ -70,6 +80,7 @@ export async function POST(req: NextRequest) {
       ne: "Ne, zatím ne",
     };
 
+    // Send notification to admin
     await resend.emails.send({
       from: "Klub Fořt <noreply@klubdetifort.cz>",
       to: "reditel@doucse.cz",
@@ -88,6 +99,27 @@ export async function POST(req: NextRequest) {
         ${body.message ? `<h3>Zpráva:</h3><p style="white-space:pre-wrap;">${body.message}</p>` : ""}
         <hr style="margin-top:20px;border:none;border-top:1px solid #ddd;">
         <p style="font-size:12px;color:#999;">Odesláno z formuláře na klubdetifort.cz</p>
+      `,
+    });
+
+    // Send confirmation email to the parent
+    await resend.emails.send({
+      from: "Klub Fořt <noreply@klubdetifort.cz>",
+      to: body.email,
+      subject: "Děkujeme za váš zájem — Vzdělávací klub Farma Fořt",
+      html: `
+        <div style="font-family:sans-serif;max-width:560px;margin:0 auto;">
+          <h2 style="color:#2d5a27;">Děkujeme, ${body.parentName}!</h2>
+          <p>Vaši zprávu jsme přijali a brzy se vám ozveme.</p>
+          ${body.childName ? `<p>Těšíme se, že ${body.childName} by mohl/a být součástí našeho klubu!</p>` : ""}
+          <p>Pokud máte zatím jakékoliv dotazy, neváhejte nám napsat na
+            <a href="mailto:reditel@doucse.cz">reditel@doucse.cz</a> nebo zavolat na
+            <a href="tel:+420775917363">775 917 363</a>.
+          </p>
+          <p>S pozdravem,<br><strong>Tým Vzdělávacího klubu Farma Fořt</strong></p>
+          <hr style="margin-top:24px;border:none;border-top:1px solid #e5e5e5;">
+          <p style="font-size:12px;color:#999;">Toto je automatické potvrzení z klubdetifort.cz</p>
+        </div>
       `,
     });
 

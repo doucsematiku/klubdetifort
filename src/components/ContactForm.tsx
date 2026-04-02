@@ -27,6 +27,7 @@ const initialForm: FormData = {
 export default function ContactForm() {
   const [form, setForm] = useState<FormData>(initialForm);
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [formLoadedAt] = useState(() => Date.now());
 
   function update(field: keyof FormData, value: string | boolean) {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -36,11 +37,14 @@ export default function ContactForm() {
     e.preventDefault();
     setStatus("sending");
 
+    const formEl = e.target as HTMLFormElement;
+    const honeypot = (formEl.querySelector('input[name="website"]') as HTMLInputElement)?.value ?? "";
+
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, website: honeypot, _t: formLoadedAt }),
       });
 
       if (res.ok) {
@@ -70,6 +74,14 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
+      {/* Honeypot — hidden from humans, filled by bots */}
+      <div className="absolute -left-[9999px]" aria-hidden="true">
+        <label>
+          Website
+          <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+        </label>
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         {/* Parent name */}
         <div>
