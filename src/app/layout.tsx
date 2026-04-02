@@ -58,6 +58,9 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  verification: {
+    google: "LPpW2qBwkAd86nZsJdsKC0X-6Wr8d88HV1K33ZRDGZg",
+  },
   alternates: {
     canonical: "https://klubdetifort.cz",
   },
