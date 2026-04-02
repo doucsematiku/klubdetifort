@@ -87,6 +87,14 @@ export default function DekujemePage() {
             >
               Sledujte nás na Facebooku
             </a>
+            <a
+              href="https://www.instagram.com/klub_deti_farma_fort/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-white hover:bg-beige-dark text-dark font-bold px-8 py-4 rounded-full transition-colors border border-beige-dark"
+            >
+              Sledujte nás na Instagramu
+            </a>
           </div>
         </div>
       </main>
