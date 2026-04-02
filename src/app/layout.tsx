@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
@@ -6,6 +6,12 @@ const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin", "latin-ext"],
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
 
 export const metadata: Metadata = {
   title: "Vzdělávací klub na BIO farmě Fořt | Individuální vzdělávání v Krkonoších",
@@ -23,7 +29,6 @@ export const metadata: Metadata = {
     "Vrchlabí",
     "Černý Důl",
   ],
-  viewport: "width=device-width, initial-scale=1, maximum-scale=5",
   metadataBase: new URL("https://klubdetifort.cz"),
   openGraph: {
     title: "Vzdělávací klub na BIO farmě Fořt",
