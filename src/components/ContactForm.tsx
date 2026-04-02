@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
 
 interface FormData {
   parentName: string;
@@ -25,8 +26,9 @@ const initialForm: FormData = {
 };
 
 export default function ContactForm() {
+  const router = useRouter();
   const [form, setForm] = useState<FormData>(initialForm);
-  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "sending" | "error">("idle");
   const [formLoadedAt] = useState(() => Date.now());
 
   function update(field: keyof FormData, value: string | boolean) {
@@ -48,28 +50,13 @@ export default function ContactForm() {
       });
 
       if (res.ok) {
-        setStatus("sent");
-        setForm(initialForm);
+        router.push("/dekujeme");
       } else {
         setStatus("error");
       }
     } catch {
       setStatus("error");
     }
-  }
-
-  if (status === "sent") {
-    return (
-      <div className="bg-forest-pale rounded-2xl p-8 sm:p-12 text-center">
-        <div className="text-4xl mb-4">&#10003;</div>
-        <h3 className="text-2xl font-bold text-forest mb-2">
-          Děkujeme za váš zájem!
-        </h3>
-        <p className="text-brown">
-          Vaši zprávu jsme přijali a brzy se vám ozveme.
-        </p>
-      </div>
-    );
   }
 
   return (
