@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { useRouter } from "next/navigation";
 
 interface FormData {
   parentName: string;
@@ -26,7 +25,6 @@ const initialForm: FormData = {
 };
 
 export default function ContactForm() {
-  const router = useRouter();
   const [form, setForm] = useState<FormData>(initialForm);
   const [status, setStatus] = useState<"idle" | "sending" | "error">("idle");
   const [formLoadedAt] = useState(() => Date.now());
@@ -50,7 +48,7 @@ export default function ContactForm() {
       });
 
       if (res.ok) {
-        router.push("/dekujeme");
+        window.location.href = "/dekujeme";
       } else {
         setStatus("error");
       }
