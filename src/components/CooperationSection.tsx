@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState, useRef, type FormEvent } from "react";
 
 interface CoopFormData {
   name: string;
@@ -20,25 +20,62 @@ const initialForm: CoopFormData = {
   gdpr: false,
 };
 
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
+
 export default function CooperationSection() {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState<CoopFormData>(initialForm);
+  const [cvFile, setCvFile] = useState<File | null>(null);
+  const [fileError, setFileError] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
     "idle"
   );
+  const fileRef = useRef<HTMLInputElement>(null);
 
   function update(field: keyof CoopFormData, value: string | boolean) {
     setForm((prev) => ({ ...prev, [field]: value }));
+  }
+
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setFileError("");
+    const file = e.target.files?.[0];
+    if (!file) {
+      setCvFile(null);
+      return;
+    }
+    if (file.type !== "application/pdf") {
+      setFileError("Nahrajte prosím soubor ve formátu PDF.");
+      setCvFile(null);
+      if (fileRef.current) fileRef.current.value = "";
+      return;
+    }
+    if (file.size > MAX_FILE_SIZE) {
+      setFileError("Soubor je příliš velký (max 5 MB).");
+      setCvFile(null);
+      if (fileRef.current) fileRef.current.value = "";
+      return;
+    }
+    setCvFile(file);
   }
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setStatus("sending");
     try {
+      const body = new FormData();
+      body.append("name", form.name);
+      body.append("email", form.email);
+      body.append("phone", form.phone);
+      body.append("interest", form.interest);
+      body.append("message", form.message);
+      body.append("gdpr", String(form.gdpr));
+      if (cvFile) {
+        body.append("cv", cvFile);
+      }
+
       const res = await fetch("/api/cooperation", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body,
       });
       if (!res.ok) throw new Error();
       setStatus("sent");
@@ -197,6 +234,30 @@ export default function CooperationSection() {
               placeholder="Napište nám o sobě, svých zkušenostech nebo jak byste nám chtěli pomoci..."
               className="w-full border border-beige-dark rounded-xl px-4 py-3 text-dark placeholder:text-brown-light/50 focus:outline-none focus:ring-2 focus:ring-forest/30 resize-none"
             />
+          </div>
+
+          {/* CV upload */}
+          <div>
+            <label className="block text-sm font-semibold text-dark mb-1">
+              Životopis (PDF, max 5 MB)
+            </label>
+            <div className="relative">
+              <input
+                ref={fileRef}
+                type="file"
+                accept=".pdf,application/pdf"
+                onChange={handleFileChange}
+                className="w-full text-sm text-brown file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-forest-pale file:text-forest hover:file:bg-forest/10 file:cursor-pointer cursor-pointer border border-beige-dark rounded-xl"
+              />
+            </div>
+            {cvFile && (
+              <p className="text-sm text-forest mt-1.5">
+                {cvFile.name} ({(cvFile.size / 1024).toFixed(0)} kB)
+              </p>
+            )}
+            {fileError && (
+              <p className="text-sm text-red-600 mt-1.5">{fileError}</p>
+            )}
           </div>
 
           <label className="flex items-start gap-3 cursor-pointer">

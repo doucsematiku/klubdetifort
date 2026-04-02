@@ -30,6 +30,14 @@ export const metadata: Metadata = {
     "Černý Důl",
   ],
   metadataBase: new URL("https://klubdetifort.cz"),
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: "/apple-icon.png",
+  },
   openGraph: {
     title: "Vzdělávací klub na BIO farmě Fořt",
     description:
@@ -37,6 +45,21 @@ export const metadata: Metadata = {
     locale: "cs_CZ",
     type: "website",
     url: "https://klubdetifort.cz",
+    images: [
+      {
+        url: "/images/logo_fort.png",
+        width: 800,
+        height: 800,
+        alt: "Vzdělávací klub Farma Fořt — logo",
+      },
+    ],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: "https://klubdetifort.cz",
   },
 };
 

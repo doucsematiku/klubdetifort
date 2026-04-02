@@ -520,6 +520,25 @@ export default function Home() {
                 našeho příběhu? Hledáme průvodce, dobrovolníky i podporovatele.
               </p>
             </div>
+
+            {/* Hiring banner */}
+            <div className="bg-white border-2 border-forest rounded-2xl p-6 sm:p-8 mb-10 text-center">
+              <div className="inline-block bg-forest/10 text-forest font-bold text-sm px-4 py-1.5 rounded-full mb-4">
+                Hledáme do týmu
+              </div>
+              <h3 className="text-2xl font-bold text-dark mb-3">
+                Průvodce / Průvodkyně
+              </h3>
+              <p className="text-brown max-w-xl mx-auto leading-relaxed mb-4">
+                Hledáme ještě jednoho průvodce nebo průvodkyni pro náš vzdělávací klub.
+                Pokud máte zkušenosti s prací s dětmi, sdílíte naše hodnoty a baví vás
+                provázet děti na cestě za poznáním — ozvěte se nám. Rádi se s vámi
+                potkáme.
+              </p>
+              <p className="text-sm text-brown-light">
+                Využijte formulář níže — v sekci „Mám zájem o" vyberte <strong>Průvodcování / Mentoring</strong> a přiložte své CV v PDF.
+              </p>
+            </div>
             <CooperationSection />
           </div>
         </section>
