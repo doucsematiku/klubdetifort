@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -93,9 +94,13 @@ export default function Footer() {
           <p className="text-xs text-white/40">
             Vzdělávací centrum Doučse z.s. | IČO: 22201581
           </p>
-          <p className="text-xs text-white/40">
-            Nejsme školou ani registrovanou dětskou skupinou.
-          </p>
+          <div className="flex items-center gap-3 text-xs text-white/40">
+            <Link href="/ochrana-osobnich-udaju" className="hover:text-white/70 transition-colors underline">
+              Ochrana osobních údajů
+            </Link>
+            <span>|</span>
+            <span>Nejsme školou ani registrovanou dětskou skupinou.</span>
+          </div>
         </div>
       </div>
     </footer>
