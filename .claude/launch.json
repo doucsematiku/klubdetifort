@@ -1,11 +1,1 @@
-{
-  "version": "0.0.1",
-  "configurations": [
-    {
-      "name": "fort-klub",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
-      "port": 3000
-    }
-  ]
-}
+{"version":"0.0.1","configurations":[{"name":"fort-klub-dev","runtimeExecutable":"npx","runtimeArgs":["next","dev","--port","3099"],"port":3099}]}
