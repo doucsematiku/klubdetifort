@@ -23,7 +23,10 @@ function getGoogleSheetsClient() {
 async function appendToSheet(body: ContactPayload, gradeLabels: Record<string, string>, ivLabels: Record<string, string>) {
   const sheets = getGoogleSheetsClient();
   const sheetId = process.env.GOOGLE_SHEET_ID;
-  if (!sheets || !sheetId) return;
+  if (!sheets || !sheetId) {
+    console.error("Google Sheets config missing:", { hasSheets: !!sheets, hasSheetId: !!sheetId, hasEmail: !!process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL, hasKey: !!process.env.GOOGLE_PRIVATE_KEY });
+    return;
+  }
 
   try {
     const existing = await sheets.spreadsheets.values.get({
