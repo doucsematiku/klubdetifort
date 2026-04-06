@@ -1,7 +1,61 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
+import { google } from "googleapis";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+
+function getGoogleSheetsClient() {
+  const clientEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
+  const privateKey = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n");
+  if (!clientEmail || !privateKey) return null;
+
+  const auth = new google.auth.JWT({
+    email: clientEmail,
+    key: privateKey,
+    scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+  });
+  return google.sheets({ version: "v4", auth });
+}
+
+async function appendToSheet(body: ContactPayload, gradeLabels: Record<string, string>, ivLabels: Record<string, string>) {
+  const sheets = getGoogleSheetsClient();
+  const sheetId = process.env.GOOGLE_SHEET_ID;
+  if (!sheets || !sheetId) return;
+
+  try {
+    const existing = await sheets.spreadsheets.values.get({
+      spreadsheetId: sheetId,
+      range: "List 1!A:A",
+    });
+    const lastRow = (existing.data.values || []).length;
+
+    await sheets.spreadsheets.values.update({
+      spreadsheetId: sheetId,
+      range: `List 1!A${lastRow + 1}`,
+      valueInputOption: "USER_ENTERED",
+      requestBody: {
+        values: [
+          [
+            new Date().toISOString(),
+            body.phone,
+            body.email,
+            body.parentName,
+            "",
+            ivLabels[body.ivStatus] ?? body.ivStatus,
+            "web",
+            gradeLabels[body.childGrade] ?? body.childGrade,
+            "",
+            body.message || "",
+            "",
+            body.childName ? `dítě: ${body.childName}` : "",
+          ],
+        ],
+      },
+    });
+  } catch (err) {
+    console.error("Google Sheets append error:", err);
+  }
+}
 
 interface ContactPayload {
   parentName: string;
@@ -122,6 +176,9 @@ export async function POST(req: NextRequest) {
         </div>
       `,
     });
+
+    // Append to Google Sheet (non-blocking, don't fail the request)
+    appendToSheet(body, gradeLabels, ivLabels);
 
     submissions.set(ip, Date.now());
 
