@@ -177,8 +177,8 @@ export async function POST(req: NextRequest) {
       `,
     });
 
-    // Append to Google Sheet (non-blocking, don't fail the request)
-    appendToSheet(body, gradeLabels, ivLabels);
+    // Append to Google Sheet
+    await appendToSheet(body, gradeLabels, ivLabels);
 
     submissions.set(ip, Date.now());
 
