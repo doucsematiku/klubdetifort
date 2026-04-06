@@ -6,8 +6,11 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 function getGoogleSheetsClient() {
   const clientEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
-  const privateKey = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n");
-  if (!clientEmail || !privateKey) return null;
+  const rawKey = process.env.GOOGLE_PRIVATE_KEY;
+  if (!clientEmail || !rawKey) return null;
+
+  // Key is stored as base64 to preserve newlines in Vercel env
+  const privateKey = Buffer.from(rawKey, "base64").toString("utf-8");
 
   const auth = new google.auth.JWT({
     email: clientEmail,
