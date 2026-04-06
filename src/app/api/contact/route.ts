@@ -52,8 +52,9 @@ async function appendToSheet(body: ContactPayload, gradeLabels: Record<string, s
         ],
       },
     });
-  } catch (err) {
-    console.error("Google Sheets append error:", err);
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("Google Sheets append error:", msg);
   }
 }
 
@@ -134,6 +135,9 @@ export async function POST(req: NextRequest) {
       ne: "Ne, zatím ne",
     };
 
+    // Append to Google Sheet first (so it's saved even if email fails)
+    await appendToSheet(body, gradeLabels, ivLabels);
+
     // Send notification to admin
     await resend.emails.send({
       from: "Klub Fořt <noreply@klubdetifort.cz>",
@@ -176,9 +180,6 @@ export async function POST(req: NextRequest) {
         </div>
       `,
     });
-
-    // Append to Google Sheet
-    await appendToSheet(body, gradeLabels, ivLabels);
 
     submissions.set(ip, Date.now());
 
