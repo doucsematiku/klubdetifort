@@ -2,28 +2,28 @@ import { NextResponse } from "next/server";
 import { google } from "googleapis";
 
 export async function GET() {
-  const clientEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
-  const rawKey = process.env.GOOGLE_PRIVATE_KEY;
+  const credsB64 = process.env.GOOGLE_CREDENTIALS;
   const sheetId = process.env.GOOGLE_SHEET_ID;
 
   const debug: Record<string, unknown> = {
-    hasEmail: !!clientEmail,
-    hasKey: !!rawKey,
-    keyLength: rawKey?.length ?? 0,
+    hasCreds: !!credsB64,
+    credsLength: credsB64?.length ?? 0,
     hasSheetId: !!sheetId,
   };
 
-  if (!clientEmail || !rawKey || !sheetId) {
+  if (!credsB64 || !sheetId) {
     return NextResponse.json({ error: "missing env", debug });
   }
 
   try {
-    const privateKey = Buffer.from(rawKey, "base64").toString("utf-8");
-    debug.keyStartsWith = privateKey.substring(0, 30);
+    const creds = JSON.parse(Buffer.from(credsB64, "base64").toString("utf-8"));
+    debug.clientEmail = creds.client_email;
+    debug.hasPrivateKey = !!creds.private_key;
+    debug.keyLength = creds.private_key?.length ?? 0;
 
     const auth = new google.auth.JWT({
-      email: clientEmail,
-      key: privateKey,
+      email: creds.client_email,
+      key: creds.private_key,
       scopes: ["https://www.googleapis.com/auth/spreadsheets"],
     });
     const sheets = google.sheets({ version: "v4", auth });

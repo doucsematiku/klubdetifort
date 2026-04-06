@@ -5,16 +5,13 @@ import { google } from "googleapis";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 function getGoogleSheetsClient() {
-  const clientEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
-  const rawKey = process.env.GOOGLE_PRIVATE_KEY;
-  if (!clientEmail || !rawKey) return null;
+  const credsB64 = process.env.GOOGLE_CREDENTIALS;
+  if (!credsB64) return null;
 
-  // Key is stored as base64 to preserve newlines in Vercel env
-  const privateKey = Buffer.from(rawKey, "base64").toString("utf-8");
-
+  const creds = JSON.parse(Buffer.from(credsB64, "base64").toString("utf-8"));
   const auth = new google.auth.JWT({
-    email: clientEmail,
-    key: privateKey,
+    email: creds.client_email,
+    key: creds.private_key,
     scopes: ["https://www.googleapis.com/auth/spreadsheets"],
   });
   return google.sheets({ version: "v4", auth });
@@ -24,7 +21,7 @@ async function appendToSheet(body: ContactPayload, gradeLabels: Record<string, s
   const sheets = getGoogleSheetsClient();
   const sheetId = process.env.GOOGLE_SHEET_ID;
   if (!sheets || !sheetId) {
-    console.error("Google Sheets config missing:", { hasSheets: !!sheets, hasSheetId: !!sheetId, hasEmail: !!process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL, hasKey: !!process.env.GOOGLE_PRIVATE_KEY });
+    console.error("Google Sheets config missing:", { hasSheets: !!sheets, hasSheetId: !!sheetId, hasCreds: !!process.env.GOOGLE_CREDENTIALS });
     return;
   }
 
