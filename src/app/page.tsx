@@ -586,7 +586,16 @@ export default function Home() {
                     <p className="text-brown font-medium">
                       Ing. et Bc. Ivan Jadrný
                       <br />
-                      <span className="text-brown-light text-sm">ředitel Vzdělávacího centra Doučse z.s.</span>
+                      <span className="text-brown-light text-sm">ředitel{" "}
+                        <a
+                          href="https://doucse.cz"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-forest hover:underline"
+                        >
+                          Vzdělávacího centra Doučse z.s.
+                        </a>
+                      </span>
                     </p>
                   </div>
                   <div>
