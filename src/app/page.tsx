@@ -14,8 +14,8 @@ export default function Home() {
         <section className="relative min-h-[90vh] flex items-center pt-20">
           <div className="absolute inset-0 -z-10">
             <Image
-              src="/images/file_00000000dd50720a8ca783401aa451d0.png"
-              alt="Děti zkoumající přírodu na farmě Fořt"
+              src="/images/park2.png"
+              alt="Hlavní budova BIO farmy Fořt v parku"
               fill
               className="object-cover"
               priority
@@ -131,8 +131,8 @@ export default function Home() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
               <div className="relative h-80 sm:h-[420px] rounded-2xl overflow-hidden">
                 <Image
-                  src="/images/1769935805824.png"
-                  alt="Děti tvoří u stolu u kamen v historické budově"
+                  src="/images/park.png"
+                  alt="Kamenný stůl v parku farmy Fořt — venkovní zázemí"
                   fill
                   className="object-cover"
                 />
@@ -166,9 +166,9 @@ export default function Home() {
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {[
-                { src: "/images/file_00000000f25471f49713aef020d23bf5.png", alt: "Kuchyně na farmě — sušené bylinky, společné vaření" },
-                { src: "/images/1769935847552.png", alt: "Děti kreslí a odpočívají v útulné místnosti" },
-                { src: "/images/file_000000005258720a8e6f6a8434c011f7.png", alt: "Studovna se zelenými závěsy — děti se soustředí" },
+                { src: "/images/park3.png", alt: "Ohnišťě s dřevěnými špalky — společné setkávání" },
+                { src: "/images/park4.png", alt: "Divoká zahrada na farmě Fořt — příroda v Krkonoších" },
+                { src: "/images/park2.png", alt: "Budova farmy Fořt mezi stromy" },
               ].map((photo) => (
                 <div key={photo.src} className="rounded-2xl overflow-hidden">
                   <Image
@@ -337,17 +337,17 @@ export default function Home() {
                 {
                   title: "Venkovní altán",
                   desc: "Zastřešený prostor uprostřed parku — ideální pro výtvarné aktivity, čtení i společné svačiny na čerstvém vzduchu.",
-                  img: "/images/pavan-naik-HANPH-sgVMM-unsplash.jpg",
+                  img: "/images/park3.png",
                 },
                 {
                   title: "Krytá sportovní hala",
                   desc: "Obrovská hala, kde se běžně trénují koně a konají farmářské akce. Pro děti slouží ke sportu, hrám a pohybu za každého počasí.",
-                  img: "/images/maksim-shutov-SID1C6IX_xQ-unsplash.jpg",
+                  img: "/images/park4.png",
                 },
                 {
                   title: "Park farmy a krajina",
                   desc: "Nádherný park s dávnými stromy a rozlehlé louky Krkonoš — přirozené hřiště, místo pro výlety a zkoumání přírody.",
-                  img: "/images/mohamed-b-tnFTEWxVC1Y-unsplash.jpg",
+                  img: "/images/park.png",
                 },
               ].map((space) => (
                 <div
