@@ -42,9 +42,6 @@ export default function Home() {
                 Příroda Krkonoš, život na farmě a radost z poznávání —
                 to vše v bezpečném společenství.
               </p>
-              <div className="animate-bounce inline-block bg-white/95 text-forest font-extrabold text-sm sm:text-base px-5 py-2.5 rounded-full shadow-lg mb-6">
-                SLEVA 30 % pro prvních 10 přihlášených!
-              </div>
               <div className="flex flex-col sm:flex-row gap-4">
                 <a
                   href="#kontakt"
