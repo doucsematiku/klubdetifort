@@ -99,7 +99,7 @@ export default function Home() {
                 },
                 {
                   title: "Komunita a rodina",
-                  text: "Nejsme instituce. Jsme skupina, která společně žije, objevuje a roste — děti i dospělí.",
+                  text: "Nejsme instituce. Jsme skupinka lidí, které spojuje touha objevovat a růst — děti i dospělí, každý svým tempem.",
                 },
               ].map((value) => (
                 <div
