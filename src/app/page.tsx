@@ -463,22 +463,29 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ============ AKCE - SLEVA ============ */}
-        <section className="py-10 sm:py-14 bg-orange relative overflow-hidden">
+        {/* ============ AKCE - START ZDARMA + SLEVA ============ */}
+        <section className="py-12 sm:py-16 bg-orange relative overflow-hidden">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p className="animate-bounce inline-block bg-white text-forest font-extrabold text-lg sm:text-2xl px-6 py-3 rounded-full shadow-lg mb-6">
-              SLEVA 30 % pro prvních 10 přihlášených!
+            <p className="animate-bounce inline-block bg-white text-forest font-extrabold text-xl sm:text-3xl px-6 py-3 rounded-full shadow-lg mb-5">
+              ZÁŘÍ a ŘÍJEN 2026 ZDARMA
             </p>
-            <p className="text-dark text-base sm:text-lg font-medium max-w-2xl mx-auto">
-              Připojte se k nám jako jedni z prvních a získejte slevu 30&nbsp;%
-              na roční příspěvek. Nabídka platí do naplnění kapacity.
+            <p className="text-dark text-base sm:text-lg font-semibold max-w-2xl mx-auto mb-6">
+              První dva měsíce v klubu jsou pro přihlášené děti zcela zdarma —
+              přijďte zažít, jak to u nás funguje, bez finančního závazku.
             </p>
-            <a
-              href="#kontakt"
-              className="inline-block mt-6 bg-dark hover:bg-brown text-white font-bold px-8 py-4 rounded-full transition-colors text-lg"
-            >
-              Chci slevu — přihlásit se
-            </a>
+
+            <p className="inline-block bg-white/90 text-forest font-bold text-sm sm:text-base px-5 py-2 rounded-full shadow mb-6">
+              + Sleva 30 % pro prvních 10 přihlášených
+            </p>
+
+            <div>
+              <a
+                href="#kontakt"
+                className="inline-block bg-dark hover:bg-brown text-white font-bold px-8 py-4 rounded-full transition-colors text-lg"
+              >
+                Chci přihlásit dítě
+              </a>
+            </div>
           </div>
         </section>
 
