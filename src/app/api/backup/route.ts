@@ -95,6 +95,8 @@ type BackupStats = {
   errors: string[];
 };
 
+type EmailResult = { sent: boolean; error: string | null };
+
 function getDriveClient() {
   const clientId = process.env.DRIVE_CLIENT_ID;
   const clientSecret = process.env.DRIVE_CLIENT_SECRET;
@@ -247,6 +249,11 @@ CO JE V TÉTO ZÁLOZE (den ${today}):
   2. fort-klub-code-${today}.zip
      - Zdrojový kód z github.com/${GITHUB_REPO} (větev main)
      Statistika: ${(stats.codeBytes / 1024 / 1024).toFixed(1)} MB
+     !!! POZOR: zip = stav GitHub větve main, NE nutně Vercel produkce.
+     Pokud produkce běží z Vercel snapshotu s nepushnutými/untracked
+     soubory, v tomto zipu CHYBÍ. Před spoléháním na obnovu kódu ověř,
+     že origin/main odpovídá poslednímu produkčnímu deployi (vercel
+     inspect <prod-url>, případně stáhni deployment source z Vercelu).
 
   3. fort-klub-README-${today}.txt
      - Tento soubor.
@@ -308,11 +315,11 @@ KONTAKTY:
 `;
 }
 
-async function sendBackupReport(today: string, stats: BackupStats): Promise<void> {
+async function sendBackupReport(today: string, stats: BackupStats): Promise<EmailResult> {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
     console.error("[backup] RESEND_API_KEY missing — report email skipped");
-    return;
+    return { sent: false, error: "RESEND_API_KEY missing" };
   }
   const success = stats.errors.length === 0;
   const subject = success
@@ -332,6 +339,7 @@ SUPABASE TABULKY (celkem ${stats.dbRows} řádků, ${(stats.dbSizeBytes / 1024).
 ${tableRows || "  (žádné)"}
 
 ZDROJOVÝ KÓD: ${stats.codeStatus} · ${(stats.codeBytes / 1024 / 1024).toFixed(1)} MB
+(zip = stav GitHub main — pokud má produkce nepushnuté soubory, v zipu chybí!)
 
 STORAGE: nezálohuje se (projekt nemá buckety — viz README v záloze).
 
@@ -342,14 +350,20 @@ Drive složka: https://drive.google.com/drive/folders/${DRIVE_FOLDER_ID}${errLis
 
   try {
     const resend = new Resend(apiKey);
-    await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: `Klub Fořt backup <${REPORT_EMAIL_FROM}>`,
       to: [REPORT_EMAIL_TO],
       subject,
       text,
     });
+    if (error) {
+      console.error("[backup] report email failed:", error);
+      return { sent: false, error: error.message };
+    }
+    return { sent: true, error: null };
   } catch (err) {
     console.error("[backup] report email failed:", err);
+    return { sent: false, error: err instanceof Error ? err.message : "unknown" };
   }
 }
 
@@ -440,21 +454,29 @@ export async function GET(req: NextRequest) {
     stats.elapsedSec = ((Date.now() - startedAt) / 1000).toFixed(1);
 
     // ─── 6. Email report ─────────────────────────────────────────────
-    await sendBackupReport(today, stats);
+    const email = await sendBackupReport(today, stats);
 
     return NextResponse.json({
       ok: errors.length === 0,
       date: today,
       stats,
+      emailSent: email.sent,
+      emailError: email.error,
       driveFolder: `https://drive.google.com/drive/folders/${DRIVE_FOLDER_ID}`,
     });
   } catch (err) {
     errors.push(`fatal: ${err instanceof Error ? err.message : "unknown"}`);
     stats.elapsedSec = ((Date.now() - startedAt) / 1000).toFixed(1);
-    await sendBackupReport(today, stats);
+    const email = await sendBackupReport(today, stats);
     console.error("[backup] fatal:", err);
     return NextResponse.json(
-      { error: "backup_failed", detail: err instanceof Error ? err.message : "unknown", stats },
+      {
+        error: "backup_failed",
+        detail: err instanceof Error ? err.message : "unknown",
+        stats,
+        emailSent: email.sent,
+        emailError: email.error,
+      },
       { status: 500 }
     );
   }

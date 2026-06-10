@@ -105,20 +105,30 @@ Rotace: max ${MAX_BACKUPS} souborů (30 dní × ${REQUIRED_FILES.length} typy).
 Drive složka: https://drive.google.com/drive/folders/${DRIVE_FOLDER_ID}
 `;
 
+    let emailSent = false;
+    let emailError: string | null = null;
     const apiKey = process.env.RESEND_API_KEY;
     if (apiKey) {
       try {
         const resend = new Resend(apiKey);
-        await resend.emails.send({
+        const { error } = await resend.emails.send({
           from: `Klub Fořt backup verify <${REPORT_EMAIL_FROM}>`,
           to: [REPORT_EMAIL_TO],
           subject,
           text,
         });
+        if (error) {
+          emailError = error.message;
+          console.error("[backup/verify] email send failed:", error);
+        } else {
+          emailSent = true;
+        }
       } catch (err) {
+        emailError = err instanceof Error ? err.message : "unknown";
         console.error("[backup/verify] email send failed:", err);
       }
     } else {
+      emailError = "RESEND_API_KEY missing";
       console.error("[backup/verify] RESEND_API_KEY missing — report email skipped");
     }
 
@@ -129,6 +139,8 @@ Drive složka: https://drive.google.com/drive/folders/${DRIVE_FOLDER_ID}
       yesterday: { date: yesterday, files: yesterdayReport },
       totalFiles,
       totalBytes,
+      emailSent,
+      emailError,
     });
   } catch (err) {
     console.error("[backup/verify] fatal:", err);
