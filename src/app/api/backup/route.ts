@@ -24,6 +24,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { google } from "googleapis";
 import { Readable } from "stream";
 import { Resend } from "resend";
+import { sendHeartbeat } from "@/lib/heartbeat";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -348,6 +349,15 @@ ROTACE: ${stats.deletedOldBackups} starých záloh smazáno (limit ${MAX_BACKUPS
 Drive složka: https://drive.google.com/drive/folders/${DRIVE_FOLDER_ID}${errList}
 `;
 
+  // Mail jen při chybě — OK stav hlídá Velín přes heartbeat (rozhodnutí Ivana 19. 7. 2026).
+  await sendHeartbeat(
+    "backup",
+    success ? "ok" : "fail",
+    success ? `${stats.dbRows} řádků DB` : stats.errors.join("; ").slice(0, 400),
+  );
+  if (success) {
+    return { sent: false, error: null };
+  }
   try {
     const resend = new Resend(apiKey);
     const { error } = await resend.emails.send({

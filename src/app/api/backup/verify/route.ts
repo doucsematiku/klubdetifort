@@ -11,6 +11,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { google } from "googleapis";
 import { Resend } from "resend";
+import { sendHeartbeat } from "@/lib/heartbeat";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -105,10 +106,14 @@ Rotace: max ${MAX_BACKUPS} souborů (30 dní × ${REQUIRED_FILES.length} typy).
 Drive složka: https://drive.google.com/drive/folders/${DRIVE_FOLDER_ID}
 `;
 
+    // Mail jen při problému — OK stav hlídá Velín přes heartbeat (rozhodnutí Ivana 19. 7. 2026).
+    await sendHeartbeat("backup-verify", allOk ? "ok" : "fail", allOk ? `${totalFiles} souborů v Drive` : subject);
     let emailSent = false;
     let emailError: string | null = null;
     const apiKey = process.env.RESEND_API_KEY;
-    if (apiKey) {
+    if (allOk) {
+      // OK stav — bez mailu.
+    } else if (apiKey) {
       try {
         const resend = new Resend(apiKey);
         const { error } = await resend.emails.send({
@@ -144,8 +149,10 @@ Drive složka: https://drive.google.com/drive/folders/${DRIVE_FOLDER_ID}
     });
   } catch (err) {
     console.error("[backup/verify] fatal:", err);
+    const detail = err instanceof Error ? err.message : "unknown";
+    await sendHeartbeat("backup-verify", "fail", `verify spadl: ${detail}`.slice(0, 400));
     return NextResponse.json(
-      { error: "verify_failed", detail: err instanceof Error ? err.message : "unknown" },
+      { error: "verify_failed", detail },
       { status: 500 }
     );
   }
