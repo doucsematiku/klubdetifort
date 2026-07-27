@@ -259,49 +259,35 @@ export default function GDPRPage() {
           <Section num={6} title="Komu se údaje dostanou">
             <p>
               Osobní údaje neprodáváme a nepředáváme třetím stranám pro jejich
-              marketing. Ke zpracování využíváme tyto dodavatele (zpracovatele),
-              vázané smlouvou a vlastními podmínkami podle GDPR:
+              marketing. K údajům se dostanou pouze:
             </p>
             <ul className="list-disc pl-6 space-y-1">
               <li>
-                <strong>Supabase</strong> — databáze a úložiště aplikace klubu
-                (servery v EU, Irsko)
+                <strong>pracovníci klubu</strong> v rozsahu, který potřebují ke
+                své práci (průvodkyně, vedení klubu; kuchyně jen počty porcí
+                a dietní omezení)
               </li>
               <li>
-                <strong>Vercel</strong> — hosting webu a aplikace klubu
+                <strong>dodavatelé technického zázemí</strong> — provoz webu
+                a aplikace, databáze a úložiště, odesílání e-mailů, zálohování
               </li>
               <li>
-                <strong>Resend</strong> — odesílání provozních e-mailů rodičům
+                <strong>fakturace a účetnictví</strong> — fakturační systém
+                a účetní spolku
               </li>
               <li>
-                <strong>Fakturoid</strong> — vystavování faktur a evidence plateb
-              </li>
-              <li>
-                <strong>Google Workspace</strong> — e-mailová komunikace
-                a dokumenty
-              </li>
-              <li>
-                <strong>OpenAI</strong> — automatická kontrola čitelnosti
-                a úplnosti dokumentů nahraných do aplikace (servery v USA;
-                předání na základě standardních smluvních doložek, data se
-                nepoužívají k trénování modelů)
-              </li>
-              <li>
-                <strong>Meta Platforms</strong> — kontaktní a lead formuláře
-                a reklama na sociálních sítích
-              </li>
-              <li>
-                <strong>Hetzner Online</strong> — zálohovací server (Německo)
-              </li>
-              <li>
-                <strong>Účetní kancelář</strong> spolku — účetní a daňové doklady
+                <strong>orgány veřejné moci</strong>, ukládá-li nám to zákon,
+                a osoby nutné k ochraně našich práv (právní zástupce,
+                pojišťovna, soud)
               </li>
             </ul>
             <p>
-              Údaje můžeme dále předat, ukládá-li nám to zákon (orgán
-              sociálně-právní ochrany dětí, Policie ČR, finanční správa) nebo
-              je-li to nutné k ochraně našich práv (právní zástupce, pojišťovna,
-              soud).
+              Všichni dodavatelé jsou vázáni smlouvou o zpracování osobních
+              údajů podle GDPR a zpracovávají údaje jen podle našich pokynů.
+              Údaje ukládáme v Evropské unii; pokud by některý dodavatel
+              zpracovával data mimo EU, děje se tak na základě standardních
+              smluvních doložek schválených Evropskou komisí. Konkrétní seznam
+              dodavatelů vám na vyžádání rádi sdělíme.
             </p>
           </Section>
 

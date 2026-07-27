@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
+import { google } from "googleapis";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -10,6 +11,72 @@ const interestLabels: Record<string, string> = {
   materialni: "Materiální podpora",
   jine: "Jiné",
 };
+
+function getGoogleSheetsClient() {
+  const credsB64 = process.env.GOOGLE_CREDENTIALS;
+  if (!credsB64) return null;
+
+  const creds = JSON.parse(Buffer.from(credsB64, "base64").toString("utf-8"));
+  const auth = new google.auth.JWT({
+    email: creds.client_email,
+    key: creds.private_key,
+    scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+  });
+  return google.sheets({ version: "v4", auth });
+}
+
+async function appendCooperationToSheet(row: {
+  name: string;
+  email: string;
+  phone: string;
+  interestLabel: string;
+  message: string;
+  cvFilename: string;
+}) {
+  const sheets = getGoogleSheetsClient();
+  const sheetId = process.env.GOOGLE_SHEET_ID;
+  if (!sheets || !sheetId) {
+    console.error("Google Sheets config missing:", {
+      hasSheets: !!sheets,
+      hasSheetId: !!sheetId,
+      hasCreds: !!process.env.GOOGLE_CREDENTIALS,
+    });
+    return;
+  }
+
+  try {
+    const existing = await sheets.spreadsheets.values.get({
+      spreadsheetId: sheetId,
+      range: "spolupráce!A:A",
+    });
+    const lastRow = (existing.data.values || []).length;
+
+    await sheets.spreadsheets.values.update({
+      spreadsheetId: sheetId,
+      range: `spolupráce!A${lastRow + 1}`,
+      valueInputOption: "USER_ENTERED",
+      requestBody: {
+        values: [
+          [
+            new Date().toISOString(),
+            row.name,
+            row.email,
+            row.phone,
+            row.interestLabel,
+            row.message,
+            row.cvFilename ? `Přiloženo (${row.cvFilename})` : "",
+            "web",
+            "",
+            "",
+          ],
+        ],
+      },
+    });
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("Google Sheets cooperation append error:", msg);
+  }
+}
 
 const submissions = new Map<string, number>();
 const RATE_LIMIT_MS = 60_000;
@@ -100,10 +167,21 @@ export async function POST(req: NextRequest) {
 
     const interestLabel = interestLabels[interest] ?? interest;
 
+    // Append to Google Sheet first (so it's saved even if email fails)
+    await appendCooperationToSheet({
+      name,
+      email,
+      phone,
+      interestLabel,
+      message,
+      cvFilename: attachments[0]?.filename ?? "",
+    });
+
     // Send notification to admin
     await resend.emails.send({
       from: "Klub Fořt <noreply@klubdetifort.cz>",
       to: "reditel@doucse.cz",
+      cc: "jadrna.nela@gmail.com",
       replyTo: email,
       subject: `Nabídka spolupráce: ${name} — ${interestLabel}`,
       html: `

@@ -155,10 +155,12 @@ export default function ProvozniRadPage() {
 
           <Chapter num={2} title={CHAPTERS[1]}>
             <P>
-              Klub je určen dětem ve věku <strong>6–12 let</strong> (odpovídá
-              1.–5. ročníku), které plní povinnou školní docházku formou
+              Klub je určen <strong>primárně dětem ve věku 6–12 let</strong>{" "}
+              (zhruba 1.–5. ročník), které plní povinnou školní docházku formou
               individuálního vzdělávání podle § 41 školského zákona a jsou
-              zapsané na kmenové škole. Kapacita je{" "}
+              zapsané na kmenové škole. Po domluvě k nám chodí i děti mladší
+              nebo starší — rozhoduje spíš to, jestli dítěti naše prostředí
+              sedne, než ročník. Kapacita je{" "}
               <strong>nejvýše 10 dětí na den</strong>.
             </P>
             <P>
@@ -180,16 +182,17 @@ export default function ProvozniRadPage() {
               klubu nastoupit nemůže.
             </P>
             <P>
-              Nemáte-li ještě schválené individuální vzdělávání, pomůžeme vám
-              s přihláškou i s hledáním vstřícné kmenové školy — ozvěte se nám
-              včas, proces na škole nějakou dobu trvá.
+              Nemáte-li ještě schválené individuální vzdělávání, rádi vám
+              poradíme, kde vstřícné kmenové školy hledat. Vyřízení už je na
+              vás — počítejte s tím, že proces na škole nějakou dobu trvá, tak
+              s ním začněte včas.
             </P>
           </Chapter>
 
           <Chapter num={3} title={CHAPTERS[2]}>
             <P>
               Ve školním roce 2026/2027 je klub v provozu{" "}
-              <strong>od 1. září 2026 do 30. června 2027</strong>, a to{" "}
+              <strong>od 1. září 2026 do 23. června 2027</strong>, a to{" "}
               <strong>v pondělí, úterý a ve středu od 8:00 do 16:00</strong>.
             </P>
             <P>
@@ -229,13 +232,13 @@ export default function ProvozniRadPage() {
                 domluva
               </li>
               <li>
-                <strong>9:15–12:00</strong> — hlavní blok: práce na vlastních
-                úkolech a projektech, tvoření, pobyt venku, práce na zahradě či
-                u zvířat
+                <strong>9:15–12:00</strong> — hlavní blok: vlastní úkoly
+                a projekty, tvoření, pobyt venku, tvoření na zahradě, péče
+                o zvířata
               </li>
               <li>
-                <strong>12:00</strong> — společný oběd (kdo ho má objednaný),
-                úklid
+                <strong>12:00</strong> — oběd (kdo ho má objednaný; ostatní
+                jedí, co si přinesli z domova)
               </li>
               <li>
                 <strong>12:30–13:00</strong> — klidová část: četba, odpočinek,
@@ -243,7 +246,8 @@ export default function ProvozniRadPage() {
               </li>
               <li>
                 <strong>13:00–16:00</strong> — odpolední blok: pohyb, výtvarná
-                tvorba, hra v parku a zahradě, svačina
+                tvorba, hra v parku a zahradě, svačina; na konci dne společně
+                uklidíme, co jsme použili
               </li>
               <li>
                 <strong>16:00</strong> — rozchod, případně navazující kroužky
@@ -328,8 +332,10 @@ export default function ProvozniRadPage() {
 
           <Chapter num={7} title={CHAPTERS[6]}>
             <P>
-              Obědy vaříme převážně z produkce BIO farmy (kvalita Demeter).
-              Společný oběd je pro nás rituál, ne jen jídlo.
+              Oběd je <strong>možnost, ne povinnost</strong>. Kdo chce, přihlásí
+              si ho v aplikaci; kdo ne, přinese si jídlo z domova. Obědy vaříme
+              převážně z produkce BIO farmy (kvalita Demeter) a jíme je
+              společně.
             </P>
             <P>
               Oběd <strong>není objednáván automaticky</strong> — objednáte si ho
@@ -383,7 +389,7 @@ export default function ProvozniRadPage() {
             </ul>
             <P>
               Věci prosím <strong>podepište</strong>. Klub neručí za zašpinění
-              a běžné opotřebení oblečení — počítejte s tím, že práce na zahradě
+              a běžné opotřebení oblečení — počítejte s tím, že pobyt na zahradě
               a hra v lese jsou vidět.
             </P>
             <P>
@@ -397,8 +403,11 @@ export default function ProvozniRadPage() {
           <Chapter num={9} title={CHAPTERS[8]}>
             <P>
               Do klubu patří <strong>zdravé dítě</strong>. Nechte je prosím doma
-              při teplotě, zvracení, průjmu, silné rýmě s kašlem, vyrážce
-              neznámého původu, zánětu spojivek a při vších. Průvodkyně může
+              při teplotě, zvracení, průjmu, rýmě, kašli, vyrážce neznámého
+              původu, zánětu spojivek a při vších. Platí to{" "}
+              <strong>i bez teploty</strong> — když je dítě jen nesvé, unavené
+              nebo se na celý den venku prostě necítí, udělá mu doma líp než
+              tady. Průvodkyně může
               převzetí dítěte odmítnout — nevěří-li, že dítě zvládne celý den
               venku, nebo hrozí-li nákaza ostatních. Za takto odmítnutý den se
               nic nevrací.
@@ -431,8 +440,7 @@ export default function ProvozniRadPage() {
             <P>
               <strong>Klíšťata</strong> jsou v Krkonoších realita. Děti
               prohlížíme a nalezené klíště odstraníme a místo označíme;
-              informujeme vás týž den. Očkování proti klíšťové encefalitidě
-              doporučujeme, ale nevyžadujeme.
+              informujeme vás týž den.
             </P>
             <P>
               Klub <strong>nemá sjednané úrazové pojištění dětí</strong> —
@@ -488,7 +496,6 @@ export default function ProvozniRadPage() {
           <Chapter num={11} title={CHAPTERS[10]}>
             <P>
               Vedeme děti k laskavosti a k tomu, aby nesly důsledky svých činů.
-              Nikoho neponižujeme, nekřičíme na děti a nepoužíváme tresty.
               Nefunguje-li něco, mluvíme o tom — nejdřív s dítětem, potom
               s vámi.
             </P>
