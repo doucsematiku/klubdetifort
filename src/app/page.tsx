@@ -346,9 +346,7 @@ export default function Home() {
                 </div>
 
                 <p className="text-sm text-brown-light mb-8">
-                  Docházka 2&nbsp;dny v&nbsp;týdnu za&nbsp;2&nbsp;925&nbsp;Kč/měs.
-                  (běžná cena 3&nbsp;900&nbsp;Kč, zakladatelská sleva 25&nbsp;% je
-                  už odečtena).
+                  Docházka 2&nbsp;dny v&nbsp;týdnu od&nbsp;2&nbsp;730&nbsp;Kč/měs.
                 </p>
 
                 <a
@@ -545,7 +543,7 @@ export default function Home() {
             </p>
 
             <p className="inline-block bg-white/90 text-forest font-bold text-sm sm:text-base px-5 py-2 rounded-full shadow mb-6">
-              + Zakladatelská sleva 25 % na celý školní rok 2026/27
+              + Sleva 30 % pro prvních 10 přihlášených
             </p>
 
             <div>

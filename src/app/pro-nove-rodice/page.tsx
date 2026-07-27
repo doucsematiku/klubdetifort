@@ -50,7 +50,7 @@ function DocCard({
 
 const CENIK: { item: string; scope: string; price: string }[] = [
   { item: "Docházka — 1 den v týdnu", scope: "měsíčně", price: "1 600 Kč" },
-  { item: "Docházka — 2 dny v týdnu", scope: "měsíčně", price: "2 925 Kč" },
+  { item: "Docházka — 2 dny v týdnu", scope: "měsíčně", price: "2 730 Kč" },
   { item: "Docházka — 3 dny v týdnu", scope: "měsíčně", price: "3 900 Kč" },
   {
     item: "Sourozenecká sleva (2 a více dětí s tarifem)",
@@ -171,9 +171,10 @@ export default function ProNoveRodicePage() {
           Ceník na školní rok 2026/2027
         </h2>
         <p className="text-dark/70 mb-6 leading-relaxed">
-          Ceny docházky jsou <strong>zakladatelské</strong> — sleva 25 %
-          z běžného ceníku je v nich už odečtena a platí na celý první školní
-          rok. Za <strong>září a říjen 2026 se docházka nehradí</strong>;
+          Ceny docházky jsou <strong>zakladatelské</strong> — sleva z běžného
+          ceníku je v nich už odečtena a platí na celý první školní rok
+          (2 dny v týdnu 2 730 Kč místo běžných 3 900 Kč, tedy −30 %; ostatní
+          tarify −25 %). Za <strong>září a říjen 2026 se docházka nehradí</strong>;
           obědy a ostatní služby se hradí i v tomto období.
         </p>
         <div className="bg-white rounded-2xl overflow-hidden mb-6">
