@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
@@ -55,6 +56,73 @@ export default function Home() {
                 >
                   Zjistit více
                 </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ============ PROHLÍDKY — banner ============ */}
+        <section id="prohlidky-banner" className="bg-forest text-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6 lg:gap-10 items-center">
+              <div>
+                <p className="text-orange font-semibold text-xs sm:text-sm tracking-wide uppercase mb-2">
+                  Otevíráme bránu — přijďte s dětmi
+                </p>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight mb-3">
+                  Přijďte se podívat na farmu
+                </h2>
+                <p className="text-white/85 leading-relaxed max-w-2xl text-sm sm:text-base">
+                  Prohlídky areálu domlouváme <strong>individuálně</strong>{" "}— ať máme
+                  čas v&nbsp;klidu vás provést a&nbsp;odpovědět na vaše otázky. Napište
+                  nám termíny, které by vám vyhovovaly, a&nbsp;my se vám ozveme.
+                  Přijďte klidně i&nbsp;s&nbsp;dětmi nasát atmosféru BIO farmy Fořt.
+                </p>
+              </div>
+              <div className="flex flex-col gap-3">
+                <Link
+                  href="/prohlidky"
+                  className="bg-orange hover:bg-orange-hover text-dark font-bold px-7 py-3.5 rounded-full transition-colors text-center text-base sm:text-lg whitespace-nowrap"
+                >
+                  Domluvit prohlídku →
+                </Link>
+                <p className="text-white/60 text-xs text-center">
+                  Termíny navrhujete vy — až do konce srpna
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ============ LETNÍ PRÁZDNINY — banner ============ */}
+        <section id="prazdniny-banner" className="bg-orange text-dark">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6 lg:gap-10 items-center">
+              <div>
+                <p className="text-forest font-semibold text-xs sm:text-sm tracking-wide uppercase mb-2">
+                  Novinka pro léto — 14.–17. 7. 2026
+                </p>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight mb-3">
+                  Letní prázdninový program pro děti
+                </h2>
+                <p className="text-dark/85 leading-relaxed max-w-2xl text-sm sm:text-base">
+                  Čtyři dny v přírodě s průvodkyní{" "}
+                  <strong>Lenkou Formánkovou</strong>{" "}— inspirace dřevo, voda,
+                  oheň a&nbsp;země. Tvoření, hra, klid. Pro děti{" "}
+                  <strong>6–12 let</strong>, max 10 dětí na den,
+                  600&nbsp;Kč/den (bez oběda).
+                </p>
+              </div>
+              <div className="flex flex-col gap-3">
+                <Link
+                  href="/prazdninovy-program#rezervace"
+                  className="bg-dark hover:bg-brown text-white font-bold px-7 py-3.5 rounded-full transition-colors text-center text-base sm:text-lg whitespace-nowrap"
+                >
+                  Zarezervovat místo →
+                </Link>
+                <p className="text-dark/60 text-xs text-center">
+                  Kapacita omezená · 4 dny ke&nbsp;kombinaci
+                </p>
               </div>
             </div>
           </div>
@@ -138,9 +206,10 @@ export default function Home() {
                 <div>
                   <h3 className="text-xl font-bold text-dark mb-2">Život v přírodě</h3>
                   <p className="text-brown leading-relaxed">
-                    Děti se přirozeně zapojují do rytmu farmy — od péče o zvířata
-                    po pozorování růstu plodin. Každé dítě se zapojuje podle své
-                    chuti, věku a síly.
+                    Děti jsou v prostředí živé BIO farmy. Po domluvě s&nbsp;majiteli
+                    farmy se mohou občas připojit k&nbsp;jejímu dění — třeba
+                    pozorovat zvířata nebo růst plodin. Hlavní náplní programu je
+                    však klidná hra, tvoření a&nbsp;pobyt v&nbsp;přírodě.
                   </p>
                 </div>
                 <div>
@@ -254,7 +323,6 @@ export default function Home() {
                   {[
                     "Studijní zázemí v historické budově na farmě",
                     "Metodická podpora a individuální vedení",
-                    "Projektové učení propojené s životem na farmě",
                     "Prostor pro soustředěnou práci i volnou hru",
                     "Pomůžeme vám najít vhodnou kmenovou školu",
                   ].map((item) => (
@@ -278,7 +346,9 @@ export default function Home() {
                 </div>
 
                 <p className="text-sm text-brown-light mb-8">
-                  Docházka 2&nbsp;dny v&nbsp;týdnu od&nbsp;2&nbsp;730&nbsp;Kč/měs.
+                  Docházka 2&nbsp;dny v&nbsp;týdnu za&nbsp;2&nbsp;925&nbsp;Kč/měs.
+                  (běžná cena 3&nbsp;900&nbsp;Kč, zakladatelská sleva 25&nbsp;% je
+                  už odečtena).
                 </p>
 
                 <a
@@ -475,7 +545,7 @@ export default function Home() {
             </p>
 
             <p className="inline-block bg-white/90 text-forest font-bold text-sm sm:text-base px-5 py-2 rounded-full shadow mb-6">
-              + Sleva 30 % pro prvních 10 přihlášených
+              + Zakladatelská sleva 25 % na celý školní rok 2026/27
             </p>
 
             <div>

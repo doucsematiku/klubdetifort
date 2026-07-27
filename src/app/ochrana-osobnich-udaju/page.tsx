@@ -2,10 +2,52 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Ochrana osobních údajů | Klub Fořt",
+  title: "Zásady zpracování osobních údajů | Klub Fořt",
   description:
-    "Zásady ochrany osobních údajů vzdělávacího klubu na BIO farmě Fořt.",
+    "Jak Vzdělávací centrum Doučse z.s. zpracovává osobní údaje zájemců, rodičů a dětí ve Vzdělávacím klubu Farma Fořt a v aplikaci klubu.",
 };
+
+/** Kapitola zásad. */
+function Section({
+  num,
+  title,
+  children,
+}: {
+  num: number;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section id={`kapitola-${num}`} className="scroll-mt-24">
+      <h2 className="text-xl font-bold text-dark mb-3">
+        {num}. {title}
+      </h2>
+      <div className="space-y-3">{children}</div>
+    </section>
+  );
+}
+
+/** Řádek tabulky „co – proč – jak dlouho“. */
+function Row({
+  what,
+  why,
+  basis,
+  how,
+}: {
+  what: string;
+  why: string;
+  basis: string;
+  how: string;
+}) {
+  return (
+    <tr className="border-t border-dark/10 align-top">
+      <td className="py-3 pr-4 font-semibold text-dark">{what}</td>
+      <td className="py-3 pr-4">{why}</td>
+      <td className="py-3 pr-4">{basis}</td>
+      <td className="py-3">{how}</td>
+    </tr>
+  );
+}
 
 export default function GDPRPage() {
   return (
@@ -20,30 +62,39 @@ export default function GDPRPage() {
             ← Zpět na hlavní stránku
           </Link>
           <h1 className="text-3xl sm:text-4xl font-bold">
-            Ochrana osobních údajů
+            Zásady zpracování osobních údajů
           </h1>
-          <p className="mt-3 text-white/60 text-sm">
-            Poslední aktualizace: 3. dubna 2026
+          <p className="mt-3 text-white/80">
+            Vzdělávací klub Farma Fořt, web klubdetifort.cz a aplikace klubu
+          </p>
+          <p className="mt-1 text-white/50 text-sm">
+            Účinné od 1. srpna 2026
           </p>
         </div>
       </div>
 
       {/* Content */}
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        <div className="prose prose-lg max-w-none space-y-10 text-dark/80">
-          {/* 1 */}
-          <section>
-            <h2 className="text-xl font-bold text-dark mb-3">
-              1. Správce osobních údajů
-            </h2>
+        <div className="bg-white rounded-2xl p-6 sm:p-8 mb-12">
+          <p className="text-dark/80 leading-relaxed">
+            Tyto zásady popisují, jaké údaje o vás a o vašich dětech
+            zpracováváme, proč to děláme, komu se údaje dostanou do ruky, jak
+            dlouho je držíme a co s tím můžete udělat. Týkají se zájemců
+            o klub, rodičů a dětí docházejících do klubu i návštěvníků webu.
+          </p>
+        </div>
+
+        <div className="space-y-10 text-dark/80">
+          <Section num={1} title="Kdo údaje zpracovává">
             <p>
               Správcem osobních údajů je{" "}
-              <strong>Vzdělávací centrum Doučse z.s.</strong>, IČO: 22201581, se
-              sídlem Fořt 29, 543 44 Černý Důl – Rudník u Vrchlabí (dále jen
-              &ldquo;Správce&rdquo;).
+              <strong>Vzdělávací centrum Doučse, z.s.</strong>, IČO 222 01 581,
+              se sídlem Korunní 2569/108, Vinohrady, 101 00 Praha 10, zapsaný ve
+              spolkovém rejstříku vedeném Městským soudem v Praze, sp. zn.
+              L 79729 (dále jen „správce“ nebo „klub“).
             </p>
             <p>
-              Kontakt pro záležitosti ochrany osobních údajů:{" "}
+              Kontakt ve věcech ochrany osobních údajů:{" "}
               <a
                 href="mailto:reditel@doucse.cz"
                 className="text-orange hover:underline"
@@ -51,126 +102,287 @@ export default function GDPRPage() {
                 reditel@doucse.cz
               </a>
               , tel.{" "}
-              <a
-                href="tel:+420775917363"
-                className="text-orange hover:underline"
-              >
+              <a href="tel:+420775917363" className="text-orange hover:underline">
                 775 917 363
               </a>
-              .
+              , adresa provozovny: Fořt 29, 543 44 Černý Důl.
             </p>
-          </section>
-
-          {/* 2 */}
-          <section>
-            <h2 className="text-xl font-bold text-dark mb-3">
-              2. Jaké údaje zpracováváme
-            </h2>
-            <p>V rámci provozu webových stránek a kontaktních formulářů můžeme zpracovávat:</p>
-            <ul className="list-disc pl-6 space-y-1 mt-2">
-              <li>Jméno a příjmení</li>
-              <li>E-mailovou adresu</li>
-              <li>Telefonní číslo</li>
-              <li>Informace o dítěti (věk, ročník, vzdělávací potřeby)</li>
-              <li>Další údaje, které nám dobrovolně sdělíte prostřednictvím formuláře</li>
-            </ul>
-          </section>
-
-          {/* 3 */}
-          <section>
-            <h2 className="text-xl font-bold text-dark mb-3">
-              3. Účel a právní základ zpracování
-            </h2>
-            <p>Vaše údaje zpracováváme za těmito účely:</p>
-            <ul className="list-disc pl-6 space-y-2 mt-2">
-              <li>
-                <strong>Odpověď na váš dotaz</strong> – právní základ: oprávněný
-                zájem (čl. 6 odst. 1 písm. f) GDPR)
-              </li>
-              <li>
-                <strong>Registrace zájmu o vzdělávací klub</strong> – právní
-                základ: plnění smlouvy / opatření před uzavřením smlouvy (čl. 6
-                odst. 1 písm. b) GDPR)
-              </li>
-              <li>
-                <strong>Zasílání informací o klubu</strong> – právní základ: váš
-                souhlas (čl. 6 odst. 1 písm. a) GDPR), který můžete kdykoli
-                odvolat
-              </li>
-            </ul>
-          </section>
-
-          {/* 4 */}
-          <section>
-            <h2 className="text-xl font-bold text-dark mb-3">
-              4. Doba zpracování
-            </h2>
             <p>
-              Vaše osobní údaje uchováváme po dobu nezbytnou k naplnění účelu
-              zpracování, nejdéle však <strong>3 roky</strong> od posledního
-              kontaktu, pokud neexistuje jiný právní důvod pro jejich
-              uchovávání.
+              Nejmenovali jsme pověřence pro ochranu osobních údajů — nemáme
+              k tomu zákonnou povinnost. Vaše dotazy vyřizuje přímo statutární
+              zástupce spolku.
             </p>
-          </section>
+          </Section>
 
-          {/* 5 */}
-          <section>
-            <h2 className="text-xl font-bold text-dark mb-3">
-              5. Příjemci údajů
-            </h2>
-            <p>
-              Vaše údaje neprodáváme ani nepředáváme třetím stranám za účelem
-              marketingu. Ke zpracování využíváme tyto nástroje:
-            </p>
-            <ul className="list-disc pl-6 space-y-1 mt-2">
-              <li>Google Workspace (e-mail, formuláře)</li>
-              <li>Meta / Facebook (lead formuláře, reklama)</li>
-              <li>Vercel (hosting webových stránek)</li>
-            </ul>
-            <p className="mt-2">
-              Tito zpracovatelé jsou vázáni vlastními podmínkami ochrany údajů
-              v souladu s GDPR.
-            </p>
-          </section>
-
-          {/* 6 */}
-          <section>
-            <h2 className="text-xl font-bold text-dark mb-3">
-              6. Vaše práva
-            </h2>
-            <p>Máte právo:</p>
-            <ul className="list-disc pl-6 space-y-1 mt-2">
-              <li>Na přístup ke svým osobním údajům</li>
-              <li>Na opravu nepřesných údajů</li>
-              <li>Na výmaz údajů (&ldquo;právo být zapomenut&rdquo;)</li>
-              <li>Na omezení zpracování</li>
-              <li>Na přenositelnost údajů</li>
-              <li>Vznést námitku proti zpracování</li>
-              <li>Odvolat udělený souhlas</li>
+          <Section num={2} title="Koho se zpracování týká">
+            <ul className="list-disc pl-6 space-y-1">
               <li>
-                Podat stížnost u Úřadu pro ochranu osobních údajů (
+                <strong>Zájemci o klub</strong> — kdo nám napsal přes formulář
+                na webu, přihlásil se na prohlídku farmy nebo prázdninový
+                program
+              </li>
+              <li>
+                <strong>Rodiče a zákonní zástupci</strong> dětí docházejících do
+                klubu
+              </li>
+              <li>
+                <strong>Děti</strong> docházející do klubu
+              </li>
+              <li>
+                <strong>Oprávněné osoby</strong> uvedené rodiči v evidenčním
+                listu (kdo smí dítě vyzvednout)
+              </li>
+              <li>
+                <strong>Průvodkyně a spolupracovníci</strong> klubu
+              </li>
+            </ul>
+          </Section>
+
+          <Section num={3} title="Jaké údaje, k čemu a jak dlouho">
+            <div className="overflow-x-auto -mx-6 sm:mx-0 px-6 sm:px-0">
+              <table className="w-full text-sm min-w-[640px]">
+                <thead>
+                  <tr className="text-left text-dark">
+                    <th className="pb-2 pr-4 font-bold">Údaje</th>
+                    <th className="pb-2 pr-4 font-bold">Účel</th>
+                    <th className="pb-2 pr-4 font-bold">Právní základ</th>
+                    <th className="pb-2 font-bold">Doba uložení</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <Row
+                    what="Jméno, e-mail, telefon zájemce, informace o dítěti z formuláře"
+                    why="Odpověď na dotaz, domluva prohlídky, evidence zájmu"
+                    basis="Oprávněný zájem, resp. opatření před uzavřením smlouvy [čl. 6/1/b a f]"
+                    how="3 roky od posledního kontaktu"
+                  />
+                  <Row
+                    what="Identifikační a kontaktní údaje rodičů a dítěte, kmenová škola, údaje ze smlouvy a evidenčního listu"
+                    why="Uzavření a plnění smlouvy o docházce, evidence docházky"
+                    basis="Plnění smlouvy [čl. 6/1/b]"
+                    how="Po dobu docházky a 3 roky po skončení smlouvy (promlčecí lhůta)"
+                  />
+                  <Row
+                    what="Oprávněné osoby (jméno, vztah k dítěti, telefon)"
+                    why="Bezpečné předávání dítěte"
+                    basis="Plnění smlouvy a oprávněný zájem na bezpečí dítěte [čl. 6/1/b a f]"
+                    how="Po dobu docházky, poté 1 rok"
+                  />
+                  <Row
+                    what="Zdravotní údaje dítěte — alergie, diety, chronická onemocnění, léky, psychická omezení"
+                    why="Bezpečná péče o dítě, strava, první pomoc"
+                    basis="Výslovný souhlas rodičů [čl. 9/2/a]; v ohrožení života životně důležitý zájem [čl. 9/2/c]"
+                    how="Po dobu docházky, výmaz do 1 roku po jejím skončení"
+                  />
+                  <Row
+                    what="Docházka, odhlášky, objednané obědy, čas vyzvednutí, vzkazy v aplikaci"
+                    why="Provoz klubu, objednávky stravy, komunikace"
+                    basis="Plnění smlouvy [čl. 6/1/b]"
+                    how="3 roky"
+                  />
+                  <Row
+                    what="Fakturační údaje, faktury, platby, kredit"
+                    why="Vyúčtování služeb, účetnictví a daně"
+                    basis="Plnění smlouvy a právní povinnost [čl. 6/1/b a c]"
+                    how="10 let (účetní a daňové předpisy)"
+                  />
+                  <Row
+                    what="Nahrané podepsané dokumenty (smlouva, souhlasy)"
+                    why="Doklad o uzavření smlouvy a udělených souhlasech"
+                    basis="Plnění smlouvy, oprávněný zájem na doložení [čl. 6/1/b a f]"
+                    how="Po dobu docházky a 3 roky poté"
+                  />
+                  <Row
+                    what="Záznamy o úrazech a mimořádných událostech"
+                    why="Ochrana zdraví dětí, doložení postupu, pojistné události"
+                    basis="Oprávněný zájem a právní povinnost [čl. 6/1/f a c]"
+                    how="10 let od události"
+                  />
+                  <Row
+                    what="Fotografie a videozáznamy z činnosti klubu"
+                    why="Dokumentace a prezentace klubu"
+                    basis="Neidentifikující záběry: oprávněný zájem [čl. 6/1/f]. Záběry, kde je dítě poznat: souhlas rodiče ke konkrétní fotografii [čl. 6/1/a]"
+                    how="Do odvolání souhlasu, nejdéle 5 let od pořízení"
+                  />
+                  <Row
+                    what="Přihlašovací údaje a provozní záznamy v aplikaci (log akcí)"
+                    why="Bezpečnost aplikace, dohledání změn"
+                    basis="Oprávněný zájem [čl. 6/1/f]"
+                    how="3 roky"
+                  />
+                </tbody>
+              </table>
+            </div>
+            <p className="text-sm text-dark/60">
+              Odkazy v hranatých závorkách míří na články nařízení (EU) 2016/679
+              (GDPR).
+            </p>
+          </Section>
+
+          <Section num={4} title="Zdravotní údaje dítěte">
+            <p>
+              Zdravotní údaje patří do zvláštní kategorie osobních údajů
+              a nakládáme s nimi zvlášť opatrně. Zpracováváme jen to, co nám
+              sami uvedete v evidenčním listu, a jen v rozsahu nutném pro
+              bezpečnou péči o dítě.
+            </p>
+            <p>
+              V aplikaci jsou tyto údaje{" "}
+              <strong>chráněné samostatným heslem</strong> a zobrazí se pouze
+              rodičům daného dítěte, průvodkyním a provozovateli. Kuchyně vidí
+              pouze počty porcí a nutná dietní omezení — bez jmen dětí. Souhlas
+              se zpracováním zdravotních údajů můžete kdykoli odvolat; pak ale
+              nemůžeme zajistit péči, která na těchto údajích stojí.
+            </p>
+          </Section>
+
+          <Section num={5} title="Fotografie dětí">
+            <p>
+              Fotíme a natáčíme zásadně tak, aby děti{" "}
+              <strong>nebyly identifikovatelné</strong> — záběry zezadu,
+              z odstupu, detaily práce a tvoření. Takové záběry používáme
+              k prezentaci klubu na webu, na sociálních sítích a v propagačních
+              materiálech na základě oprávněného zájmu.
+            </p>
+            <p>
+              Fotografii, na které je dítě poznat (zejména je-li vidět obličej),
+              zveřejníme <strong>pouze se souhlasem rodiče ke konkrétní
+              fotografii</strong>. Konkrétní fotky posíláme ke schválení do
+              aplikace: u každé můžete schválit, zamítnout, nebo schválit
+              s podmínkou (například zakrytí obličeje). Souhlas je dobrovolný,
+              není podmínkou docházky a lze jej kdykoli odvolat — fotku pak bez
+              zbytečného odkladu stáhneme ze všech zdrojů, které máme pod
+              kontrolou.
+            </p>
+          </Section>
+
+          <Section num={6} title="Komu se údaje dostanou">
+            <p>
+              Osobní údaje neprodáváme a nepředáváme třetím stranám pro jejich
+              marketing. Ke zpracování využíváme tyto dodavatele (zpracovatele),
+              vázané smlouvou a vlastními podmínkami podle GDPR:
+            </p>
+            <ul className="list-disc pl-6 space-y-1">
+              <li>
+                <strong>Supabase</strong> — databáze a úložiště aplikace klubu
+                (servery v EU, Irsko)
+              </li>
+              <li>
+                <strong>Vercel</strong> — hosting webu a aplikace klubu
+              </li>
+              <li>
+                <strong>Resend</strong> — odesílání provozních e-mailů rodičům
+              </li>
+              <li>
+                <strong>Fakturoid</strong> — vystavování faktur a evidence plateb
+              </li>
+              <li>
+                <strong>Google Workspace</strong> — e-mailová komunikace
+                a dokumenty
+              </li>
+              <li>
+                <strong>OpenAI</strong> — automatická kontrola čitelnosti
+                a úplnosti dokumentů nahraných do aplikace (servery v USA;
+                předání na základě standardních smluvních doložek, data se
+                nepoužívají k trénování modelů)
+              </li>
+              <li>
+                <strong>Meta Platforms</strong> — kontaktní a lead formuláře
+                a reklama na sociálních sítích
+              </li>
+              <li>
+                <strong>Hetzner Online</strong> — zálohovací server (Německo)
+              </li>
+              <li>
+                <strong>Účetní kancelář</strong> spolku — účetní a daňové doklady
+              </li>
+            </ul>
+            <p>
+              Údaje můžeme dále předat, ukládá-li nám to zákon (orgán
+              sociálně-právní ochrany dětí, Policie ČR, finanční správa) nebo
+              je-li to nutné k ochraně našich práv (právní zástupce, pojišťovna,
+              soud).
+            </p>
+          </Section>
+
+          <Section num={7} title="Automatizované zpracování">
+            <p>
+              Nahrané dokumenty (podepsaná smlouva, souhlas) kontroluje
+              automatický nástroj — ověřuje, zda jde o správný dokument, zda je
+              čitelný a zda je podepsaný. Jde o pomůcku, nikoli o rozhodnutí:{" "}
+              <strong>o přijetí dokumentu vždy rozhoduje člověk</strong>. Žádné
+              rozhodování s právními účinky neděláme automatizovaně a neprovádíme
+              profilování.
+            </p>
+          </Section>
+
+          <Section num={8} title="Jak údaje chráníme">
+            <ul className="list-disc pl-6 space-y-1">
+              <li>
+                přístup do aplikace jen na jméno a heslo, role s minimem
+                oprávnění (rodič vidí jen své děti, kuchyně jen počty porcí)
+              </li>
+              <li>
+                nahrané dokumenty v neveřejném úložišti, zdravotní údaje navíc
+                za heslem
+              </li>
+              <li>šifrovaný přenos (HTTPS) a šifrované úložiště</li>
+              <li>
+                záznam o každé změně v aplikaci (kdo, kdy, co) a denní zálohy
+              </li>
+              <li>
+                přístup ke schránkám a účtům jen pro osoby, které ho pro svou
+                práci potřebují
+              </li>
+            </ul>
+          </Section>
+
+          <Section num={9} title="Vaše práva">
+            <p>Ve vztahu ke svým údajům (a k údajům svého dítěte) máte právo:</p>
+            <ul className="list-disc pl-6 space-y-1">
+              <li>vědět, jaké údaje o vás zpracováváme, a získat jejich kopii</li>
+              <li>nechat opravit nepřesné údaje</li>
+              <li>
+                nechat údaje vymazat, pominul-li důvod pro jejich zpracování
+              </li>
+              <li>omezit zpracování nebo proti němu vznést námitku</li>
+              <li>na přenositelnost údajů zpracovávaných automatizovaně</li>
+              <li>
+                kdykoli odvolat udělený souhlas (odvolání nemá vliv na
+                zpracování do té doby)
+              </li>
+              <li>
+                podat stížnost u{" "}
                 <a
                   href="https://www.uoou.cz"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-orange hover:underline"
                 >
-                  www.uoou.cz
+                  Úřadu pro ochranu osobních údajů
                 </a>
-                )
               </li>
             </ul>
-          </section>
-
-          {/* 7 */}
-          <section>
-            <h2 className="text-xl font-bold text-dark mb-3">
-              7. Cookies a analytika
-            </h2>
             <p>
-              Web používá službu Google Analytics ke sledování anonymní
-              návštěvnosti. Více o tom, jak Google zpracovává data, se dočtete
-              na{" "}
+              Napište nám na{" "}
+              <a
+                href="mailto:reditel@doucse.cz"
+                className="text-orange hover:underline"
+              >
+                reditel@doucse.cz
+              </a>
+              . Odpovíme nejpozději do jednoho měsíce; ve složitějších případech
+              vás o prodloužení včas vyrozumíme. Abychom údaje nevydali
+              nesprávné osobě, můžeme si ověřit vaši totožnost.
+            </p>
+          </Section>
+
+          <Section num={10} title="Cookies a analytika">
+            <p>
+              Web používá nezbytné technické cookies a službu Google Analytics
+              ke sledování anonymní návštěvnosti. Měření můžete odmítnout
+              nastavením prohlížeče. Více o tom, jak data zpracovává Google, se
+              dočtete na{" "}
               <a
                 href="https://policies.google.com/privacy"
                 target="_blank"
@@ -179,42 +391,40 @@ export default function GDPRPage() {
               >
                 stránkách Google
               </a>
-              .
+              . Aplikace klubu žádné analytické ani reklamní cookies nepoužívá —
+              jen přihlašovací.
             </p>
-          </section>
+          </Section>
 
-          {/* 8 */}
-          <section>
-            <h2 className="text-xl font-bold text-dark mb-3">
-              8. Kontakt
-            </h2>
+          <Section num={11} title="Změny těchto zásad">
             <p>
-              S jakýmkoli dotazem ohledně zpracování osobních údajů se na nás
-              můžete obrátit na{" "}
-              <a
-                href="mailto:reditel@doucse.cz"
-                className="text-orange hover:underline"
-              >
-                reditel@doucse.cz
-              </a>{" "}
-              nebo telefonicky na{" "}
-              <a
-                href="tel:+420775917363"
-                className="text-orange hover:underline"
-              >
-                775 917 363
-              </a>
+              Zásady můžeme aktualizovat, změní-li se způsob našeho fungování
+              nebo právní úprava. Aktuální znění je vždy na této stránce
+              a v aplikaci klubu; o podstatných změnách rodiče informujeme
+              e-mailem.
+            </p>
+            <p className="text-sm text-dark/60">
+              Souvisí:{" "}
+              <Link href="/provozni-rad" className="text-orange hover:underline">
+                Provozní řád klubu
+              </Link>
               .
             </p>
-          </section>
+          </Section>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-dark/10">
+        <div className="mt-12 pt-8 border-t border-dark/10 flex flex-wrap gap-3">
           <Link
             href="/"
             className="inline-flex items-center gap-2 bg-orange text-white font-bold px-6 py-3 rounded-full hover:bg-orange/90 transition-colors"
           >
             ← Zpět na hlavní stránku
+          </Link>
+          <Link
+            href="/provozni-rad"
+            className="inline-flex items-center gap-2 bg-white text-dark font-bold px-6 py-3 rounded-full hover:bg-white/80 transition-colors"
+          >
+            Provozní řád klubu
           </Link>
         </div>
       </div>
