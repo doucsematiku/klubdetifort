@@ -430,9 +430,8 @@ export default function ProvozniRadPage() {
               daného dítěte, průvodkyně a provozovatel.
             </P>
             <P>
-              <strong>První pomoc a úrazy:</strong> průvodkyně jsou proškolené
-              v poskytování první pomoci a v zázemí i v terénu máme lékárničku.
-              Drobná ošetření (odřenina, klíště, hmyzí bodnutí) zvládneme na
+              <strong>První pomoc a úrazy:</strong> v zázemí i v terénu máme
+              lékárničku. Drobná ošetření (odřenina, klíště, hmyzí bodnutí) zvládneme na
               místě a vždy vám je ohlásíme při předání dítěte. Při vážnějším
               úrazu voláme nejprve záchrannou službu, poté vás. O každém úrazu
               vedeme záznam.
@@ -444,9 +443,8 @@ export default function ProvozniRadPage() {
             </P>
             <P>
               Klub <strong>nemá sjednané úrazové pojištění dětí</strong> —
-              provozovatel má pojištění odpovědnosti za újmu způsobenou
-              provozem. Úrazové pojištění dítěte si prosím sjednejte sami,
-              považujeme to za rozumné.
+              úrazové pojištění dítěte si prosím sjednejte sami, považujeme to
+              za rozumné.
             </P>
           </Chapter>
 
