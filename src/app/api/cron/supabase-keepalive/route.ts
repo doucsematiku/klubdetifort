@@ -18,7 +18,9 @@ export async function GET(req: NextRequest) {
   // Z mimo Vercel Cron tento endpoint vrátí 401 — anti-abuse ochrana.
   const expectedAuth = `Bearer ${process.env.CRON_SECRET}`;
   const auth = req.headers.get("authorization");
-  if (process.env.CRON_SECRET && auth !== expectedAuth) {
+  // pozor: bez nastaveného CRON_SECRET endpoint NEOTVÍRÁME (dřív se kontrola
+  // přeskočila a route by šla zavolat zvenčí)
+  if (!process.env.CRON_SECRET || auth !== expectedAuth) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

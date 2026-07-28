@@ -2,15 +2,17 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const navLinks = [
-  { label: "O nás", href: "#o-nas" },
-  { label: "Program", href: "#program" },
-  { label: "Zázemí", href: "#zazemi" },
-  { label: "Aktivity", href: "#aktivity" },
-  { label: "Pro rodiče", href: "#pro-rodice" },
-  { label: "Spolupráce", href: "#spoluprace" },
-  { label: "Kontakt", href: "#kontakt" },
+  { label: "O nás", href: "/#o-nas" },
+  { label: "Program", href: "/#program" },
+  { label: "Zázemí", href: "/#zazemi" },
+  { label: "Aktivity", href: "/#aktivity" },
+  { label: "Letní prázdniny", href: "/prazdninovy-program" },
+  { label: "Pro rodiče", href: "/#pro-rodice" },
+  { label: "Spolupráce", href: "/#spoluprace" },
+  { label: "Kontakt", href: "/#kontakt" },
 ];
 
 export default function Header() {
@@ -21,7 +23,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-3">
             <Image
               src="/images/logo_fort.png"
               alt="Vzdělávací klub Farma Fořt"
@@ -37,10 +39,10 @@ export default function Header() {
                 vzdělávací klub
               </span>
             </div>
-          </a>
+          </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden xl:flex items-center gap-6">
+          <nav className="hidden xl:flex items-center gap-5">
             {navLinks.map((link) => (
               <a
                 key={link.href}
@@ -50,12 +52,18 @@ export default function Header() {
                 {link.label}
               </a>
             ))}
-            <a
-              href="#kontakt"
-              className="bg-orange hover:bg-orange-hover text-dark font-semibold px-6 py-2.5 rounded-full transition-colors text-sm"
+            <Link
+              href="/prohlidky"
+              className="border-2 border-forest text-forest hover:bg-forest hover:text-white font-semibold px-4 py-2 rounded-full transition-colors text-sm"
+            >
+              Domluvit prohlídku
+            </Link>
+            <Link
+              href="/#kontakt"
+              className="bg-orange hover:bg-orange-hover text-dark font-semibold px-5 py-2.5 rounded-full transition-colors text-sm"
             >
               Mám zájem
-            </a>
+            </Link>
           </nav>
 
           {/* Mobile toggle */}
@@ -103,13 +111,20 @@ export default function Header() {
                 {link.label}
               </a>
             ))}
-            <a
-              href="#kontakt"
+            <Link
+              href="/prohlidky"
               onClick={() => setMobileOpen(false)}
-              className="bg-orange hover:bg-orange-hover text-dark font-semibold px-6 py-3 rounded-full transition-colors text-center mt-2"
+              className="border-2 border-forest text-forest font-semibold px-6 py-3 rounded-full transition-colors text-center mt-2"
+            >
+              Domluvit prohlídku
+            </Link>
+            <Link
+              href="/#kontakt"
+              onClick={() => setMobileOpen(false)}
+              className="bg-orange hover:bg-orange-hover text-dark font-semibold px-6 py-3 rounded-full transition-colors text-center"
             >
               Mám zájem
-            </a>
+            </Link>
           </nav>
         </div>
       )}
