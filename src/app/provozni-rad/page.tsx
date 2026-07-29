@@ -309,11 +309,14 @@ export default function ProvozniRadPage() {
               podle volné kapacity.
             </P>
             <P>
-              <strong>Odhlášení:</strong> dítě můžete z konkrétního dne odhlásit
-              kdykoliv v aplikaci, i ráno v den docházky. Prosíme, dělejte to
-              vždy přes aplikaci, ne SMS — průvodkyně tak hned vidí, s kým
-              počítat, a můžete připojit vzkaz. Za odhlášený den se příspěvek
-              nevrací.
+              <strong>Odhlášení:</strong> víte-li, že dítě nepřijde, odhlaste ho
+              prosím vždy — je to pro nás organizačně důležité. Podle odhlášek
+              víme, kolik dětí ráno čekat, kolik připravit obědů a s kým počítat
+              na program. Bez odhlášky na dítě zbytečně čekáme a musíme vám
+              volat, jestli je všechno v pořádku. Odhlásit jde kdykoliv
+              v aplikaci, i ráno v den docházky; dělejte to prosím vždy přes
+              aplikaci, ne SMS — průvodkyně to hned vidí a můžete připojit
+              vzkaz. Za odhlášený den se příspěvek nevrací.
             </P>
             <P>
               <strong>Kredit:</strong> odhlásíte-li dítě v jednom měsíci z více
