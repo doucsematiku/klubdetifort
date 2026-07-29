@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ZmenitSouhlas } from "@/components/CookieConsent";
 
 export default function Footer() {
   return (
@@ -102,6 +103,8 @@ export default function Footer() {
             <Link href="/ochrana-osobnich-udaju" className="hover:text-white/70 transition-colors underline">
               Ochrana osobních údajů
             </Link>
+            <span>|</span>
+            <ZmenitSouhlas className="hover:text-white/70 transition-colors underline" />
             <span>|</span>
             <span>Nejsme školou ani registrovanou dětskou skupinou.</span>
           </div>

@@ -365,10 +365,21 @@ export default function GDPRPage() {
 
           <Section num={10} title="Cookies a analytika">
             <p>
-              Web používá nezbytné technické cookies a službu Google Analytics
-              ke sledování anonymní návštěvnosti. Měření můžete odmítnout
-              nastavením prohlížeče. Více o tom, jak data zpracovává Google, se
-              dočtete na{" "}
+              Web používá nezbytné technické cookies, bez kterých by nefungoval.
+              Ty nastavujeme vždy — souhlas k nim zákon nevyžaduje.
+            </p>
+            <p>
+              Nad rámec toho bychom rádi měřili návštěvnost webu a účinnost naší
+              reklamy (Google Analytics, Google Ads, Meta). Tohle měření
+              spustíme <strong>až poté, co k němu dáte souhlas</strong> v liště,
+              která se objeví při první návštěvě. Dokud nesouhlasíte, nenačte se
+              do stránky vůbec nic od Googlu ani Meta a žádné takové cookies
+              nevzniknou. Web funguje úplně stejně.
+            </p>
+            <p>
+              Souhlas můžete kdykoliv změnit nebo odvolat odkazem{" "}
+              <strong>Nastavení souhlasu</strong> dole na každé stránce.
+              Podrobnosti o zpracování u těchto služeb najdete na{" "}
               <a
                 href="https://policies.google.com/privacy"
                 target="_blank"
@@ -376,6 +387,15 @@ export default function GDPRPage() {
                 className="text-orange hover:underline"
               >
                 stránkách Google
+              </a>{" "}
+              a{" "}
+              <a
+                href="https://www.facebook.com/privacy/policy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-orange hover:underline"
+              >
+                Meta
               </a>
               . Aplikace klubu žádné analytické ani reklamní cookies nepoužívá —
               jen přihlašovací.
