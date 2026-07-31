@@ -382,10 +382,10 @@ export default function Home() {
                   title: "Badatelské prostory",
                   desc: "Klidná a vybavená místnost v historické budově pro soustředěné učení.",
                   fotky: [
-                    { src: "/images/klubik/klubik-35.jpg", alt: "Děti u tabule v badatelské místnosti" },
+                    { src: "/images/klubik/prostor-badatelna-3.jpg", alt: "Badatelská místnost s dřevěným stropem" },
                     { src: "/images/klubik/prostor-badatelna-1.jpg", alt: "Světlá místnost s kobercem a podsedáky" },
                     { src: "/images/klubik/prostor-badatelna-2.jpg", alt: "Místnost s mapou a policemi u okna" },
-                    { src: "/images/klubik/prostor-badatelna-3.jpg", alt: "Badatelská místnost s dřevěným stropem" },
+                    { src: "/images/klubik/klubik-35.jpg", alt: "Děti u tabule v badatelské místnosti" },
                   ],
                 },
                 {
