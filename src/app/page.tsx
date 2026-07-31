@@ -199,7 +199,7 @@ export default function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {[
                 { src: "/images/klubik/klubik-12.jpg", alt: "Děti tvoří z barevných papírů na trávě" },
-                { src: "/images/park4.png", alt: "Divoká zahrada na farmě Fořt — příroda v Krkonoších" },
+                { src: "/images/klubik/klubik-06.jpg", alt: "Odpočinek na dece ve stínu stromů v parku farmy" },
                 { src: "/images/klubik/klubik-21.jpg", alt: "Společné dílo dětí — malovaná plachta s barevnými stuhami" },
               ].map((photo) => (
                 <div key={photo.src} className="rounded-2xl overflow-hidden">
