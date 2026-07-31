@@ -398,7 +398,7 @@ export default function Home() {
                   ],
                 },
                 {
-                  title: "Klidová místnost a teráska",
+                  title: "Klidová teráska na odpočinek",
                   desc: "Zastřešená teráska s výhledem na louky a pasoucí se krávy — místo na odpočinek, čtení a ticho.",
                   fotky: [
                     { src: "/images/klubik/prostor-klidova-1.jpg", alt: "Krytá teráska s lehátky a výhledem do krajiny" },

@@ -51,6 +51,7 @@ export const PRUVODKYNE: Pruvodkyne[] = [
     zeZivota: [
       { src: "/images/klubik/klubik-16.jpg", popis: "společné dílo dětí rozvěšené v parku" },
       { src: "/images/klubik/klubik-03.jpg", popis: "děti na kamenném stole v parku" },
+      { src: "/images/klubik/klubik-50.jpg", popis: "brouzdání v potoce" },
     ],
     otazka:
       "Text vychází z vašeho dokumentu, jen je učesaný do odstavců a s opravenými překlepy. Obě profilovky jsou zatím na stránce vedle sebe a mají v rohu číslo — napište prosím, kterou nechat (klidně obě).",

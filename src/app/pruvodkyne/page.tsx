@@ -129,7 +129,12 @@ export default async function PruvodkynePage({
                   </div>
 
                   {/* dvě fotky z klubíku — atmosféra, ne portrét */}
-                  <div className="mt-6 grid grid-cols-2 gap-3">
+                  <div
+                    className="mt-6 grid gap-3"
+                    style={{
+                      gridTemplateColumns: `repeat(${p.zeZivota.length}, minmax(0,1fr))`,
+                    }}
+                  >
                     {p.zeZivota.map((f) => (
                       <Image
                         key={f.src}
@@ -138,7 +143,7 @@ export default async function PruvodkynePage({
                         width={600}
                         height={400}
                         loading="eager"
-                        className="h-32 w-full rounded-xl object-cover sm:h-40"
+                        className="h-24 w-full rounded-xl object-cover sm:h-36"
                       />
                     ))}
                   </div>
