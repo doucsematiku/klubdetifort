@@ -424,7 +424,7 @@ export default function Home() {
                     { src: "/images/klubik/klubik-29.jpg", alt: "Krájení jablek na svačinu" },
                     { src: "/images/klubik/klubik-31.jpg", alt: "Hadovka z těsta nad ohněm" },
                     { src: "/images/klubik/klubik-30.jpg", alt: "Nachystaná jablka k pečení" },
-                    { src: "/images/klubik/farma-34.jpg", alt: "Kuchyně na farmě" },
+                    { src: "/images/klubik/prostor-kuchyne.jpg", alt: "Kuchyňský pult na farmě s kalendářem sezónních plodin" },
                   ],
                 },
                 {
@@ -437,9 +437,8 @@ export default function Home() {
                     { src: "/images/klubik/klubik-06.jpg", alt: "Odpočinek na dece ve stínu stromů" },
                     { src: "/images/park4.png", alt: "Divoká zahrada na farmě" },
                     { src: "/images/klubik/klubik-11.jpg", alt: "Společné dílo rozvěšené mezi stromy" },
-                    { src: "/images/klubik/farma-03.jpg", alt: "Krytá terasa s výhledem do krajiny" },
                     { src: "/images/klubik/klubik-14.jpg", alt: "Malování na plachtu v parku" },
-                    { src: "/images/klubik/farma-04.jpg", alt: "Posezení na terase nad loukami" },
+                    { src: "/images/klubik/prostor-park.jpg", alt: "Pohled z okna farmy do parku" },
                   ],
                 },
               ].map((space) => (
