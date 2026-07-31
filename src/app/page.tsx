@@ -332,8 +332,8 @@ export default function Home() {
               <div className="grid grid-cols-2 gap-3">
                 <div className="col-span-2 rounded-2xl overflow-hidden">
                   <Image
-                    src="/images/klubik/klubik-24.jpg"
-                    alt="Děti kreslí a zkoumají u tabule na podlaze"
+                    src="/images/klubik/klubik-38.jpg"
+                    alt="Děti kreslí a zapisují si vlastní pozorování venku"
                     width={900}
                     height={600}
                     className="w-full h-56 sm:h-72 object-cover"
