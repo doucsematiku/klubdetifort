@@ -49,10 +49,6 @@ export default async function PruvodkynePage({
             Kdo bude s dětmi
           </h1>
           <div className="mt-5 h-px w-16 bg-orange" />
-          <p className="mt-5 max-w-xl text-white/70 leading-relaxed text-lg">
-            V klubíku nejsou děti v davu, kde se personál střídá. Mají celý rok
-            stejné dvě průvodkyně — a ty znají každé z nich jménem.
-          </p>
         </div>
       </header>
 
