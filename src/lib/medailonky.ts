@@ -8,8 +8,12 @@ export const MEDAILONEK_KOD = "4321";
 /** Jméno cookie, do které si prohlížeč uloží zadaný kód. */
 export const MEDAILONEK_COOKIE = "medailonky_kod";
 
-/** popis = alt text pro čtečky, na stránce se nevypisuje */
-export type Fotka = { src: string; popis: string };
+/**
+ * popis = alt text pro čtečky, na stránce se nevypisuje.
+ * pozice = kam se má ořez v rámečku dívat (CSS object-position), když
+ * je obličej mimo horní třetinu fotky.
+ */
+export type Fotka = { src: string; popis: string; pozice?: string };
 
 export type Pruvodkyne = {
   /** klíč do formuláře souhlasu */
@@ -57,7 +61,11 @@ export const PRUVODKYNE: Pruvodkyne[] = [
     ],
     fotky: [
       { src: "/images/pruvodkyne/ivana-1.jpg", popis: "první fotka z e-mailu" },
-      { src: "/images/pruvodkyne/ivana-2.jpg", popis: "druhá fotka z e-mailu" },
+      {
+        src: "/images/pruvodkyne/ivana-2.jpg",
+        popis: "druhá fotka z e-mailu",
+        pozice: "50% 62%",
+      },
     ],
     otazka:
       "V e-mailu přišly dvě fotky a na každé je podle nás někdo jiný — nechceme na web dát omylem cizí fotku. Fotky mají v rohu číslo; napište prosím, která z nich je vaše (1, nebo 2), nebo pošlete jinou.",

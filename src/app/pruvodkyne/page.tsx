@@ -92,6 +92,7 @@ export default async function PruvodkynePage({
                         width={680}
                         height={850}
                         loading="eager"
+                        style={f.pozice ? { objectPosition: f.pozice } : undefined}
                         className="h-full w-full object-cover object-top aspect-[4/5]"
                       />
                       {p.fotky.length > 1 && (
