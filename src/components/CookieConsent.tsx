@@ -97,8 +97,8 @@ export default function CookieConsent({
       <div className="mx-auto flex max-w-4xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm leading-relaxed text-gray-700">
           Abychom web mohli zlepšovat, rádi bychom měřili jeho návštěvnost
-          a účinnost reklamy. Bez vašeho souhlasu se nic takového nespustí —
-          web funguje úplně stejně.{" "}
+          nástroji Google a Meta. Bez vašeho souhlasu se nic takového
+          nespustí — web funguje úplně stejně.{" "}
           <Link href="/ochrana-osobnich-udaju" className="text-orange underline">
             Jak nakládáme s údaji
           </Link>

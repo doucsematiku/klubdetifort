@@ -369,8 +369,9 @@ export default function GDPRPage() {
               Ty nastavujeme vždy — souhlas k nim zákon nevyžaduje.
             </p>
             <p>
-              Nad rámec toho bychom rádi měřili návštěvnost webu a účinnost naší
-              reklamy (Google Analytics, Google Ads, Meta). Tohle měření
+              Nad rámec toho bychom rádi měřili návštěvnost webu — kolik lidí
+              na něj přišlo a odkud (Google Analytics, Google Ads, Meta).
+              Tohle měření
               spustíme <strong>až poté, co k němu dáte souhlas</strong> v liště,
               která se objeví při první návštěvě. Dokud nesouhlasíte, nenačte se
               do stránky vůbec nic od Googlu ani Meta a žádné takové cookies
