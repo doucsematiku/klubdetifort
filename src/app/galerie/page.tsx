@@ -32,7 +32,7 @@ const FOTKY = [
   { src: "/images/klubik/klubik-50.jpg", alt: "Děti u vody v lese" },
   { src: "/images/klubik/klubik-51.jpg", alt: "Společné zkoumání nálezu na dece" },
   { src: "/images/klubik/klubik-57.jpg", alt: "Obrázek z kamínků a barev — mořský svět" },
-  { src: "/images/klubik/klubik-58.jpg", alt: "Dětské dílo s kameny a kresbou" },
+  { src: "/images/klubik/klubik-60.jpg", alt: "Dětské dílo s kameny a kresbou" },
   { src: "/images/klubik/klubik-63.jpg", alt: "Malovaný obraz s rybami a kamínky" },
 ];
 
