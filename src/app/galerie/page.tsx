@@ -65,6 +65,15 @@ export default function GaleriePage() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         <Galerie fotky={FOTKY} />
 
+        <p className="mt-8">
+          <Link
+            href="/prazdninovy-program"
+            className="font-semibold text-forest underline"
+          >
+            Ohlédnutí za akcí a další proběhlé akce →
+          </Link>
+        </p>
+
         <div className="mt-10 rounded-2xl bg-white p-6 sm:p-8">
           <h2 className="text-xl font-bold text-dark">
             Chcete, aby u nás bylo i vaše dítě?
