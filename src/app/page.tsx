@@ -380,17 +380,17 @@ export default function Home() {
                 {
                   title: "Badatelské prostory",
                   desc: "Klidná a vybavená místnost v historické budově pro soustředěné učení.",
-                  img: "/images/klubik/klubik-34.jpg",
+                  img: "/images/klubik/farma-09.jpg",
                 },
                 {
                   title: "Společenská místnost",
                   desc: "Srdce naší farmy — kamna, velký stůl, společné tvoření a rituály dne.",
-                  img: "/images/klubik/klubik-56.jpg",
+                  img: "/images/klubik/farma-06.jpg",
                 },
                 {
                   title: "Klidový prostor",
                   desc: "Místo pro odpočinek, čtení a ticho. Polštáře, svíčky a klid.",
-                  img: "/images/klubik/klubik-26.jpg",
+                  img: "/images/klubik/farma-31.jpg",
                 },
                 {
                   title: "Venkovní altán",
@@ -425,6 +425,28 @@ export default function Home() {
                       {space.desc}
                     </p>
                   </div>
+                </div>
+              ))}
+            </div>
+
+            {/* další záběry z budovy — ať je vidět, jak to uvnitř opravdu vypadá */}
+            <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+              {[
+                { src: "/images/klubik/farma-07.jpg", alt: "Velký společný stůl v hlavní místnosti" },
+                { src: "/images/klubik/farma-19.jpg", alt: "Posezení u okna s výhledem do parku" },
+                { src: "/images/klubik/farma-21.jpg", alt: "Společenská místnost s kamny" },
+                { src: "/images/klubik/farma-33.jpg", alt: "Klidová místnost s podsedáky" },
+                { src: "/images/klubik/farma-18.jpg", alt: "Jídelní kout s výhledem do zahrady" },
+                { src: "/images/klubik/farma-24.jpg", alt: "Okno na farmě s výhledem na louky" },
+              ].map((f) => (
+                <div key={f.src} className="rounded-xl overflow-hidden">
+                  <Image
+                    src={f.src}
+                    alt={f.alt}
+                    width={520}
+                    height={400}
+                    className="w-full h-28 sm:h-32 object-cover"
+                  />
                 </div>
               ))}
             </div>
