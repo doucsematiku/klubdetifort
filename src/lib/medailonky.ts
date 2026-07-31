@@ -23,7 +23,10 @@ export type Pruvodkyne = {
   /** jedna věta pod jméno — nic, co se mění podle rozpisu služeb */
   podtitul: string;
   odstavce: string[];
+  /** portréty — z nich se po schválení vybere jeden */
   fotky: Fotka[];
+  /** dvě fotky z klubíku pod text, ať karta není jen portrét a písmo */
+  zeZivota: Fotka[];
   /** poznámka pro ni samotnou, na veřejný web se nedostane */
   otazka?: string;
 };
@@ -44,6 +47,10 @@ export const PRUVODKYNE: Pruvodkyne[] = [
     fotky: [
       { src: "/images/pruvodkyne/lenka-1.jpg", popis: "portrét" },
       { src: "/images/pruvodkyne/lenka-2.jpg", popis: "portrét venku" },
+    ],
+    zeZivota: [
+      { src: "/images/klubik/klubik-16.jpg", popis: "společné dílo dětí rozvěšené v parku" },
+      { src: "/images/klubik/klubik-03.jpg", popis: "děti na kamenném stole v parku" },
     ],
     otazka:
       "Text vychází z vašeho dokumentu, jen je učesaný do odstavců a s opravenými překlepy. Obě profilovky jsou zatím na stránce vedle sebe a mají v rohu číslo — napište prosím, kterou nechat (klidně obě).",
@@ -66,6 +73,10 @@ export const PRUVODKYNE: Pruvodkyne[] = [
         popis: "druhá fotka z e-mailu",
         pozice: "50% 62%",
       },
+    ],
+    zeZivota: [
+      { src: "/images/klubik/klubik-44.jpg", popis: "výprava do krajiny pod Krkonošemi" },
+      { src: "/images/klubik/klubik-52.jpg", popis: "společné zkoumání nálezu" },
     ],
     otazka:
       "V e-mailu přišly dvě fotky a na každé je podle nás někdo jiný — nechceme na web dát omylem cizí fotku. Fotky mají v rohu číslo; napište prosím, která z nich je vaše (1, nebo 2), nebo pošlete jinou.",

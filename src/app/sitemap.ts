@@ -15,10 +15,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
-      url: "https://klubdetifort.cz/prazdninovy-program",
+      url: "https://klubdetifort.cz/galerie",
       lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.95,
+      changeFrequency: "monthly",
+      priority: 0.8,
     },
   ];
 }

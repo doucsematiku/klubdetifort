@@ -94,40 +94,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ============ LETNÍ PRÁZDNINY — banner ============ */}
-        <section id="prazdniny-banner" className="bg-orange text-dark">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6 lg:gap-10 items-center">
-              <div>
-                <p className="text-forest font-semibold text-xs sm:text-sm tracking-wide uppercase mb-2">
-                  Novinka pro léto — 14.–17. 7. 2026
-                </p>
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight mb-3">
-                  Letní prázdninový program pro děti
-                </h2>
-                <p className="text-dark/85 leading-relaxed max-w-2xl text-sm sm:text-base">
-                  Čtyři dny v přírodě s průvodkyní{" "}
-                  <strong>Lenkou Formánkovou</strong>{" "}— inspirace dřevo, voda,
-                  oheň a&nbsp;země. Tvoření, hra, klid. Pro děti{" "}
-                  <strong>6–12 let</strong>, max 10 dětí na den,
-                  600&nbsp;Kč/den (bez oběda).
-                </p>
-              </div>
-              <div className="flex flex-col gap-3">
-                <Link
-                  href="/prazdninovy-program#rezervace"
-                  className="bg-dark hover:bg-brown text-white font-bold px-7 py-3.5 rounded-full transition-colors text-center text-base sm:text-lg whitespace-nowrap"
-                >
-                  Zarezervovat místo →
-                </Link>
-                <p className="text-dark/60 text-xs text-center">
-                  Kapacita omezená · 4 dny ke&nbsp;kombinaci
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* ============ O NÁS ============ */}
         <section id="o-nas" className="py-20 sm:py-28 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -232,9 +198,9 @@ export default function Home() {
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {[
-                { src: "/images/park3.png", alt: "Ohnišťě s dřevěnými špalky — společné setkávání" },
+                { src: "/images/klubik/klubik-12.jpg", alt: "Děti tvoří z barevných papírů na trávě" },
                 { src: "/images/park4.png", alt: "Divoká zahrada na farmě Fořt — příroda v Krkonoších" },
-                { src: "/images/park2.png", alt: "Budova farmy Fořt mezi stromy" },
+                { src: "/images/klubik/klubik-21.jpg", alt: "Společné dílo dětí — malovaná plachta s barevnými stuhami" },
               ].map((photo) => (
                 <div key={photo.src} className="rounded-2xl overflow-hidden">
                   <Image
@@ -247,6 +213,12 @@ export default function Home() {
                 </div>
               ))}
             </div>
+
+            <p className="mt-6 text-center text-brown">
+              <Link href="/galerie" className="font-semibold text-forest underline">
+                Podívejte se na fotky z letní akce pro děti →
+              </Link>
+            </p>
           </div>
         </section>
 
@@ -256,8 +228,8 @@ export default function Home() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="rounded-2xl overflow-hidden">
                 <Image
-                  src="/images/file_00000000852471f4a2cec4aab459b9af_2.png"
-                  alt="Farmářská kuchyně — společná příprava jídel na farmě"
+                  src="/images/klubik/klubik-27.jpg"
+                  alt="Děti krájí jablka na svačinu u venkovního stolu"
                   width={800}
                   height={530}
                   className="w-full h-80 sm:h-[420px] object-cover"
@@ -357,13 +329,34 @@ export default function Home() {
                 </a>
               </div>
 
-              <div className="relative h-96 sm:h-[500px] rounded-2xl overflow-hidden">
-                <Image
-                  src="/images/file_000000005b1871f4948ccf97b62c7d18.png"
-                  alt="Klidná studijní místnost s polštáři a svíčkou"
-                  fill
-                  className="object-cover"
-                />
+              <div className="grid grid-cols-2 gap-3">
+                <div className="col-span-2 rounded-2xl overflow-hidden">
+                  <Image
+                    src="/images/klubik/klubik-24.jpg"
+                    alt="Děti kreslí a zkoumají u tabule na podlaze"
+                    width={900}
+                    height={600}
+                    className="w-full h-56 sm:h-72 object-cover"
+                  />
+                </div>
+                <div className="rounded-2xl overflow-hidden">
+                  <Image
+                    src="/images/klubik/klubik-53.jpg"
+                    alt="Průvodkyně a děti nad společnou prací"
+                    width={600}
+                    height={600}
+                    className="w-full h-40 sm:h-52 object-cover"
+                  />
+                </div>
+                <div className="rounded-2xl overflow-hidden">
+                  <Image
+                    src="/images/klubik/klubik-51.jpg"
+                    alt="Děti zkoumají nález venku v parku"
+                    width={600}
+                    height={600}
+                    className="w-full h-40 sm:h-52 object-cover"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -387,17 +380,17 @@ export default function Home() {
                 {
                   title: "Badatelské prostory",
                   desc: "Klidná a vybavená místnost v historické budově pro soustředěné učení.",
-                  img: "/images/file_000000005258720a8e6f6a8434c011f7.png",
+                  img: "/images/klubik/klubik-34.jpg",
                 },
                 {
                   title: "Společenská místnost",
                   desc: "Srdce naší farmy — kamna, velký stůl, společné tvoření a rituály dne.",
-                  img: "/images/1769935805824.png",
+                  img: "/images/klubik/klubik-56.jpg",
                 },
                 {
                   title: "Klidový prostor",
                   desc: "Místo pro odpočinek, čtení a ticho. Polštáře, svíčky a klid.",
-                  img: "/images/file_000000005b1871f4948ccf97b62c7d18.png",
+                  img: "/images/klubik/klubik-26.jpg",
                 },
                 {
                   title: "Venkovní altán",

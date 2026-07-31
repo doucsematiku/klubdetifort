@@ -9,7 +9,7 @@ const navLinks = [
   { label: "Program", href: "/#program" },
   { label: "Zázemí", href: "/#zazemi" },
   { label: "Aktivity", href: "/#aktivity" },
-  { label: "Letní prázdniny", href: "/prazdninovy-program" },
+  { label: "Galerie", href: "/galerie" },
   { label: "Pro rodiče", href: "/#pro-rodice" },
   { label: "Spolupráce", href: "/#spoluprace" },
   { label: "Kontakt", href: "/#kontakt" },

@@ -127,6 +127,21 @@ export default async function PruvodkynePage({
                       </p>
                     ))}
                   </div>
+
+                  {/* dvě fotky z klubíku — atmosféra, ne portrét */}
+                  <div className="mt-6 grid grid-cols-2 gap-3">
+                    {p.zeZivota.map((f) => (
+                      <Image
+                        key={f.src}
+                        src={f.src}
+                        alt={f.popis}
+                        width={600}
+                        height={400}
+                        loading="eager"
+                        className="h-32 w-full rounded-xl object-cover sm:h-40"
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
             </article>
