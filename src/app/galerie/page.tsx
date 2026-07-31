@@ -65,12 +65,6 @@ export default function GaleriePage() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         <Galerie fotky={FOTKY} />
 
-        <p className="mt-8 text-sm text-dark/50 leading-relaxed max-w-2xl">
-          Zveřejňujeme jen fotky, na kterých nejsou děti poznat, a jen se
-          souhlasem rodičů. Pokud byste si přesto přáli některou fotku stáhnout,
-          napište nám na reditel@doucse.cz a hned to uděláme.
-        </p>
-
         <div className="mt-10 rounded-2xl bg-white p-6 sm:p-8">
           <h2 className="text-xl font-bold text-dark">
             Chcete, aby u nás bylo i vaše dítě?
