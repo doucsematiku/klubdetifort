@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: "Proběhlé akce pro děti | Klub dětí Fořt",
   description:
     "Archiv akcí Klubu dětí Fořt — letní čtyřdenní program v přírodě BIO farmy Fořt (14.–17. 7. 2026) a fotky z něj.",
-  alternates: { canonical: "https://klubdetifort.cz/prazdninovy-program" },
+  alternates: { canonical: "https://klubdetifort.cz/probehle-akce" },
   openGraph: {
     title: "Proběhlé akce — Klub dětí Fořt",
     description:

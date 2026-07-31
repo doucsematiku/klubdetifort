@@ -17,6 +17,22 @@ const nextConfig: NextConfig = {
   async headers() {
     return [{ source: "/:path*", headers: SECURITY_HEADERS }];
   },
+  // letní program skončil a stránka se z něj stala archivem — staré odkazy
+  // (letáky, e-maily, výsledky vyhledávání) musí dál fungovat
+  async redirects() {
+    return [
+      {
+        source: "/prazdninovy-program",
+        destination: "/probehle-akce",
+        permanent: true,
+      },
+      {
+        source: "/prazdninovy-program/:path*",
+        destination: "/probehle-akce",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

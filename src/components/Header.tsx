@@ -10,6 +10,7 @@ const navLinks = [
   { label: "Zázemí", href: "/#zazemi" },
   { label: "Aktivity", href: "/#aktivity" },
   { label: "Galerie", href: "/galerie" },
+  { label: "Proběhlé akce", href: "/probehle-akce" },
   { label: "Pro rodiče", href: "/#pro-rodice" },
   { label: "Spolupráce", href: "/#spoluprace" },
   { label: "Kontakt", href: "/#kontakt" },
@@ -42,7 +43,7 @@ export default function Header() {
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden xl:flex items-center gap-5">
+          <nav className="hidden xl:flex items-center gap-4">
             {navLinks.map((link) => (
               <a
                 key={link.href}

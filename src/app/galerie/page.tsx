@@ -67,7 +67,7 @@ export default function GaleriePage() {
 
         <p className="mt-8">
           <Link
-            href="/prazdninovy-program"
+            href="/probehle-akce"
             className="font-semibold text-forest underline"
           >
             Ohlédnutí za akcí a další proběhlé akce →
