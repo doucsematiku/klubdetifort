@@ -60,7 +60,7 @@ export default function MedailonekSouhlas({
 
   if (stav === "hotovo") {
     return (
-      <div className="mt-6 rounded-2xl bg-forest-pale p-5">
+      <div className="mt-4 rounded-2xl bg-forest-pale p-5 sm:p-6">
         <p className="font-semibold text-forest">Děkujeme, odpověď máme.</p>
         <p className="mt-1 text-sm text-dark/70 leading-relaxed">
           {verdikt === "schvaluji"
@@ -75,7 +75,10 @@ export default function MedailonekSouhlas({
     "flex-1 rounded-xl border px-4 py-3 text-sm font-semibold transition-colors text-left";
 
   return (
-    <form onSubmit={odesli} className="mt-6 rounded-2xl bg-beige p-5">
+    <form
+      onSubmit={odesli}
+      className="mt-4 rounded-2xl bg-white p-5 sm:p-6 ring-1 ring-dark/5"
+    >
       <p className="font-semibold text-dark">Souhlasíte se zveřejněním?</p>
       <p className="mt-1 text-sm text-dark/60 leading-relaxed">
         Nic nedáme na web dřív, než to odklepnete. Když se vám něco nezdá —
