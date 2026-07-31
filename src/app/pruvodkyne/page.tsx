@@ -1,47 +1,37 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
+import { cookies } from "next/headers";
+import MedailonekGate from "@/components/MedailonekGate";
+import MedailonekSouhlas from "@/components/MedailonekSouhlas";
+import {
+  MEDAILONEK_COOKIE,
+  MEDAILONEK_KOD,
+  PRUVODKYNE,
+  TYDEN,
+} from "@/lib/medailonky";
 
 export const metadata: Metadata = {
   title: "Kdo bude s dětmi | Klub Fořt",
   description:
     "Průvodkyně Klubíku Fořt a rozvrh týdne — kdo je s dětmi v pondělí, úterý a ve středu.",
-  // TODO: až budou doplněné medailonky a fotky, změnit na index: true
+  // TODO: až medailonky schválí průvodkyně, zámek pryč a index: true
   robots: { index: false, follow: false },
 };
 
-/** Rozvrh týdne — kdo má který den službu. Zdroj: rozpis služeb v aplikaci. */
-const TYDEN: { den: string; sluzby: { kdo: string; cas: string }[] }[] = [
-  {
-    den: "Pondělí",
-    sluzby: [{ kdo: "Ivana Hrubá", cas: "8:00–16:00" }],
-  },
-  {
-    den: "Úterý",
-    sluzby: [
-      { kdo: "Lenka Formánková", cas: "8:00–12:00" },
-      { kdo: "Ivana Hrubá", cas: "12:00–16:00" },
-    ],
-  },
-  {
-    den: "Středa",
-    sluzby: [{ kdo: "Lenka Formánková", cas: "8:00–16:00" }],
-  },
-];
+export const dynamic = "force-dynamic";
 
-const PRUVODKYNE: { jmeno: string; role: string; medailonek: string }[] = [
-  {
-    jmeno: "Lenka Formánková",
-    role: "průvodkyně",
-    medailonek: "", // TODO: doplnit medailonek
-  },
-  {
-    jmeno: "Ivana Hrubá",
-    role: "průvodkyně",
-    medailonek: "", // TODO: doplnit medailonek
-  },
-];
+export default async function PruvodkynePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ kod?: string }>;
+}) {
+  const { kod } = await searchParams;
+  const zCookie = (await cookies()).get(MEDAILONEK_COOKIE)?.value;
+  if (kod !== MEDAILONEK_KOD && zCookie !== MEDAILONEK_KOD) {
+    return <MedailonekGate />;
+  }
 
-export default function PruvodkynePage() {
   return (
     <main className="min-h-screen bg-beige">
       <div className="bg-dark text-white py-12 sm:py-16">
@@ -62,6 +52,16 @@ export default function PruvodkynePage() {
       </div>
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+        {/* ── návrh, ne hotová stránka ── */}
+        <div className="rounded-2xl border-2 border-orange bg-orange/10 p-5">
+          <p className="font-bold text-dark">Návrh — zatím to nikdo jiný nevidí</p>
+          <p className="mt-1 text-dark/75 leading-relaxed text-sm">
+            Takhle by stránka vypadala na webu. Není veřejná, nejde na ni dojít
+            z menu ani ji nenajdete přes Google — otevře ji jen ten, kdo má kód.
+            Až medailonky odklepnete, zámek sundáme a stránku pustíme ven.
+          </p>
+        </div>
+
         {/* ── rozvrh týdne ── */}
         <section>
           <h2 className="text-2xl font-bold text-dark">Rozvrh týdne</h2>
@@ -99,21 +99,56 @@ export default function PruvodkynePage() {
         {/* ── medailonky ── */}
         <section>
           <h2 className="text-2xl font-bold text-dark">Naše průvodkyně</h2>
-          <div className="mt-6 space-y-4">
+
+          <div className="mt-6 space-y-10">
             {PRUVODKYNE.map((p) => (
-              <div key={p.jmeno} className="bg-white rounded-2xl p-6">
-                <p className="font-bold text-dark text-lg">{p.jmeno}</p>
-                <p className="text-sm text-orange font-semibold">{p.role}</p>
-                {p.medailonek ? (
-                  <p className="mt-3 text-dark/80 leading-relaxed">
-                    {p.medailonek}
-                  </p>
-                ) : (
-                  <p className="mt-3 text-dark/50 leading-relaxed italic">
-                    Medailonek doplníme v nejbližších dnech.
+              <article key={p.id} className="bg-white rounded-2xl p-6 sm:p-8">
+                <div className="flex flex-col sm:flex-row gap-6">
+                  <div className="flex gap-3 sm:flex-col shrink-0">
+                    {p.fotky.map((f) => (
+                      <figure key={f.src} className="w-32 sm:w-44">
+                        <Image
+                          src={f.src}
+                          alt={`${p.jmeno} — ${f.popis}`}
+                          width={352}
+                          height={440}
+                          className="rounded-xl object-cover w-full h-40 sm:h-52"
+                        />
+                        <figcaption className="mt-1 text-xs text-dark/45">
+                          {f.popis}
+                        </figcaption>
+                      </figure>
+                    ))}
+                  </div>
+
+                  <div className="flex-1">
+                    <h3 className="font-bold text-dark text-xl">{p.jmeno}</h3>
+                    <p className="text-sm text-orange font-semibold">{p.role}</p>
+                    <p className="mt-1 text-sm text-dark/60">
+                      S dětmi bývá {p.kdy}.
+                    </p>
+                    <div className="mt-4 space-y-3">
+                      {p.odstavce.map((o, i) => (
+                        <p key={i} className="text-dark/80 leading-relaxed">
+                          {o}
+                        </p>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {p.otazka && (
+                  <p className="mt-6 rounded-xl bg-beige-dark/40 px-4 py-3 text-sm text-dark/75 leading-relaxed">
+                    <strong>Poznámka pro vás:</strong> {p.otazka}
                   </p>
                 )}
-              </div>
+
+                <MedailonekSouhlas
+                  id={p.id}
+                  jmeno={p.jmeno}
+                  kod={MEDAILONEK_KOD}
+                />
+              </article>
             ))}
           </div>
         </section>
