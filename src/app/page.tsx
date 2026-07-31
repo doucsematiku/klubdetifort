@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
 import CooperationSection from "@/components/CooperationSection";
+import ProstorKarta from "@/components/ProstorKarta";
 
 export default function Home() {
   return (
@@ -380,76 +381,72 @@ export default function Home() {
                 {
                   title: "Badatelské prostory",
                   desc: "Klidná a vybavená místnost v historické budově pro soustředěné učení.",
-                  img: "/images/klubik/farma-09.jpg",
+                  fotky: [
+                    { src: "/images/klubik/farma-09.jpg", alt: "Místnost s policemi a špalky k sezení" },
+                    { src: "/images/klubik/farma-33.jpg", alt: "Světlá místnost s podsedáky" },
+                  ],
                 },
                 {
                   title: "Společenská místnost",
                   desc: "Srdce naší farmy — kamna, velký stůl, společné tvoření a rituály dne.",
-                  img: "/images/klubik/farma-06.jpg",
+                  fotky: [
+                    { src: "/images/klubik/farma-06.jpg", alt: "Velký společný stůl v hlavní místnosti" },
+                    { src: "/images/klubik/farma-07.jpg", alt: "Hlavní místnost z druhé strany" },
+                    { src: "/images/klubik/farma-21.jpg", alt: "Posezení u kamen" },
+                    { src: "/images/klubik/farma-19.jpg", alt: "Stůl u okna s výhledem do parku" },
+                  ],
                 },
                 {
                   title: "Klidový prostor",
                   desc: "Místo pro odpočinek, čtení a ticho. Polštáře, svíčky a klid.",
-                  img: "/images/klubik/farma-31.jpg",
+                  fotky: [
+                    { src: "/images/klubik/farma-31.jpg", alt: "Klidová místnost s kobercem a podsedáky" },
+                    { src: "/images/klubik/farma-18.jpg", alt: "Kout s jídelním stolem a pohovkou" },
+                  ],
                 },
                 {
-                  title: "Venkovní altán",
-                  desc: "Zastřešený prostor uprostřed parku — ideální pro výtvarné aktivity, čtení i společné svačiny na čerstvém vzduchu.",
-                  img: "/images/park3.png",
+                  title: "Badatelské procházky v okolí farmy",
+                  desc: "Vyrážíme do krajiny kolem farmy — k potoku, na louky a do lesa. Co děti cestou najdou, spolu prozkoumáme, a pak si to třeba i namalujeme.",
+                  fotky: [
+                    { src: "/images/klubik/klubik-43.jpg", alt: "Výprava krajinou pod Krkonošemi" },
+                    { src: "/images/klubik/klubik-48.jpg", alt: "Zkoumání potoka" },
+                    { src: "/images/klubik/klubik-39.jpg", alt: "Malování venku na dece" },
+                  ],
                 },
                 {
-                  title: "Krytá sportovní hala",
-                  desc: "Obrovská hala, kde se běžně trénují koně a konají farmářské akce. Pro děti slouží ke sportu, hrám a pohybu za každého počasí.",
-                  img: "/images/park4.png",
+                  title: "Malí kulináři",
+                  desc: "Krájíme, pečeme a opékáme z toho, co dá farma — od jablek po hadovku nad ohněm. Co si děti samy uchystají, chutná nejvíc.",
+                  fotky: [
+                    { src: "/images/klubik/klubik-29.jpg", alt: "Krájení jablek na svačinu" },
+                    { src: "/images/klubik/klubik-31.jpg", alt: "Hadovka z těsta nad ohněm" },
+                    { src: "/images/klubik/klubik-30.jpg", alt: "Nachystaná jablka k pečení" },
+                    { src: "/images/klubik/farma-34.jpg", alt: "Kuchyně na farmě" },
+                  ],
                 },
                 {
                   title: "Park farmy a krajina",
                   desc: "Nádherný park s dávnými stromy a rozlehlé louky Krkonoš — přirozené hřiště, místo pro výlety a zkoumání přírody.",
-                  img: "/images/park.png",
+                  fotky: [
+                    { src: "/images/park.png", alt: "Kamenný stůl v parku farmy" },
+                    { src: "/images/klubik/klubik-03.jpg", alt: "Děti na kamenném stole v parku" },
+                    { src: "/images/park3.png", alt: "Ohniště s dřevěnými špalky" },
+                    { src: "/images/klubik/klubik-06.jpg", alt: "Odpočinek na dece ve stínu stromů" },
+                    { src: "/images/park4.png", alt: "Divoká zahrada na farmě" },
+                    { src: "/images/klubik/klubik-11.jpg", alt: "Společné dílo rozvěšené mezi stromy" },
+                    { src: "/images/klubik/farma-03.jpg", alt: "Krytá terasa s výhledem do krajiny" },
+                    { src: "/images/klubik/klubik-14.jpg", alt: "Malování na plachtu v parku" },
+                    { src: "/images/klubik/farma-04.jpg", alt: "Posezení na terase nad loukami" },
+                  ],
                 },
               ].map((space) => (
-                <div
-                  key={space.title}
-                  className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow"
-                >
-                  <Image
-                    src={space.img}
-                    alt={space.title}
-                    width={640}
-                    height={420}
-                    className="w-full h-48 object-cover"
-                  />
-                  <div className="p-5">
-                    <h3 className="font-bold text-dark mb-1">{space.title}</h3>
-                    <p className="text-sm text-brown leading-relaxed">
-                      {space.desc}
-                    </p>
-                  </div>
-                </div>
+                <ProstorKarta key={space.title} prostor={space} />
               ))}
             </div>
 
-            {/* další záběry z budovy — ať je vidět, jak to uvnitř opravdu vypadá */}
-            <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-              {[
-                { src: "/images/klubik/farma-07.jpg", alt: "Velký společný stůl v hlavní místnosti" },
-                { src: "/images/klubik/farma-19.jpg", alt: "Posezení u okna s výhledem do parku" },
-                { src: "/images/klubik/farma-21.jpg", alt: "Společenská místnost s kamny" },
-                { src: "/images/klubik/farma-33.jpg", alt: "Klidová místnost s podsedáky" },
-                { src: "/images/klubik/farma-18.jpg", alt: "Jídelní kout s výhledem do zahrady" },
-                { src: "/images/klubik/farma-24.jpg", alt: "Okno na farmě s výhledem na louky" },
-              ].map((f) => (
-                <div key={f.src} className="rounded-xl overflow-hidden">
-                  <Image
-                    src={f.src}
-                    alt={f.alt}
-                    width={520}
-                    height={400}
-                    className="w-full h-28 sm:h-32 object-cover"
-                  />
-                </div>
-              ))}
-            </div>
+            <p className="mt-6 text-center text-sm text-brown/70">
+              U prostorů s víc fotkami klepněte na malé náhledy — velká fotka se
+              vymění.
+            </p>
           </div>
         </section>
 
