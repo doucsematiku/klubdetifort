@@ -54,7 +54,7 @@ export const PRUVODKYNE: Pruvodkyne[] = [
       { src: "/images/klubik/klubik-50.jpg", popis: "brouzdání v potoce" },
     ],
     otazka:
-      "Text vychází z vašeho dokumentu, jen je učesaný do odstavců a s opravenými překlepy. Obě profilovky jsou zatím na stránce vedle sebe a mají v rohu číslo — napište prosím, kterou nechat (klidně obě).",
+      "Text vychází z vašeho dokumentu, jen je učesaný do odstavců a s opravenými překlepy. Obě profilovky jsme nechali vedle sebe.",
   },
   {
     id: "ivana",
@@ -79,7 +79,5 @@ export const PRUVODKYNE: Pruvodkyne[] = [
       { src: "/images/klubik/klubik-44.jpg", popis: "výprava do krajiny pod Krkonošemi" },
       { src: "/images/klubik/klubik-52.jpg", popis: "společné zkoumání nálezu" },
     ],
-    otazka:
-      "V e-mailu přišly dvě fotky a na každé je podle nás někdo jiný — nechceme na web dát omylem cizí fotku. Fotky mají v rohu číslo; napište prosím, která z nich je vaše (1, nebo 2), nebo pošlete jinou.",
   },
 ];

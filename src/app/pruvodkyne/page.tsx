@@ -91,11 +91,6 @@ export default async function PruvodkynePage({
                         style={f.pozice ? { objectPosition: f.pozice } : undefined}
                         className="h-full w-full object-cover object-top aspect-[4/5]"
                       />
-                      {p.fotky.length > 1 && (
-                        <span className="absolute left-3 top-3 flex h-7 w-7 items-center justify-center rounded-full bg-dark/60 text-xs font-bold text-white backdrop-blur-sm">
-                          {i + 1}
-                        </span>
-                      )}
                     </div>
                   ))}
                 </div>
