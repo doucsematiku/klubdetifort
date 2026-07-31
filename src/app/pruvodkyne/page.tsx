@@ -72,12 +72,18 @@ export default async function PruvodkynePage({
           <section key={p.id}>
             <article className="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-dark/5">
               <div
-                className={`grid md:grid-cols-[minmax(0,340px)_1fr] ${
-                  poradi % 2 === 1 ? "md:[&>*:first-child]:order-2" : ""
+                className={`grid ${
+                  poradi % 2 === 1
+                    ? "md:grid-cols-[1fr_minmax(0,340px)]"
+                    : "md:grid-cols-[minmax(0,340px)_1fr]"
                 }`}
               >
                 {/* fotky — bez popisků, čísla jen kvůli výběru v návrhu */}
-                <div className="grid grid-cols-2 md:grid-cols-1 gap-px bg-dark/5">
+                <div
+                  className={`grid grid-cols-2 md:grid-cols-1 gap-px bg-dark/5 ${
+                    poradi % 2 === 1 ? "md:order-2" : ""
+                  }`}
+                >
                   {p.fotky.map((f, i) => (
                     <div key={f.src} className="relative">
                       <Image
@@ -85,7 +91,7 @@ export default async function PruvodkynePage({
                         alt={`${p.jmeno} — ${f.popis}`}
                         width={680}
                         height={850}
-                        priority={poradi === 0 && i === 0}
+                        loading="eager"
                         className="h-full w-full object-cover object-top aspect-[4/5]"
                       />
                       {p.fotky.length > 1 && (
@@ -98,7 +104,9 @@ export default async function PruvodkynePage({
                 </div>
 
                 {/* text */}
-                <div className="p-7 sm:p-9">
+                <div
+                  className={`p-7 sm:p-9 ${poradi % 2 === 1 ? "md:order-1" : ""}`}
+                >
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange">
                     {p.role}
                   </p>
