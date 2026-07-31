@@ -139,21 +139,21 @@ export default function ProNoveRodicePage() {
         <h2 className="text-2xl font-bold text-dark mb-6">Dokumenty</h2>
         <div className="grid gap-4 sm:grid-cols-2 mb-14">
           <DocCard
-            href="/dokumenty/smlouva-o-dochazce-2026-27.pdf"
+            href="https://app.klubdetifort.cz/dokumenty/smlouva-o-dochazce-2026-27.pdf"
             title="Smlouva o docházce 2026/27"
             note="Co si vzájemně slibujeme: rozsah docházky, platby, odhlašování, kredit, předávání dítěte, ukončení. Ceník je přílohou č. 1."
             cta="Otevřít PDF"
             external
           />
           <DocCard
-            href="/dokumenty/souhlas-gdpr-fotografie.pdf"
+            href="https://app.klubdetifort.cz/dokumenty/souhlas-gdpr-fotografie.pdf"
             title="Souhlas se zpracováním osobních údajů"
             note="Zdravotní údaje dítěte a pravidla fotografování — včetně toho, že fotku, kde je dítě poznat, zveřejníme až po vašem schválení."
             cta="Otevřít PDF"
             external
           />
           <DocCard
-            href="/provozni-rad"
+            href="https://app.klubdetifort.cz/provozni-rad"
             title="Provozní řád klubu"
             note="Jak to u nás chodí: provozní doba, rytmus dne, předávání dětí, stravování, vybavení, nemoci, bezpečnost na farmě."
             cta="Přečíst"

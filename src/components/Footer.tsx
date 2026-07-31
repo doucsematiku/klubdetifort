@@ -96,10 +96,6 @@ export default function Footer() {
             Vzdělávací centrum Doučse z.s. | IČO: 22201581
           </p>
           <div className="flex items-center gap-3 text-xs text-white/40">
-            <Link href="/provozni-rad" className="hover:text-white/70 transition-colors underline">
-              Provozní řád
-            </Link>
-            <span>|</span>
             <Link href="/ochrana-osobnich-udaju" className="hover:text-white/70 transition-colors underline">
               Ochrana osobních údajů
             </Link>

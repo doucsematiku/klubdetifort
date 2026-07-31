@@ -411,9 +411,7 @@ export default function GDPRPage() {
             </p>
             <p className="text-sm text-dark/60">
               Souvisí:{" "}
-              <Link href="/provozni-rad" className="text-orange hover:underline">
-                Provozní řád klubu
-              </Link>
+              Provozním řádem klubu
               .
             </p>
           </Section>
@@ -425,12 +423,6 @@ export default function GDPRPage() {
             className="inline-flex items-center gap-2 bg-orange text-white font-bold px-6 py-3 rounded-full hover:bg-orange/90 transition-colors"
           >
             ← Zpět na hlavní stránku
-          </Link>
-          <Link
-            href="/provozni-rad"
-            className="inline-flex items-center gap-2 bg-white text-dark font-bold px-6 py-3 rounded-full hover:bg-white/80 transition-colors"
-          >
-            Provozní řád klubu
           </Link>
         </div>
       </div>
