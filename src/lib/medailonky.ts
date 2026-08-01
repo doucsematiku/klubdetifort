@@ -46,7 +46,11 @@ export const PRUVODKYNE: Pruvodkyne[] = [
     ],
     fotky: [
       { src: "/images/pruvodkyne/lenka-1.jpg", popis: "portrét" },
-      { src: "/images/pruvodkyne/lenka-2.jpg", popis: "portrét venku" },
+      {
+        src: "/images/pruvodkyne/lenka-2.jpg",
+        popis: "portrét v přírodě",
+        pozice: "32% 35%",
+      },
     ],
     zeZivota: [
       { src: "/images/klubik/klubik-16.jpg", popis: "společné dílo dětí rozvěšené v parku" },
@@ -68,10 +72,9 @@ export const PRUVODKYNE: Pruvodkyne[] = [
       "Těším se na společnou cestu plnou objevů, zážitků a radosti.",
     ],
     fotky: [
-      { src: "/images/pruvodkyne/ivana-1.jpg", popis: "první fotka z e-mailu" },
       {
         src: "/images/pruvodkyne/ivana-2.jpg",
-        popis: "druhá fotka z e-mailu",
+        popis: "portrét",
         pozice: "50% 62%",
       },
     ],
