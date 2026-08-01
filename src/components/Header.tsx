@@ -4,17 +4,61 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const navLinks = [
+/**
+ * Menu drží jen pár položek — sekce hlavní stránky jsou schované
+ * v rozbalovací nabídce „O klubíku", ať se lišta dá přečíst jedním pohledem.
+ */
+const O_KLUBIKU = [
   { label: "O nás", href: "/#o-nas" },
   { label: "Program", href: "/#program" },
   { label: "Zázemí", href: "/#zazemi" },
   { label: "Aktivity", href: "/#aktivity" },
-  { label: "Galerie", href: "/galerie" },
-  { label: "Proběhlé akce", href: "/probehle-akce" },
   { label: "Pro rodiče", href: "/#pro-rodice" },
   { label: "Spolupráce", href: "/#spoluprace" },
-  { label: "Kontakt", href: "/#kontakt" },
 ];
+
+const FOTKY = [
+  { label: "Galerie", href: "/galerie" },
+  { label: "Proběhlé akce", href: "/probehle-akce" },
+];
+
+/** Rozbalovací položka — otevírá se najetím myší i klávesnicí (focus). */
+function Dropdown({
+  label,
+  items,
+}: {
+  label: string;
+  items: { label: string; href: string }[];
+}) {
+  return (
+    <div className="relative group">
+      <button
+        type="button"
+        className="flex items-center gap-1 text-dark text-sm font-medium hover:text-forest transition-colors py-2"
+        aria-haspopup="true"
+      >
+        {label}
+        <svg className="w-3.5 h-3.5 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      {/* pt-2 dělá můstek mezi tlačítkem a panelem, ať nabídka nezmizí cestou */}
+      <div className="absolute left-0 top-full pt-2 hidden group-hover:block group-focus-within:block">
+        <div className="min-w-44 rounded-2xl bg-white shadow-lg ring-1 ring-dark/10 py-2">
+          {items.map((it) => (
+            <a
+              key={it.href}
+              href={it.href}
+              className="block px-4 py-2 text-sm text-dark hover:bg-beige hover:text-forest transition-colors"
+            >
+              {it.label}
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -42,17 +86,22 @@ export default function Header() {
             </div>
           </Link>
 
-          {/* Desktop nav */}
-          <nav className="hidden xl:flex items-center gap-4">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-dark text-sm font-medium hover:text-forest transition-colors"
-              >
-                {link.label}
-              </a>
-            ))}
+          {/* Desktop nav — 4 položky + 2 tlačítka */}
+          <nav className="hidden lg:flex items-center gap-5">
+            <Dropdown label="O klubíku" items={O_KLUBIKU} />
+            <Link
+              href="/pruvodkyne"
+              className="text-dark text-sm font-medium hover:text-forest transition-colors"
+            >
+              Průvodkyně
+            </Link>
+            <Dropdown label="Fotky" items={FOTKY} />
+            <a
+              href="/#kontakt"
+              className="text-dark text-sm font-medium hover:text-forest transition-colors"
+            >
+              Kontakt
+            </a>
             <Link
               href="/prohlidky"
               className="border-2 border-forest text-forest hover:bg-forest hover:text-white font-semibold px-4 py-2 rounded-full transition-colors text-sm"
@@ -70,7 +119,7 @@ export default function Header() {
           {/* Mobile toggle */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="xl:hidden p-2 text-dark"
+            className="lg:hidden p-2 text-dark"
             aria-label="Menu"
           >
             <svg
@@ -98,11 +147,14 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile menu — stejné skupiny jako na počítači */}
       {mobileOpen && (
-        <div className="xl:hidden bg-white border-t border-beige-dark">
-          <nav className="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-3">
-            {navLinks.map((link) => (
+        <div className="lg:hidden bg-white border-t border-beige-dark max-h-[calc(100vh-4rem)] overflow-y-auto">
+          <nav className="max-w-7xl mx-auto px-4 py-4 flex flex-col">
+            <p className="text-xs font-semibold uppercase tracking-wider text-brown-light pt-1 pb-2">
+              O klubíku
+            </p>
+            {O_KLUBIKU.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
@@ -112,17 +164,47 @@ export default function Header() {
                 {link.label}
               </a>
             ))}
+
+            <p className="text-xs font-semibold uppercase tracking-wider text-brown-light pt-4 pb-2 border-t border-beige-dark mt-3">
+              Poznejte nás
+            </p>
+            <Link
+              href="/pruvodkyne"
+              onClick={() => setMobileOpen(false)}
+              className="text-dark font-medium py-2 hover:text-forest transition-colors"
+            >
+              Průvodkyně
+            </Link>
+            {FOTKY.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileOpen(false)}
+                className="text-dark font-medium py-2 hover:text-forest transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
+
+            <a
+              href="/#kontakt"
+              onClick={() => setMobileOpen(false)}
+              className="text-dark font-medium py-2 hover:text-forest transition-colors border-t border-beige-dark mt-3 pt-4"
+            >
+              Kontakt
+            </a>
+
             <Link
               href="/prohlidky"
               onClick={() => setMobileOpen(false)}
-              className="border-2 border-forest text-forest font-semibold px-6 py-3 rounded-full transition-colors text-center mt-2"
+              className="border-2 border-forest text-forest font-semibold px-6 py-3 rounded-full transition-colors text-center mt-3"
             >
               Domluvit prohlídku
             </Link>
             <Link
               href="/#kontakt"
               onClick={() => setMobileOpen(false)}
-              className="bg-orange hover:bg-orange-hover text-dark font-semibold px-6 py-3 rounded-full transition-colors text-center"
+              className="bg-orange hover:bg-orange-hover text-dark font-semibold px-6 py-3 rounded-full transition-colors text-center mt-2"
             >
               Mám zájem
             </Link>
