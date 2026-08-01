@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
       // interní materiály — ke stažení přes odkaz, ale ne do vyhledávačů
-      disallow: ["/dokumenty/navod-pruvodkyne.pdf", "/pruvodkyne"],
+      disallow: ["/dokumenty/navod-pruvodkyne.pdf"],
     },
     sitemap: "https://klubdetifort.cz/sitemap.xml",
   };

@@ -1,36 +1,16 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { cookies } from "next/headers";
-import MedailonekGate from "@/components/MedailonekGate";
-import MedailonekSouhlas from "@/components/MedailonekSouhlas";
-import {
-  MEDAILONEK_COOKIE,
-  MEDAILONEK_KOD,
-  PRUVODKYNE,
-} from "@/lib/medailonky";
+import { PRUVODKYNE } from "@/lib/medailonky";
 
 export const metadata: Metadata = {
   title: "Kdo bude s dětmi | Klub Fořt",
   description:
     "Průvodkyně Klubíku Fořt — kdo je s dětmi celý rok a s čím do klubíku přichází.",
-  // TODO: až medailonky schválí průvodkyně, zámek pryč a index: true
-  robots: { index: false, follow: false },
+  alternates: { canonical: "https://klubdetifort.cz/pruvodkyne" },
 };
 
-export const dynamic = "force-dynamic";
-
-export default async function PruvodkynePage({
-  searchParams,
-}: {
-  searchParams: Promise<{ kod?: string }>;
-}) {
-  const { kod } = await searchParams;
-  const zCookie = (await cookies()).get(MEDAILONEK_COOKIE)?.value;
-  if (kod !== MEDAILONEK_KOD && zCookie !== MEDAILONEK_KOD) {
-    return <MedailonekGate />;
-  }
-
+export default function PruvodkynePage() {
   return (
     <main className="min-h-screen bg-beige">
       {/* ── hlavička ── */}
@@ -53,16 +33,6 @@ export default async function PruvodkynePage({
       </header>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-12">
-        {/* ── návrh, ne hotová stránka ── */}
-        <div className="rounded-2xl border border-orange/60 bg-orange/10 px-5 py-4">
-          <p className="font-bold text-dark">Návrh — zatím to nikdo jiný nevidí</p>
-          <p className="mt-1 text-sm text-dark/70 leading-relaxed">
-            Takhle by stránka vypadala na webu. Není veřejná, nejde na ni dojít
-            z menu ani ji nenajdete přes Google — otevře ji jen ten, kdo má kód.
-            Až medailonky odklepnete, zámek sundáme a stránku pustíme ven.
-          </p>
-        </div>
-
         {/* ── medailonky ── */}
         {PRUVODKYNE.map((p, poradi) => (
           <section key={p.id}>
@@ -70,11 +40,11 @@ export default async function PruvodkynePage({
               <div
                 className={`grid ${
                   poradi % 2 === 1
-                    ? "md:grid-cols-[1fr_minmax(0,340px)]"
-                    : "md:grid-cols-[minmax(0,340px)_1fr]"
+                    ? "md:grid-cols-[1fr_minmax(0,250px)]"
+                    : "md:grid-cols-[minmax(0,250px)_1fr]"
                 }`}
               >
-                {/* fotky — bez popisků, čísla jen kvůli výběru v návrhu */}
+                {/* portréty — menší, ať nejsou vidět vady z mobilních fotek */}
                 <div
                   className={`grid grid-cols-2 md:grid-cols-1 gap-px bg-dark/5 ${
                     poradi % 2 === 1 ? "md:order-2" : ""
@@ -145,16 +115,32 @@ export default async function PruvodkynePage({
                 </div>
               </div>
             </article>
-
-            {/* ── otázka a odklepnutí — jen v návrhu, na veřejný web nepůjde ── */}
-            {p.otazka && (
-              <p className="mt-4 rounded-2xl bg-beige-dark/50 px-5 py-4 text-sm text-dark/75 leading-relaxed">
-                <strong>Poznámka pro vás:</strong> {p.otazka}
-              </p>
-            )}
-            <MedailonekSouhlas id={p.id} jmeno={p.jmeno} kod={MEDAILONEK_KOD} />
           </section>
         ))}
+
+        <section className="rounded-2xl bg-white p-6 sm:p-8">
+          <h2 className="text-xl font-bold text-dark">
+            Chcete se přijít podívat?
+          </h2>
+          <p className="mt-2 text-brown leading-relaxed">
+            Nejlepší je potkat se osobně — prohlídky farmy domlouváme
+            individuálně a klidně přijďte i s dětmi.
+          </p>
+          <div className="mt-4 flex flex-wrap gap-3">
+            <Link
+              href="/prohlidky"
+              className="inline-block rounded-full bg-orange hover:bg-orange-hover px-6 py-3 font-bold text-dark transition-colors"
+            >
+              Domluvit prohlídku
+            </Link>
+            <Link
+              href="/galerie"
+              className="inline-block rounded-full border border-dark/15 px-6 py-3 font-semibold text-dark hover:border-dark/40 transition-colors"
+            >
+              Fotky z akcí
+            </Link>
+          </div>
+        </section>
       </div>
     </main>
   );

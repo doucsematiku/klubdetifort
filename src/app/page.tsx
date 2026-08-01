@@ -540,6 +540,14 @@ export default function Home() {
                     <p className="text-brown leading-relaxed text-sm">
                       {faq.a}
                     </p>
+                    {faq.q === "Kdo jsou průvodci?" && (
+                      <Link
+                        href="/pruvodkyne"
+                        className="mt-3 inline-block text-sm font-semibold text-forest underline"
+                      >
+                        Poznejte naše průvodkyně →
+                      </Link>
+                    )}
                   </div>
                 ))}
               </div>
