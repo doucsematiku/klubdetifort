@@ -147,6 +147,15 @@ export default function Header() {
         </div>
       </div>
 
+      {/* upozornění na plnící se kapacitu — přilepené pod lištou */}
+      <a
+        href="/#kontakt"
+        className="block bg-forest text-white text-center text-xs sm:text-sm font-semibold px-4 py-2 hover:bg-forest-light transition-colors"
+      >
+        Kapacita klubíku je téměř plná — přijímáme poslední děti. Máte zájem?
+        Neváhejte a ozvěte se nám ještě dnes&nbsp;→
+      </a>
+
       {/* Mobile menu — stejné skupiny jako na počítači */}
       {mobileOpen && (
         <div className="lg:hidden bg-white border-t border-beige-dark max-h-[calc(100vh-4rem)] overflow-y-auto">
