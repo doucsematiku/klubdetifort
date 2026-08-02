@@ -293,9 +293,16 @@ export default function GDPRPage() {
 
           <Section num={7} title="Automatizované zpracování">
             <p>
-              Nahrané dokumenty (podepsaná smlouva, souhlas) kontroluje
-              automatický nástroj — ověřuje, zda jde o správný dokument, zda je
-              čitelný a zda je podepsaný. Jde o pomůcku, nikoli o rozhodnutí:{" "}
+              Nahrané dokumenty (podepsaná smlouva, souhlas) projdou při
+              nahrání automatickou předkontrolou — ověřuje, zda jde o správný
+              dokument, zda je čitelný, zda je podepsaný a zda se jeho znění
+              shoduje s naší předlohou. Předkontrolu pro nás provádí nástroj
+              umělé inteligence externího poskytovatele (OpenAI) v roli
+              zpracovatele: dokument použije jen k této kontrole a nepoužívá
+              ho k učení svých modelů.
+            </p>
+            <p>
+              Jde o pomůcku, nikoli o rozhodnutí:{" "}
               <strong>o přijetí dokumentu vždy rozhoduje člověk</strong>. Žádné
               rozhodování s právními účinky neděláme automatizovaně a neprovádíme
               profilování.
