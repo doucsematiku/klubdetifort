@@ -387,6 +387,75 @@ export default function PrespavkyPage() {
                 </div>
               ))}
             </div>
+
+            <details id="podminky-uplne" className="mt-6 rounded-2xl bg-beige p-5 scroll-mt-24">
+              <summary className="cursor-pointer font-bold text-forest">
+                📄 Úplné podmínky přespávaček (rozkliknout)
+              </summary>
+              <div className="mt-4 space-y-3 text-sm text-dark leading-relaxed">
+                <p>
+                  <strong>Pořadatel:</strong> Vzdělávací centrum Doučse, z.s.,
+                  Korunní 2569/108, 101 00 Praha 10, IČO 222 01 581. Akce se
+                  koná na BIO farmě Fořt, Fořt 29, 543 44 Černý Důl.
+                </p>
+                <p>
+                  <strong>Přihláška a platba:</strong> Přihláška je závazná
+                  objednávka. Po odeslání obdržíte fakturu se splatností 7 dní;
+                  místo je závazně rezervované po připsání platby. Přihlásit lze
+                  dítě od předškolního věku (5 let) do 13 let.
+                </p>
+                <p>
+                  <strong>Storno:</strong> Zrušení je zdarma nejpozději 7 dní
+                  před začátkem akce — vracíme celou částku. Při pozdějším
+                  zrušení nebo neúčasti se platba nevrací; po dohodě s námi lze
+                  místo předat jinému dítěti, které splňuje podmínky účasti.
+                  Pokud akci zrušíme my (např. pro malý počet dětí), vracíme
+                  vše.
+                </p>
+                <p>
+                  <strong>Předání a vyzvedávání:</strong> Dítě předávají
+                  a vyzvedávají rodiče nebo osoby uvedené v dokumentech
+                  vyplněných při příjezdu. Za pozdní vyzvednutí účtujeme
+                  200 Kč za každou započatou půlhodinu péče navíc. Nepodaří-li
+                  se nám spojit s rodiči ani se záložním kontaktem, jsme po
+                  dvou hodinách povinni postupovat podle obecně závazných
+                  předpisů (vyrozumět orgán sociálně-právní ochrany dětí,
+                  případně Policii ČR).
+                </p>
+                <p>
+                  <strong>Zdraví:</strong> Akce se může zúčastnit jen zdravé
+                  dítě — po tělesné i duševní stránce. Vyhrazujeme si právo
+                  nepřijmout dítě s projevy nemoci, případně požádat rodiče
+                  o dřívější vyzvednutí. Léky dítěti podáváme jen po předchozí
+                  domluvě.
+                </p>
+                <p>
+                  <strong>Pojištění:</strong> Spolek má sjednáno pojištění
+                  odpovědnosti za újmu. <strong>Úrazové pojištění dětí
+                  sjednané nemáme</strong> — velmi doporučujeme, aby dítě mělo
+                  vlastní úrazové pojištění (většina rodin ho už má; pokud ne,
+                  jeho sjednání je otázka pár minut u vaší pojišťovny).
+                </p>
+                <p>
+                  <strong>Technologie:</strong> Telefon může mít dítě s sebou,
+                  po příjezdu ho ale ukládáme do šuplíčku — čas u nás děti
+                  tráví spolu. Rodiče mohou kdykoli volat přímo průvodkyni.
+                </p>
+                <p>
+                  <strong>Osobní údaje:</strong> Údaje z přihlášky zpracováváme
+                  pro pořádání akce a vystavení faktury — podrobnosti v{" "}
+                  <a href="/ochrana-osobnich-udaju" className="text-forest font-semibold underline">
+                    Zásadách zpracování osobních údajů
+                  </a>
+                  . Fotografování dětí se řídí stejnými pravidly jako v klubu
+                  (děti nefotíme identifikovatelně bez souhlasu).
+                </p>
+                <p>
+                  <strong>Kontakt:</strong> Lenka Formánková,
+                  detivpoho@gmail.com, 777 584 150.
+                </p>
+              </div>
+            </details>
           </div>
         </section>
 

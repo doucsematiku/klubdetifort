@@ -212,6 +212,15 @@ export const ACK_PRESPANI: PrespavkyAck = {
     "Potvrzuji, že dítě přespání mimo domov zvládne — je na spaní bez rodičů připravené a chce to zkusit.",
 };
 
+/**
+ * Souhlas s úplnými podmínkami (samostatný dokument na stránce, sekce
+ * #podminky-uplne) — jedno zaškrtnutí, loguje se do acks jako ostatní.
+ */
+export const ACK_PODMINKY: PrespavkyAck = {
+  key: "ack_podminky_dokument",
+  text: "Přečetl(a) jsem si úplné podmínky přespávaček a souhlasím s nimi.",
+};
+
 export type PrespavkyAcksState = Record<string, boolean>;
 
 /** true, když jsou všechny podmínky odsouhlasené */

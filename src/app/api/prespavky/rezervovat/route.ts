@@ -3,6 +3,7 @@ import { Resend } from "resend";
 import { createInvoice } from "@/lib/fakturoid";
 import { supabaseInsert, supabaseSelect, supabaseUpdate } from "@/lib/supabase";
 import {
+  ACK_PODMINKY,
   ACK_PRESPANI,
   PRESPAVKY_ACKS,
   KAPACITA_DENNI,
@@ -108,6 +109,12 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
+    if (body.acks?.[ACK_PODMINKY.key] !== true) {
+      return NextResponse.json(
+        { error: "Potvrďte prosím souhlas s úplnými podmínkami přespávaček." },
+        { status: 400 }
+      );
+    }
     if (!body.gdpr) {
       return NextResponse.json(
         { error: "Je potřeba souhlasit se zpracováním údajů." },
@@ -159,6 +166,7 @@ export async function POST(req: NextRequest) {
     const acksLog: Record<string, boolean> = {};
     for (const a of PRESPAVKY_ACKS) acksLog[a.key] = body.acks[a.key] === true;
     if (blok.spi) acksLog[ACK_PRESPANI.key] = body.acks[ACK_PRESPANI.key] === true;
+    acksLog[ACK_PODMINKY.key] = body.acks[ACK_PODMINKY.key] === true;
 
     const row = await supabaseInsert("prespavky_registrace", {
       termin_id: termin.id,

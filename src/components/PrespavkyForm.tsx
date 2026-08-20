@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import AcknowledgementChecklist from "@/components/AcknowledgementChecklist";
 import {
+  ACK_PODMINKY,
   ACK_PRESPANI,
   PRESPAVKY_TERMINY,
   PRESPAVKY_BLOKY,
@@ -53,6 +54,7 @@ export default function PrespavkyForm() {
   const [zalohaJmeno, setZalohaJmeno] = useState("");
   const [zalohaTelefon, setZalohaTelefon] = useState("");
   const [ackPrespani, setAckPrespani] = useState(false);
+  const [ackPodminky, setAckPodminky] = useState(false);
   const [acks, setAcks] = useState<PrespavkyAcksState>({});
   const [gdpr, setGdpr] = useState(false);
   const [website, setWebsite] = useState(""); // honeypot
@@ -97,11 +99,12 @@ export default function PrespavkyForm() {
       zalohaTelefon.trim().length >= 9 &&
       acksComplete(acks) &&
       (!vybranyBlok?.spi || ackPrespani) &&
+      ackPodminky &&
       gdpr &&
       !blokPlny(terminId, blokId)
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [diteJmeno, diteVek, rodicJmeno, email, telefon, zalohaJmeno, zalohaTelefon, acks, ackPrespani, gdpr, terminId, blokId, dostupnost]);
+  }, [diteJmeno, diteVek, rodicJmeno, email, telefon, zalohaJmeno, zalohaTelefon, acks, ackPrespani, ackPodminky, gdpr, terminId, blokId, dostupnost]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -124,7 +127,11 @@ export default function PrespavkyForm() {
           poznamka: poznamka.trim(),
           zalohaJmeno: zalohaJmeno.trim(),
           zalohaTelefon: zalohaTelefon.trim(),
-          acks: vybranyBlok?.spi ? { ...acks, ack_prespani: ackPrespani } : acks,
+          acks: {
+            ...acks,
+            [ACK_PODMINKY.key]: ackPodminky,
+            ...(vybranyBlok?.spi ? { ack_prespani: ackPrespani } : {}),
+          },
           gdpr,
           website,
           _t: mountedAt,
@@ -444,6 +451,25 @@ export default function PrespavkyForm() {
           </label>
         )}
         <label className="flex items-start gap-3 mt-4 cursor-pointer">
+          <input
+            type="checkbox"
+            required
+            checked={ackPodminky}
+            onChange={(e) => setAckPodminky(e.target.checked)}
+            className="mt-1 w-4 h-4 accent-forest flex-shrink-0"
+          />
+          <span className="text-sm text-dark leading-relaxed">
+            Přečetl(a) jsem si{" "}
+            <a
+              href="#podminky-uplne"
+              className="text-forest font-semibold underline"
+            >
+              úplné podmínky přespávaček
+            </a>{" "}
+            a souhlasím s nimi. *
+          </span>
+        </label>
+        <label className="flex items-start gap-3 mt-3 cursor-pointer">
           <input
             type="checkbox"
             required
