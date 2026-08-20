@@ -294,7 +294,8 @@ export async function POST(req: NextRequest) {
     try {
       await resend.emails.send({
         from: "Klubík Fořt <noreply@klubdetifort.cz>",
-        to: "reditel@doucse.cz",
+        // Lenka Formánková vede přespávačky — o každé objednávce ví hned.
+        to: ["reditel@doucse.cz", "detivpoho@gmail.com"],
         replyTo: body.email.trim(),
         subject: `🏕️ Nová přespávačka — ${termin.label} — ${safeDite} (${blok.label}, ${formatCZK(cenaKc)})`,
         html: `
