@@ -158,6 +158,54 @@ export function cenaBloku(termin: PrespavkyTermin, blok: PrespavkyBlok): number 
   return termin.ceny[blok.cenaKey];
 }
 
+/** Počty aktuálně obsazených míst — spících a přítomných v sobotu/neděli. */
+export interface PrespavkyPocty {
+  spici: number;
+  so: number;
+  ne: number;
+}
+
+/**
+ * Kolik dětí se do daného bloku ještě vejde při zadané obsazenosti (nikdy
+ * záporné). Zohledňuje spací i denní kapacitu podle blok.spi / blok.dny —
+ * použito jak pro badge „obsazeno"/kapacitu na klientovi, tak pro tvrdou
+ * server-side kontrolu při rezervaci.
+ */
+export function volnoPreBlok(blok: PrespavkyBlok, pocty: PrespavkyPocty): number {
+  const limity: number[] = [];
+  if (blok.spi) limity.push(KAPACITA_SPICI - pocty.spici);
+  if (blok.dny.includes("so")) limity.push(KAPACITA_DENNI - pocty.so);
+  if (blok.dny.includes("ne")) limity.push(KAPACITA_DENNI - pocty.ne);
+  return Math.max(0, Math.min(...limity));
+}
+
+/** Dnešní datum (YYYY-MM-DD) v zóně Europe/Prague — bez ohledu na časové pásmo klienta/serveru. */
+export function dnesPraha(): string {
+  return new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Prague" }).format(new Date());
+}
+
+/** Počet kalendářních dní od dneška (Europe/Prague) do zadaného data YYYY-MM-DD (záporné = v minulosti). */
+function dnyDo(datumISO: string): number {
+  const [dy, dm, dd] = dnesPraha().split("-").map(Number);
+  const [ty, tm, td] = datumISO.split("-").map(Number);
+  const dnes = Date.UTC(dy, dm - 1, dd);
+  const cil = Date.UTC(ty, tm - 1, td);
+  return Math.round((cil - dnes) / 86_400_000);
+}
+
+/** true, pokud už termín začal — dnešní datum v Europe/Prague je po termin.od. */
+export function terminProsel(termin: Pick<PrespavkyTermin, "od">): boolean {
+  return dnyDo(termin.od) < 0;
+}
+
+/**
+ * Splatnost faktury ve dnech: max 7, ale nikdy nepřesáhne den před začátkem
+ * akce (termin.od, akce začíná v pátek 16:00) — a nikdy méně než 0 (ihned).
+ */
+export function splatnostDni(termin: Pick<PrespavkyTermin, "od">): number {
+  return Math.max(0, Math.min(7, dnyDo(termin.od) - 1));
+}
+
 /**
  * Podmínky účasti — rodič je při objednávce odsouhlasí jednu po druhé
  * (stejný vzor jako acknowledgement checklist u prohlídek). Zaškrtnutí se

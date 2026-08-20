@@ -425,8 +425,11 @@ export default function PrespavkyPage() {
                 <p>
                   <strong>Přihláška a platba:</strong> Přihláška je závazná
                   objednávka. Po odeslání obdržíte fakturu se splatností 7 dní;
-                  místo je závazně rezervované po připsání platby. Přihlásit lze
-                  dítě od předškolního věku (5 let) do 13 let.
+                  při přihlášení méně než týden před akcí je splatnost kratší
+                  tak, aby platba dorazila nejpozději před začátkem akce —
+                  jinak místo nedržíme. Místo je závazně rezervované po
+                  připsání platby. Přihlásit lze dítě od předškolního věku
+                  (5 let) do 13 let.
                 </p>
                 <p>
                   <strong>Storno:</strong> Zrušení je zdarma nejpozději 7 dní
@@ -577,9 +580,11 @@ export default function PrespavkyPage() {
                 Rezervujte dítěti místo
               </h2>
               <p className="text-brown-light text-sm sm:text-base max-w-xl mx-auto">
-                Po odeslání přijde e-mailem potvrzení s fakturou (splatnost
-                7 dní). Místo je závazně vaše po připsání platby. Víc dětí?
-                Vyplňte formulář pro každé zvlášť.
+                Po odeslání přijde e-mailem potvrzení s fakturou se splatností
+                7 dní; při přihlášení méně než týden před akcí je splatnost
+                kratší tak, aby platba dorazila nejpozději před začátkem akce.
+                Místo je závazně vaše po připsání platby. Sourozence můžete
+                přihlásit v jedné přihlášce.
               </p>
             </div>
             <div className="bg-white rounded-3xl p-5 sm:p-10 shadow-sm ring-1 ring-dark/5">

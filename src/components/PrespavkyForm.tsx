@@ -8,13 +8,17 @@ import {
   PRESPAVKY_TERMINY,
   PRESPAVKY_BLOKY,
   PRESPAVKY_ACKS,
+  KAPACITA_SPICI,
   acksComplete,
   cenaBloku,
   getBlok,
   getTermin,
+  terminProsel,
   VEK_OD,
   VEK_DO,
   type PrespavkyAcksState,
+  type PrespavkyBlokId,
+  type PrespavkyTermin,
 } from "@/lib/prespavky";
 
 /** Obsazenost z /api/prespavky/dostupnost */
@@ -23,7 +27,16 @@ interface Dostupnost {
     spiciVolno: number;
     soVolno: number;
     neVolno: number;
+    /** volná místa pro každý blok — 0 = pro tenhle termín obsazený */
+    bloky: Record<PrespavkyBlokId, number>;
+    /** celý termín je vyčerpaný (žádný blok dostupný) */
+    plny: boolean;
   };
+}
+
+interface DiteVstup {
+  jmeno: string;
+  vek: string;
 }
 
 function formatCZK(n: number): string {
@@ -34,19 +47,26 @@ function formatCZK(n: number): string {
   }).format(n);
 }
 
+/** České skloňování počtu dětí (2 až 4 „děti", jinak „dětí"). */
+function pluralDeti(n: number): string {
+  return n >= 2 && n <= 4 ? "děti" : "dětí";
+}
+
 interface SuccessInfo {
   invoiceUrl: string | null;
   invoiceNumber: string | null;
   totalKc: number;
+  pocetDeti: number;
   terminLabel: string;
   blokLabel: string;
 }
 
 export default function PrespavkyForm() {
-  const [terminId, setTerminId] = useState<string>(PRESPAVKY_TERMINY[0].id);
+  const [terminId, setTerminId] = useState<string>(
+    () => PRESPAVKY_TERMINY.find((t) => !terminProsel(t))?.id ?? PRESPAVKY_TERMINY[0].id
+  );
   const [blokId, setBlokId] = useState<string>("vikend");
-  const [diteJmeno, setDiteJmeno] = useState("");
-  const [diteVek, setDiteVek] = useState("");
+  const [deti, setDeti] = useState<DiteVstup[]>([{ jmeno: "", vek: "" }]);
   const [rodicJmeno, setRodicJmeno] = useState("");
   const [email, setEmail] = useState("");
   const [telefon, setTelefon] = useState("");
@@ -74,24 +94,73 @@ export default function PrespavkyForm() {
 
   const termin = getTermin(terminId) ?? PRESPAVKY_TERMINY[0];
 
+  /** kolik dětí se do daného bloku ještě vejde; dokud data z API nedorazí, neomezujeme předčasně. */
+  function blokVolno(tId: string, bId: string): number {
+    const info = dostupnost?.[tId];
+    if (!info) return KAPACITA_SPICI;
+    return info.bloky[bId as PrespavkyBlokId] ?? 0;
+  }
+
   /** je blok pro vybraný termín plný? */
   function blokPlny(tId: string, bId: string): boolean {
-    const info = dostupnost?.[tId];
-    const blok = getBlok(bId);
-    if (!info || !blok) return false;
-    if (blok.spi && info.spiciVolno <= 0) return true;
-    if (blok.dny.includes("so") && info.soVolno <= 0) return true;
-    if (blok.dny.includes("ne") && info.neVolno <= 0) return true;
-    return false;
+    return blokVolno(tId, bId) <= 0;
   }
+
+  /** stav kartičky termínu v kroku 1 — badge; null = data ještě nedorazila */
+  function terminStav(t: PrespavkyTermin): "prosel" | "obsazeno" | "posledni1" | "posledni2" | "volno" | null {
+    if (terminProsel(t)) return "prosel";
+    const info = dostupnost?.[t.id];
+    if (!info) return null;
+    if (info.plny) return "obsazeno";
+    if (info.spiciVolno === 1) return "posledni1";
+    if (info.spiciVolno === 2) return "posledni2";
+    return "volno";
+  }
+
+  /** kartička (a radio) je disabled, když termín už proběhl nebo je celý vyčerpaný */
+  function terminDisabled(t: PrespavkyTermin): boolean {
+    return terminProsel(t) || dostupnost?.[t.id]?.plny === true;
+  }
+
+  // Jakmile dorazí obsazenost, zkontroluj naivně předvybraný termín (první
+  // nadcházející) — pokud je mezitím plný, přeskoč na první opravdu dostupný.
+  useEffect(() => {
+    if (!dostupnost) return;
+    const current = getTermin(terminId);
+    if (!current || terminDisabled(current)) {
+      const fallback = PRESPAVKY_TERMINY.find((t) => !terminDisabled(t));
+      if (fallback) setTerminId(fallback.id);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dostupnost]);
 
   const vybranyBlok = getBlok(blokId);
   const cena = vybranyBlok ? cenaBloku(termin, vybranyBlok) : 0;
+  const volnoVybranyBlok = blokVolno(terminId, blokId);
+  const jmenaDeti = deti.map((d) => d.jmeno.trim()).filter(Boolean).join(", ");
+
+  // Počet dětí je tvrdě omezený volnou kapacitou vybraného termínu a bloku —
+  // když se termín/blok přehodí na méně volný, přebytečné děti oříznout.
+  useEffect(() => {
+    setDeti((cur) => (cur.length > volnoVybranyBlok ? cur.slice(0, Math.max(1, volnoVybranyBlok)) : cur));
+  }, [volnoVybranyBlok]);
+
+  function pridatDite() {
+    setDeti((cur) => (cur.length >= volnoVybranyBlok ? cur : [...cur, { jmeno: "", vek: "" }]));
+  }
+  function odebratDite(i: number) {
+    setDeti((cur) => (cur.length <= 1 ? cur : cur.filter((_, idx) => idx !== i)));
+  }
+  function upravDite(i: number, patch: Partial<DiteVstup>) {
+    setDeti((cur) => cur.map((d, idx) => (idx === i ? { ...d, ...patch } : d)));
+  }
+
+  const detiValidni = deti.every((d) => d.jmeno.trim().length > 1 && d.vek.trim() !== "");
 
   const formOk = useMemo(() => {
     return (
-      diteJmeno.trim().length > 1 &&
-      diteVek.trim() !== "" &&
+      detiValidni &&
+      deti.length <= volnoVybranyBlok &&
       rodicJmeno.trim().length > 1 &&
       /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) &&
       telefon.trim().length >= 9 &&
@@ -104,7 +173,7 @@ export default function PrespavkyForm() {
       !blokPlny(terminId, blokId)
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [diteJmeno, diteVek, rodicJmeno, email, telefon, zalohaJmeno, zalohaTelefon, acks, ackPrespani, ackPodminky, gdpr, terminId, blokId, dostupnost]);
+  }, [deti, detiValidni, volnoVybranyBlok, rodicJmeno, email, telefon, zalohaJmeno, zalohaTelefon, acks, ackPrespani, ackPodminky, gdpr, terminId, blokId, dostupnost]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -119,8 +188,7 @@ export default function PrespavkyForm() {
         body: JSON.stringify({
           terminId,
           blokId,
-          diteJmeno: diteJmeno.trim(),
-          diteVek: diteVek.trim(),
+          deti: deti.map((d) => ({ jmeno: d.jmeno.trim(), vek: d.vek.trim() })),
           rodicJmeno: rodicJmeno.trim(),
           email: email.trim(),
           telefon: telefon.trim(),
@@ -146,7 +214,8 @@ export default function PrespavkyForm() {
       setSuccess({
         invoiceUrl: data.invoiceUrl ?? null,
         invoiceNumber: data.invoiceNumber ?? null,
-        totalKc: data.totalKc ?? cena,
+        totalKc: data.totalKc ?? cena * deti.length,
+        pocetDeti: data.pocetDeti ?? deti.length,
         terminLabel: `${termin.label} — ${termin.tema}`,
         blokLabel: vybranyBlok?.label ?? blokId,
       });
@@ -157,13 +226,15 @@ export default function PrespavkyForm() {
   }
 
   if (success) {
+    const viceDeti = success.pocetDeti > 1;
     return (
       <div className="bg-forest-pale rounded-3xl p-6 sm:p-10 ring-1 ring-forest/20">
         <h3 className="text-2xl font-bold text-forest mb-3">
-          🎒 Máme to! Místo je rezervované
+          🎒 Máme to! {viceDeti ? "Místa jsou rezervovaná" : "Místo je rezervované"}
         </h3>
         <p className="text-dark leading-relaxed mb-4">
-          Přihlášku na <strong>{success.terminLabel}</strong> (
+          {viceDeti ? `Přihlášky pro ${success.pocetDeti} ${pluralDeti(success.pocetDeti)}` : "Přihlášku"} na{" "}
+          <strong>{success.terminLabel}</strong> (
           {success.blokLabel.toLowerCase()}) jsme přijali. Do e-mailu vám právě
           letí potvrzení se všemi informacemi
           {success.invoiceUrl ? " a faktura" : ""} na{" "}
@@ -201,37 +272,61 @@ export default function PrespavkyForm() {
       <div>
         <h3 className="flex items-center gap-2.5 font-bold text-dark mb-3"><span className="flex items-center justify-center w-7 h-7 rounded-full bg-forest text-white text-sm font-bold flex-shrink-0">1</span>Vyberte víkend</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {PRESPAVKY_TERMINY.map((t) => (
-            <label
-              key={t.id}
-              className={`rounded-2xl border-2 p-4 cursor-pointer transition-colors ${
-                terminId === t.id
-                  ? "border-forest bg-forest-pale"
-                  : "border-beige-dark bg-white hover:border-forest/40"
-              }`}
-            >
-              <input
-                type="radio"
-                name="termin"
-                value={t.id}
-                checked={terminId === t.id}
-                onChange={() => setTerminId(t.id)}
-                className="sr-only"
-              />
-              <div className="flex items-baseline justify-between gap-2">
-                <span className="font-bold text-dark">
-                  <span className="mr-1.5">{t.emoji}</span>
-                  {t.label}
-                </span>
-                {t.zavadeci && (
-                  <span className="text-[11px] font-bold uppercase tracking-wide bg-orange text-dark rounded-full px-2 py-0.5 whitespace-nowrap">
-                    zaváděcí cena
+          {PRESPAVKY_TERMINY.map((t) => {
+            const stav = terminStav(t);
+            const disabled = terminDisabled(t);
+            return (
+              <label
+                key={t.id}
+                className={`rounded-2xl border-2 p-4 transition-colors ${
+                  disabled
+                    ? "border-beige-dark bg-beige opacity-60 cursor-not-allowed"
+                    : terminId === t.id
+                      ? "border-forest bg-forest-pale cursor-pointer"
+                      : "border-beige-dark bg-white hover:border-forest/40 cursor-pointer"
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="termin"
+                  value={t.id}
+                  disabled={disabled}
+                  checked={terminId === t.id}
+                  onChange={() => setTerminId(t.id)}
+                  className="sr-only"
+                />
+                <div className="flex items-baseline justify-between gap-2">
+                  <span className="font-bold text-dark">
+                    <span className="mr-1.5">{t.emoji}</span>
+                    {t.label}
+                  </span>
+                  {t.zavadeci && (
+                    <span className="text-[11px] font-bold uppercase tracking-wide bg-orange text-dark rounded-full px-2 py-0.5 whitespace-nowrap">
+                      zaváděcí cena
+                    </span>
+                  )}
+                </div>
+                <p className="text-sm text-brown-light mt-1">{t.tema}</p>
+                {stav && (
+                  <span
+                    className={`inline-block mt-2 text-[11px] font-bold uppercase tracking-wide rounded-full px-2 py-0.5 ${
+                      stav === "volno"
+                        ? "bg-forest-pale text-forest"
+                        : stav === "posledni1" || stav === "posledni2"
+                          ? "bg-orange/15 text-orange-hover"
+                          : "bg-beige-dark/70 text-brown-light"
+                    }`}
+                  >
+                    {stav === "volno" && "volno"}
+                    {stav === "posledni1" && "poslední místo"}
+                    {stav === "posledni2" && "poslední 2 místa"}
+                    {stav === "obsazeno" && "obsazeno"}
+                    {stav === "prosel" && "proběhlo"}
                   </span>
                 )}
-              </div>
-              <p className="text-sm text-brown-light mt-1">{t.tema}</p>
-            </label>
-          ))}
+              </label>
+            );
+          })}
         </div>
       </div>
 
@@ -288,38 +383,72 @@ export default function PrespavkyForm() {
         )}
       </div>
 
-      {/* ── dítě + rodič ── */}
+      {/* ── děti + rodič ── */}
       <div>
         <h3 className="flex items-center gap-2.5 font-bold text-dark mb-3"><span className="flex items-center justify-center w-7 h-7 rounded-full bg-forest text-white text-sm font-bold flex-shrink-0">3</span>Kdo přijede?</h3>
+
+        <div className="space-y-3 mb-4">
+          {deti.map((d, i) => (
+            <div
+              key={i}
+              className="grid grid-cols-[1fr_auto] sm:grid-cols-[1fr_auto_auto] gap-3 items-end bg-beige/60 rounded-xl p-3"
+            >
+              <div>
+                <label className="block text-sm font-semibold text-dark mb-1" htmlFor={`p-dite-${i}`}>
+                  {deti.length > 1 ? `Jméno a příjmení dítěte ${i + 1} *` : "Jméno a příjmení dítěte *"}
+                </label>
+                <input
+                  id={`p-dite-${i}`}
+                  type="text"
+                  required
+                  value={d.jmeno}
+                  onChange={(e) => upravDite(i, { jmeno: e.target.value })}
+                  className="w-full rounded-xl border-2 border-beige-dark bg-white px-4 py-3 text-dark focus:border-forest focus:outline-none"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-dark mb-1" htmlFor={`p-vek-${i}`}>
+                  Věk ({VEK_OD}–{VEK_DO}) *
+                </label>
+                <input
+                  id={`p-vek-${i}`}
+                  type="number"
+                  required
+                  min={VEK_OD}
+                  max={VEK_DO}
+                  value={d.vek}
+                  onChange={(e) => upravDite(i, { vek: e.target.value })}
+                  className="w-full sm:w-24 rounded-xl border-2 border-beige-dark bg-white px-4 py-3 text-dark focus:border-forest focus:outline-none"
+                />
+              </div>
+              {deti.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => odebratDite(i)}
+                  className="col-span-2 sm:col-span-1 text-sm font-semibold text-brown-light hover:text-orange-hover py-1 sm:py-3 text-left sm:text-center whitespace-nowrap"
+                >
+                  Odebrat
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {deti.length < volnoVybranyBlok ? (
+          <button
+            type="button"
+            onClick={pridatDite}
+            className="mb-5 inline-flex items-center gap-1.5 text-sm font-bold text-forest border-2 border-forest rounded-full px-4 py-2 hover:bg-forest-pale transition-colors"
+          >
+            + Přidat další dítě
+          </button>
+        ) : (
+          <p className="mb-5 text-sm text-orange-hover font-semibold">
+            Na tento termín zbývá poslední volné místo.
+          </p>
+        )}
+
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-semibold text-dark mb-1" htmlFor="p-dite">
-              Jméno a příjmení dítěte *
-            </label>
-            <input
-              id="p-dite"
-              type="text"
-              required
-              value={diteJmeno}
-              onChange={(e) => setDiteJmeno(e.target.value)}
-              className="w-full rounded-xl border-2 border-beige-dark bg-white px-4 py-3 text-dark focus:border-forest focus:outline-none"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-semibold text-dark mb-1" htmlFor="p-vek">
-              Věk dítěte ({VEK_OD}–{VEK_DO} let) *
-            </label>
-            <input
-              id="p-vek"
-              type="number"
-              required
-              min={VEK_OD}
-              max={VEK_DO}
-              value={diteVek}
-              onChange={(e) => setDiteVek(e.target.value)}
-              className="w-full rounded-xl border-2 border-beige-dark bg-white px-4 py-3 text-dark focus:border-forest focus:outline-none"
-            />
-          </div>
           <div>
             <label className="block text-sm font-semibold text-dark mb-1" htmlFor="p-rodic">
               Jméno a příjmení rodiče *
@@ -500,14 +629,16 @@ export default function PrespavkyForm() {
           <span className="text-brown-light"> · {termin.tema}</span>
           <span className="block text-brown-light">
             {vybranyBlok?.label} ({vybranyBlok?.casy})
-            {diteJmeno.trim() ? ` · ${diteJmeno.trim()}` : ""}
+            {jmenaDeti ? ` · ${jmenaDeti}` : ""}
           </span>
         </div>
         <div className="text-right">
           <span className="block text-2xl font-bold text-forest whitespace-nowrap">
-            {formatCZK(cena)}
+            {formatCZK(cena * deti.length)}
           </span>
-          <span className="text-[11px] text-brown-light">vč. jídla</span>
+          <span className="text-[11px] text-brown-light">
+            vč. jídla{deti.length > 1 ? ` · ${deti.length} × ${formatCZK(cena)}` : ""}
+          </span>
         </div>
       </div>
 
@@ -517,11 +648,12 @@ export default function PrespavkyForm() {
         title={!formOk ? "Vyplňte prosím všechna pole a potvrďte podmínky" : undefined}
         className="w-full bg-orange hover:bg-orange-hover text-dark font-bold px-10 py-4 rounded-full transition-colors text-lg disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {sending ? "Odesílám…" : `Závazně objednat za ${formatCZK(cena)}`}
+        {sending ? "Odesílám…" : `Závazně objednat za ${formatCZK(cena * deti.length)}`}
       </button>
       <p className="text-xs text-brown-light -mt-4 text-center">
-        Po odeslání vám přijde potvrzení a faktura se splatností 7 dní. Místo je
-        závazně drženo po připsání platby.
+        Po odeslání vám přijde potvrzení a faktura — splatnost max. 7 dní, u
+        termínů blíž než týden kratší, ať platba dorazí před začátkem akce.
+        Místo je závazně drženo po připsání platby.
       </p>
     </form>
   );

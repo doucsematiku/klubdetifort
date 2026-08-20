@@ -13,6 +13,9 @@ import {
   cenaBloku,
   getBlok,
   getTermin,
+  splatnostDni,
+  volnoPreBlok,
+  type PrespavkyPocty,
 } from "@/lib/prespavky";
 
 export const runtime = "nodejs";
@@ -20,11 +23,15 @@ export const dynamic = "force-dynamic";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+interface DiteInput {
+  jmeno: string;
+  vek: string;
+}
+
 interface RezervacePayload {
   terminId: string;
   blokId: string;
-  diteJmeno: string;
-  diteVek: string;
+  deti: DiteInput[];
   rodicJmeno: string;
   email: string;
   telefon: string;
@@ -53,6 +60,13 @@ function formatCZK(n: number): string {
   }).format(n);
 }
 
+/** České skloňování „volné místo/místa/míst" pro chybovou hlášku o kapacitě. */
+function pluralMista(n: number): string {
+  if (n === 1) return "volné místo";
+  if (n >= 2 && n <= 4) return "volná místa";
+  return "volných míst";
+}
+
 export async function POST(req: NextRequest) {
   try {
     const ip = req.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "unknown";
@@ -78,16 +92,40 @@ export async function POST(req: NextRequest) {
     if (!termin || !blok) {
       return NextResponse.json({ error: "Neplatný termín nebo blok." }, { status: 400 });
     }
-    if (!body.rodicJmeno?.trim() || !body.diteJmeno?.trim()) {
+    if (!Array.isArray(body.deti) || body.deti.length === 0) {
       return NextResponse.json(
-        { error: "Vyplňte prosím jméno rodiče i dítěte." },
+        { error: "Vyplňte prosím alespoň jedno dítě." },
         { status: 400 }
       );
     }
-    const vek = parseInt(body.diteVek ?? "", 10);
-    if (!Number.isFinite(vek) || vek < VEK_OD || vek > VEK_DO) {
+    if (body.deti.length > KAPACITA_DENNI) {
       return NextResponse.json(
-        { error: `Přespávačky jsou pro děti ${VEK_OD}–${VEK_DO} let.` },
+        { error: "Na jednu přihlášku lze přidat jen omezený počet dětí. Ozvěte se nám prosím přímo." },
+        { status: 400 }
+      );
+    }
+    for (const d of body.deti) {
+      if (!d?.jmeno?.trim()) {
+        return NextResponse.json(
+          { error: "Vyplňte prosím jméno u každého přihlášeného dítěte." },
+          { status: 400 }
+        );
+      }
+    }
+    const detiParsed = body.deti.map((d) => ({
+      jmeno: d.jmeno.trim(),
+      vek: parseInt(d.vek ?? "", 10),
+    }));
+    const spatnyVek = detiParsed.find((d) => !Number.isFinite(d.vek) || d.vek < VEK_OD || d.vek > VEK_DO);
+    if (spatnyVek) {
+      return NextResponse.json(
+        { error: `Přespávačky jsou pro děti ${VEK_OD}–${VEK_DO} let — zkontrolujte prosím věk u ${spatnyVek.jmeno}.` },
+        { status: 400 }
+      );
+    }
+    if (!body.rodicJmeno?.trim()) {
+      return NextResponse.json(
+        { error: "Vyplňte prosím jméno rodiče." },
         { status: 400 }
       );
     }
@@ -131,76 +169,84 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // ─── Re-check kapacity ───────────────────────────────────────────────
+    // ─── Re-check kapacity (tvrdý limit — i na počet přidaných dětí) ──────
     const rows = await supabaseSelect<{ blok: string }>(
       "prespavky_registrace",
       `termin_id=eq.${termin.id}&status=neq.zruseno&select=blok`
     );
-    let spici = 0;
-    let so = 0;
-    let ne = 0;
+    const pocty: PrespavkyPocty = { spici: 0, so: 0, ne: 0 };
     for (const r of rows) {
       const b = getBlok(r.blok);
       if (!b) continue;
-      if (b.spi) spici++;
-      if (b.dny.includes("so")) so++;
-      if (b.dny.includes("ne")) ne++;
+      if (b.spi) pocty.spici++;
+      if (b.dny.includes("so")) pocty.so++;
+      if (b.dny.includes("ne")) pocty.ne++;
     }
-    if (
-      (blok.spi && spici >= KAPACITA_SPICI) ||
-      (blok.dny.includes("so") && so >= KAPACITA_DENNI) ||
-      (blok.dny.includes("ne") && ne >= KAPACITA_DENNI)
-    ) {
-      return NextResponse.json(
-        {
-          error:
-            "Bohužel, vybraný blok je pro tento víkend už obsazený. Zkuste prosím jiný blok nebo termín.",
-        },
-        { status: 409 }
-      );
+    const volno = volnoPreBlok(blok, pocty);
+    if (detiParsed.length > volno) {
+      const zprava =
+        volno <= 0
+          ? "Bohužel, vybraný blok je pro tento víkend už obsazený. Zkuste prosím jiný blok nebo termín."
+          : `Pro vybraný blok zbývá už jen ${volno} ${pluralMista(volno)} — snižte prosím počet dětí, nebo zkuste jiný blok či termín.`;
+      return NextResponse.json({ error: zprava }, { status: 409 });
     }
 
     const cenaKc = cenaBloku(termin, blok);
+    const totalKc = cenaKc * detiParsed.length;
 
     // ─── Zápis registrace (před fakturou — záznam je důležitější) ────────
+    // Každé dítě = samostatný řádek se stejnými údaji rodiče/kontaktu/souhlasů,
+    // ať výpočet kapacity zůstane beze změny (počítá řádky, ne objednávky).
     const acksLog: Record<string, boolean> = {};
     for (const a of PRESPAVKY_ACKS) acksLog[a.key] = body.acks[a.key] === true;
     if (blok.spi) acksLog[ACK_PRESPANI.key] = body.acks[ACK_PRESPANI.key] === true;
     acksLog[ACK_PODMINKY.key] = body.acks[ACK_PODMINKY.key] === true;
 
-    const row = await supabaseInsert("prespavky_registrace", {
-      termin_id: termin.id,
-      blok: blok.id,
-      rodic_jmeno: body.rodicJmeno.trim(),
-      email: body.email.trim(),
-      telefon: body.telefon.trim(),
-      dite_jmeno: body.diteJmeno.trim(),
-      dite_vek: vek,
-      poznamka: body.poznamka?.trim() || null,
-      zaloha_jmeno: body.zalohaJmeno.trim(),
-      zaloha_telefon: body.zalohaTelefon.trim(),
-      cena_kc: cenaKc,
-      acks: acksLog,
-      gdpr: true,
-      ip,
-      user_agent: req.headers.get("user-agent")?.slice(0, 300) ?? null,
-    });
+    const vlozene: { id: string; jmeno: string; vek: number }[] = [];
 
-    if (!row || !("id" in row)) {
-      return NextResponse.json(
-        { error: "Chyba při zápisu přihlášky. Zkuste to prosím znovu." },
-        { status: 500 }
-      );
+    for (const d of detiParsed) {
+      const row = await supabaseInsert("prespavky_registrace", {
+        termin_id: termin.id,
+        blok: blok.id,
+        rodic_jmeno: body.rodicJmeno.trim(),
+        email: body.email.trim(),
+        telefon: body.telefon.trim(),
+        dite_jmeno: d.jmeno,
+        dite_vek: d.vek,
+        poznamka: body.poznamka?.trim() || null,
+        zaloha_jmeno: body.zalohaJmeno.trim(),
+        zaloha_telefon: body.zalohaTelefon.trim(),
+        cena_kc: cenaKc,
+        acks: acksLog,
+        gdpr: true,
+        ip,
+        user_agent: req.headers.get("user-agent")?.slice(0, 300) ?? null,
+      });
+
+      if (!row || !("id" in row)) {
+        // Napůl zapsaná objednávka by zbytečně držela kapacitu — dřív vložené
+        // řádky týhle objednávky vrátíme zpět (status zruseno), nic se nemaže.
+        for (const v of vlozene) {
+          await supabaseUpdate("prespavky_registrace", `id=eq.${v.id}`, { status: "zruseno" });
+        }
+        return NextResponse.json(
+          { error: "Chyba při zápisu přihlášky. Zkuste to prosím znovu." },
+          { status: 500 }
+        );
+      }
+      vlozene.push({ id: String((row as { id: string }).id), jmeno: d.jmeno, vek: d.vek });
     }
-    const registraceId = String((row as { id: string }).id);
+
+    const registraceId = vlozene[0].id;
     const customId = `prespavky-${registraceId}`;
 
-    // ─── Fakturoid faktura ───────────────────────────────────────────────
+    // ─── Fakturoid faktura — jedna faktura, položka za každé dítě ─────────
     let invoiceUrl = "";
     let invoiceNumber = "";
     let bankAccount = "";
     let variableSymbol = "";
     let dueOn = "";
+    const due = splatnostDni(termin);
 
     try {
       const invoice = await createInvoice({
@@ -210,18 +256,16 @@ export async function POST(req: NextRequest) {
           phone: body.telefon.trim(),
           type: "customer",
         },
-        lines: [
-          {
-            name: `Klubík Fořt — víkendová přespávačka ${termin.label} (${termin.tema}), ${blok.label.toLowerCase()} — ${body.diteJmeno.trim()}`,
-            quantity: 1,
-            unit_name: "ks",
-            unit_price: cenaKc,
-            vat_rate: 0,
-          },
-        ],
+        lines: vlozene.map((d) => ({
+          name: `Klubík Fořt — víkendová přespávačka ${termin.label} (${termin.tema}), ${blok.label.toLowerCase()} — ${d.jmeno}`,
+          quantity: 1,
+          unit_name: "ks",
+          unit_price: cenaKc,
+          vat_rate: 0,
+        })),
         payment_method: "bank",
-        due: 7,
-        note: `Děkujeme za přihlášení dítěte ${body.diteJmeno.trim()} na víkendovou přespávačku na BIO farmě Fořt (${termin.label}, ${blok.casy}). Jídlo je v ceně. Místo je závazně drženo po připsání platby.`,
+        due,
+        note: `Děkujeme za přihlášení (${vlozene.map((d) => d.jmeno).join(", ")}) na víkendovou přespávačku na BIO farmě Fořt (${termin.label}, ${blok.casy}). Jídlo je v ceně. Platba musí být připsaná nejpozději před začátkem akce, jinak místo nedržíme.`,
         footer_note: "Vzdělávací centrum Doučse z.s. — IČO 22201581 — neplátce DPH.",
         custom_id: customId,
         issue_invoice_email: true,
@@ -234,15 +278,20 @@ export async function POST(req: NextRequest) {
       variableSymbol = invoice.variable_symbol ?? "";
       dueOn = invoice.due_on ?? "";
 
-      await supabaseUpdate(
-        "prespavky_registrace",
-        `id=eq.${registraceId}`,
-        {
-          fakturoid_custom_id: customId,
+      // custom_id má v DB unique constraint → jen na prvním řádku; odkaz na
+      // fakturu (číslo + url) se ale uloží ke všem řádkům týhle objednávky,
+      // ať webhook o platbě umí označit zaplacené všechny.
+      await supabaseUpdate("prespavky_registrace", `id=eq.${registraceId}`, {
+        fakturoid_custom_id: customId,
+        fakturoid_invoice_number: invoiceNumber,
+        fakturoid_invoice_url: invoiceUrl,
+      });
+      for (const v of vlozene.slice(1)) {
+        await supabaseUpdate("prespavky_registrace", `id=eq.${v.id}`, {
           fakturoid_invoice_number: invoiceNumber,
           fakturoid_invoice_url: invoiceUrl,
-        }
-      );
+        });
+      }
     } catch (err) {
       console.error("[prespavky-rezervovat] Fakturoid invoice failed:", err);
       // Registrace zůstává — fakturu doplní vedení ručně, rodič dostane mail bez odkazu.
@@ -250,9 +299,12 @@ export async function POST(req: NextRequest) {
 
     // ─── E-maily ─────────────────────────────────────────────────────────
     const safeRodic = body.rodicJmeno.replace(/[<>]/g, "");
-    const safeDite = body.diteJmeno.replace(/[<>]/g, "");
     const safePozn = (body.poznamka ?? "").replace(/[<>]/g, "");
     const safeZaloha = (body.zalohaJmeno + " — " + body.zalohaTelefon).replace(/[<>]/g, "");
+    const detiSafe = vlozene.map((d) => ({ jmeno: d.jmeno.replace(/[<>]/g, ""), vek: d.vek }));
+    const detiHtml = detiSafe.map((d) => `${d.jmeno} (${d.vek} let)`).join("<br>");
+    const detiJmenaText = detiSafe.map((d) => d.jmeno).join(", ");
+    const viceDeti = detiSafe.length > 1;
 
     try {
       await resend.emails.send({
@@ -263,14 +315,14 @@ export async function POST(req: NextRequest) {
         html: `
           <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#3A362D;line-height:1.6;">
             <h2 style="color:#2D5A27;margin-bottom:8px;">Děkujeme, ${safeRodic}!</h2>
-            <p>Přihlášku ${safeDite} na víkendovou přespávačku na BIO farmě Fořt máme zaevidovanou.</p>
+            <p>Přihlášku ${viceDeti ? "dětí" : "dítěte"} ${detiJmenaText} na víkendovou přespávačku na BIO farmě Fořt máme zaevidovanou.</p>
 
             <h3 style="color:#2D5A27;margin-top:24px;">Co jste objednali</h3>
             <table style="border-collapse:collapse;width:100%;font-size:14px;">
-              <tr><td style="padding:6px 0;font-weight:bold;width:140px;">Dítě:</td><td style="padding:6px 0;">${safeDite} (${vek} let)</td></tr>
+              <tr><td style="padding:6px 0;font-weight:bold;width:140px;vertical-align:top;">${viceDeti ? "Děti:" : "Dítě:"}</td><td style="padding:6px 0;">${detiHtml}</td></tr>
               <tr><td style="padding:6px 0;font-weight:bold;">Termín:</td><td style="padding:6px 0;">${termin.label} — ${termin.tema}</td></tr>
               <tr><td style="padding:6px 0;font-weight:bold;">Rozsah:</td><td style="padding:6px 0;">${blok.label} (${blok.casy})</td></tr>
-              <tr><td style="padding:6px 0;font-weight:bold;">Cena:</td><td style="padding:6px 0;"><strong>${formatCZK(cenaKc)}</strong> vč. jídla</td></tr>
+              <tr><td style="padding:6px 0;font-weight:bold;">Cena:</td><td style="padding:6px 0;"><strong>${formatCZK(totalKc)}</strong> vč. jídla${viceDeti ? ` (${detiSafe.length} × ${formatCZK(cenaKc)})` : ""}</td></tr>
               <tr><td style="padding:6px 0;font-weight:bold;">Záložní kontakt:</td><td style="padding:6px 0;">${safeZaloha}</td></tr>
               <tr><td style="padding:6px 0;font-weight:bold;">Místo:</td><td style="padding:6px 0;">BIO farma Fořt, Fořt 29, 543 44 Černý Důl – Rudník u Vrchlabí</td></tr>
             </table>
@@ -285,11 +337,11 @@ export async function POST(req: NextRequest) {
                      ${bankAccount ? `Číslo účtu: <strong>${bankAccount}</strong><br>` : ""}
                      ${variableSymbol ? `Variabilní symbol: <strong>${variableSymbol}</strong><br>` : ""}
                      ${dueOn ? `Splatnost: <strong>${dueOn}</strong><br>` : ""}
-                     Částka: <strong>${formatCZK(cenaKc)}</strong><br>
-                     Místo je závazně drženo po připsání platby — pošleme vám o ní potvrzení.
+                     Částka: <strong>${formatCZK(totalKc)}</strong><br>
+                     Platba musí být připsaná nejpozději před začátkem akce — jinak místo nedržíme. Jakmile dorazí, pošleme potvrzení.
                    </p>`
                 : `<h3 style="color:#2D5A27;margin-top:24px;">Faktura</h3>
-                   <p>Fakturu Vám pošleme do 24 hodin samostatným e-mailem.</p>`
+                   <p>Fakturu Vám pošleme do 24 hodin samostatným e-mailem. Platba musí být připsaná nejpozději před začátkem akce, jinak místo nedržíme.</p>`
             }
 
             <h3 style="color:#2D5A27;margin-top:24px;">Dobré vědět</h3>
@@ -325,23 +377,23 @@ export async function POST(req: NextRequest) {
         // Lenka Formánková vede přespávačky — o každé objednávce ví hned.
         to: ["reditel@doucse.cz", "detivpoho@gmail.com"],
         replyTo: body.email.trim(),
-        subject: `🏕️ Nová přespávačka — ${termin.label} — ${safeDite} (${blok.label}, ${formatCZK(cenaKc)})`,
+        subject: `🏕️ Nová přespávačka — ${termin.label} — ${detiJmenaText} (${blok.label}, ${formatCZK(totalKc)})`,
         html: `
           <div style="font-family:sans-serif;max-width:640px;color:#3A362D;">
             <h2 style="color:#2D5A27;">Nová přihláška na přespávačku</h2>
             <table style="border-collapse:collapse;font-size:14px;">
               <tr><td style="padding:6px 12px;font-weight:bold;">Termín:</td><td style="padding:6px 12px;">${termin.label} — ${termin.tema}</td></tr>
               <tr><td style="padding:6px 12px;font-weight:bold;">Blok:</td><td style="padding:6px 12px;">${blok.label} (${blok.casy})</td></tr>
-              <tr><td style="padding:6px 12px;font-weight:bold;">Dítě:</td><td style="padding:6px 12px;">${safeDite} (${vek} let)</td></tr>
+              <tr><td style="padding:6px 12px;font-weight:bold;vertical-align:top;">${viceDeti ? "Děti:" : "Dítě:"}</td><td style="padding:6px 12px;">${detiSafe.map((d) => `${d.jmeno} (${d.vek} let)`).join("<br>")}</td></tr>
               <tr><td style="padding:6px 12px;font-weight:bold;">Rodič:</td><td style="padding:6px 12px;">${safeRodic}</td></tr>
               <tr><td style="padding:6px 12px;font-weight:bold;">Kontakt:</td><td style="padding:6px 12px;"><a href="tel:${body.telefon}">${body.telefon}</a> · <a href="mailto:${body.email}">${body.email}</a></td></tr>
               <tr><td style="padding:6px 12px;font-weight:bold;">Záložní kontakt:</td><td style="padding:6px 12px;">${safeZaloha}</td></tr>
-              <tr><td style="padding:6px 12px;font-weight:bold;">Cena:</td><td style="padding:6px 12px;"><strong>${formatCZK(cenaKc)}</strong></td></tr>
-              <tr><td style="padding:6px 12px;font-weight:bold;">Faktura:</td><td style="padding:6px 12px;">${invoiceUrl ? `<a href="${invoiceUrl}">${invoiceNumber}</a>` : "<em>nevytvořena (chyba Fakturoidu) — doplnit ručně</em>"}</td></tr>
-              <tr><td style="padding:6px 12px;font-weight:bold;">Obsazenost po přihlášce:</td><td style="padding:6px 12px;">spí ${spici + (blok.spi ? 1 : 0)}/${KAPACITA_SPICI} · so ${so + (blok.dny.includes("so") ? 1 : 0)}/${KAPACITA_DENNI} · ne ${ne + (blok.dny.includes("ne") ? 1 : 0)}/${KAPACITA_DENNI}</td></tr>
+              <tr><td style="padding:6px 12px;font-weight:bold;">Cena celkem:</td><td style="padding:6px 12px;"><strong>${formatCZK(totalKc)}</strong>${viceDeti ? ` (${detiSafe.length} × ${formatCZK(cenaKc)})` : ""}</td></tr>
+              <tr><td style="padding:6px 12px;font-weight:bold;">Faktura:</td><td style="padding:6px 12px;">${invoiceUrl ? `<a href="${invoiceUrl}">${invoiceNumber}</a> (splatnost ${dueOn || `${due} dní`})` : "<em>nevytvořena (chyba Fakturoidu) — doplnit ručně</em>"}</td></tr>
+              <tr><td style="padding:6px 12px;font-weight:bold;">Obsazenost po přihlášce:</td><td style="padding:6px 12px;">spí ${pocty.spici + (blok.spi ? detiSafe.length : 0)}/${KAPACITA_SPICI} · so ${pocty.so + (blok.dny.includes("so") ? detiSafe.length : 0)}/${KAPACITA_DENNI} · ne ${pocty.ne + (blok.dny.includes("ne") ? detiSafe.length : 0)}/${KAPACITA_DENNI}</td></tr>
             </table>
             ${safePozn ? `<h3 style="margin-top:16px;">Poznámka rodiče:</h3><p style="white-space:pre-wrap;background:#F5F0E8;padding:12px;border-radius:8px;">${safePozn}</p>` : ""}
-            <p style="font-size:12px;color:#8B6F5E;margin-top:16px;">Souhlasy s podmínkami jsou zalogované v DB (prespavky_registrace, id ${registraceId}).</p>
+            <p style="font-size:12px;color:#8B6F5E;margin-top:16px;">Souhlasy s podmínkami jsou zalogované v DB (prespavky_registrace, id ${vlozene.map((v) => v.id).join(", ")}).</p>
           </div>
         `,
       });
@@ -355,7 +407,8 @@ export async function POST(req: NextRequest) {
       success: true,
       invoiceUrl: invoiceUrl || null,
       invoiceNumber: invoiceNumber || null,
-      totalKc: cenaKc,
+      totalKc,
+      pocetDeti: detiSafe.length,
     });
   } catch (err) {
     console.error("[prespavky-rezervovat] error:", err);

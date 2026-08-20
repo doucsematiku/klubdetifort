@@ -86,8 +86,14 @@ export async function POST(req: NextRequest) {
 
   // Přespávačky (custom_id `prespavky-<uuid>`): označíme zaplaceno v Supabase
   // a pošleme rodiči potvrzení platby — místo je tím definitivně jeho.
+  // Víc dětí v jedné objednávce = víc řádků se stejnou fakturou: custom_id má
+  // v DB unique constraint, takže ho má jen první řádek — párujeme proto podle
+  // fakturoid_invoice_number, ať se zaplaceno označí u všech řádků objednávky.
   if (customId.startsWith("prespavky-")) {
     const paidOnDate = (invoice.paid_on ?? null) as string | null;
+    const matchFilter = invoice.number
+      ? `fakturoid_invoice_number=eq.${encodeURIComponent(invoice.number)}`
+      : `fakturoid_custom_id=eq.${encodeURIComponent(customId)}`;
     const rows = await supabaseUpdate<{
       email: string;
       rodic_jmeno: string;
@@ -95,13 +101,20 @@ export async function POST(req: NextRequest) {
       termin_id: string;
       blok: string;
       cena_kc: number;
-    }>("prespavky_registrace", `fakturoid_custom_id=eq.${encodeURIComponent(customId)}`, {
+    }>("prespavky_registrace", matchFilter, {
       status: "zaplaceno",
       paid_on: paidOnDate,
     });
 
     const reg = rows[0];
     if (reg?.email) {
+      const jmenaDeti = rows.map((r) => r.dite_jmeno).join(", ");
+      const celkemKc = rows.reduce((s, r) => s + (r.cena_kc || 0), 0);
+      const castka = new Intl.NumberFormat("cs-CZ", {
+        style: "currency",
+        currency: "CZK",
+        maximumFractionDigits: 0,
+      }).format(celkemKc);
       try {
         const resend = new Resend(process.env.RESEND_API_KEY);
         await resend.emails.send({
@@ -112,8 +125,8 @@ export async function POST(req: NextRequest) {
           html: `
             <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#3A362D;line-height:1.6;">
               <h2 style="color:#2D5A27;">Platba v pořádku dorazila</h2>
-              <p>Děkujeme! Platbu za víkendovou přespávačku (${reg.dite_jmeno}) jsme přijali
-              a místo je závazně rezervované.</p>
+              <p>Děkujeme! Platbu za víkendovou přespávačku (${jmenaDeti}) ve výši ${castka} jsme přijali
+              a ${rows.length > 1 ? "místa jsou" : "místo je"} závazně rezervované.</p>
               <p>Pár dní před akcí vám pošleme e-mail s tím, co dítěti sbalit
               a jak bude víkend probíhat. Dokumenty k pobytu vyplníme společně na místě při příjezdu.</p>
               <p>S čímkoli se ozvěte na <a href="mailto:reditel@doucse.cz" style="color:#2D5A27;">reditel@doucse.cz</a>
