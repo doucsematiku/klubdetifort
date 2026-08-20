@@ -346,13 +346,13 @@ export default function PrespavkyPage() {
               </p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
-              {PRESPAVKY_BLOKY.filter((b) => b.id !== "nedele").map((b) => (
+              {PRESPAVKY_BLOKY.filter((b) => b.id !== "nedele" && b.id !== "nocpatek").map((b) => (
                 <div key={b.id} className="bg-white rounded-2xl p-5 text-dark flex flex-col">
                   <p className="font-bold leading-snug">
-                    {b.id === "sobota" ? "Jen jeden den" : b.label}
+                    {b.id === "sobota" ? "Jen jeden den" : b.id === "noc" ? "Jedna noc" : b.label}
                   </p>
                   <p className="text-xs text-brown-light mt-0.5 mb-4 leading-snug">
-                    {b.id === "sobota" ? "sobota nebo neděle" : b.casy}
+                    {b.id === "sobota" ? "sobota nebo neděle" : b.id === "noc" ? "pá–so nebo so–ne" : b.casy}
                   </p>
                   <p className="mt-auto">
                     <span className="block text-2xl font-bold text-forest">

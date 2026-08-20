@@ -6,7 +6,7 @@
  * pro první (zářijový) víkend, další termíny mají běžné ceny.
  */
 
-export type PrespavkyBlokId = "vikend" | "noc" | "dvadny" | "sobota" | "nedele";
+export type PrespavkyBlokId = "vikend" | "nocpatek" | "noc" | "dvadny" | "sobota" | "nedele";
 
 export interface PrespavkyTermin {
   /** stabilní id — používá se v DB a custom_id faktur, nikdy neměnit */
@@ -97,8 +97,16 @@ export const PRESPAVKY_BLOKY: readonly PrespavkyBlok[] = [
     dny: ["so", "ne"],
   },
   {
+    id: "nocpatek",
+    label: "Jedna noc (pá–so)",
+    casy: "pátek 16:00 – sobota 17:00",
+    cenaKey: "noc",
+    spi: true,
+    dny: ["so"],
+  },
+  {
     id: "noc",
-    label: "Jedna noc",
+    label: "Jedna noc (so–ne)",
     casy: "sobota 10:00 – neděle 17:00",
     cenaKey: "noc",
     spi: true,
