@@ -154,14 +154,8 @@ export default function PrespavkyPage() {
             <span className="prespavky-star-3 absolute bottom-24 right-10 sm:bottom-28 sm:right-28 text-lg sm:text-xl">
               ⭐
             </span>
-            <span className="absolute bottom-4 left-4 sm:bottom-8 sm:left-14 text-4xl sm:text-6xl opacity-80">
-              🧸
-            </span>
-            <span className="prespavky-zzz absolute bottom-14 left-14 sm:bottom-24 sm:left-28 text-base sm:text-xl text-white/80 font-bold">
-              z
-            </span>
-            <span className="prespavky-zzz-2 absolute bottom-16 left-18 sm:bottom-28 sm:left-32 text-sm sm:text-lg text-white/70 font-bold">
-              Z
+            <span className="prespavky-star-2 absolute bottom-16 left-10 sm:bottom-20 sm:left-24 text-lg sm:text-xl">
+              ✨
             </span>
           </div>
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 text-center">
