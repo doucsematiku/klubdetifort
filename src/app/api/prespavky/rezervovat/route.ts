@@ -3,6 +3,7 @@ import { Resend } from "resend";
 import { createInvoice } from "@/lib/fakturoid";
 import { supabaseInsert, supabaseSelect, supabaseUpdate } from "@/lib/supabase";
 import {
+  ACK_PRESPANI,
   PRESPAVKY_ACKS,
   KAPACITA_DENNI,
   KAPACITA_SPICI,
@@ -27,6 +28,8 @@ interface RezervacePayload {
   email: string;
   telefon: string;
   poznamka?: string;
+  zalohaJmeno: string;
+  zalohaTelefon: string;
   acks: Record<string, boolean>;
   gdpr: boolean;
   website?: string;
@@ -93,6 +96,18 @@ export async function POST(req: NextRequest) {
     if (!body.telefon?.trim()) {
       return NextResponse.json({ error: "Telefon je povinný." }, { status: 400 });
     }
+    if (!body.zalohaJmeno?.trim() || !body.zalohaTelefon?.trim()) {
+      return NextResponse.json(
+        { error: "Vyplňte prosím záložní kontakt — jméno i telefon." },
+        { status: 400 }
+      );
+    }
+    if (blok.spi && body.acks?.[ACK_PRESPANI.key] !== true) {
+      return NextResponse.json(
+        { error: "U přespání prosím potvrďte, že ho dítě zvládne." },
+        { status: 400 }
+      );
+    }
     if (!body.gdpr) {
       return NextResponse.json(
         { error: "Je potřeba souhlasit se zpracováním údajů." },
@@ -143,6 +158,7 @@ export async function POST(req: NextRequest) {
     // ─── Zápis registrace (před fakturou — záznam je důležitější) ────────
     const acksLog: Record<string, boolean> = {};
     for (const a of PRESPAVKY_ACKS) acksLog[a.key] = body.acks[a.key] === true;
+    if (blok.spi) acksLog[ACK_PRESPANI.key] = body.acks[ACK_PRESPANI.key] === true;
 
     const row = await supabaseInsert("prespavky_registrace", {
       termin_id: termin.id,
@@ -153,6 +169,8 @@ export async function POST(req: NextRequest) {
       dite_jmeno: body.diteJmeno.trim(),
       dite_vek: vek,
       poznamka: body.poznamka?.trim() || null,
+      zaloha_jmeno: body.zalohaJmeno.trim(),
+      zaloha_telefon: body.zalohaTelefon.trim(),
       cena_kc: cenaKc,
       acks: acksLog,
       gdpr: true,
@@ -226,6 +244,7 @@ export async function POST(req: NextRequest) {
     const safeRodic = body.rodicJmeno.replace(/[<>]/g, "");
     const safeDite = body.diteJmeno.replace(/[<>]/g, "");
     const safePozn = (body.poznamka ?? "").replace(/[<>]/g, "");
+    const safeZaloha = (body.zalohaJmeno + " — " + body.zalohaTelefon).replace(/[<>]/g, "");
 
     try {
       await resend.emails.send({
@@ -244,6 +263,7 @@ export async function POST(req: NextRequest) {
               <tr><td style="padding:6px 0;font-weight:bold;">Termín:</td><td style="padding:6px 0;">${termin.label} — ${termin.tema}</td></tr>
               <tr><td style="padding:6px 0;font-weight:bold;">Rozsah:</td><td style="padding:6px 0;">${blok.label} (${blok.casy})</td></tr>
               <tr><td style="padding:6px 0;font-weight:bold;">Cena:</td><td style="padding:6px 0;"><strong>${formatCZK(cenaKc)}</strong> vč. jídla</td></tr>
+              <tr><td style="padding:6px 0;font-weight:bold;">Záložní kontakt:</td><td style="padding:6px 0;">${safeZaloha}</td></tr>
               <tr><td style="padding:6px 0;font-weight:bold;">Místo:</td><td style="padding:6px 0;">BIO farma Fořt, Fořt 29, 543 44 Černý Důl – Rudník u Vrchlabí</td></tr>
             </table>
 
@@ -268,8 +288,8 @@ export async function POST(req: NextRequest) {
             <ul style="padding-left:20px;">
               <li>Zrušení je <strong>zdarma do 7 dnů před začátkem akce</strong> — poté se platba nevrací.</li>
               <li>Dokumenty k pobytu (kontakty, oprávněné osoby, zdravotní údaje) vyplníme společně <strong>na místě při příjezdu</strong>.</li>
-              <li>Co dítěti sbalit, pošleme e-mailem pár dní před akcí.</li>
-              <li>Zvláštní potřeby dítěte (léky, alergie, diety) prosím proberme předem.</li>
+              <li>Co dítěti sbalit najdete na <a href="https://klubdetifort.cz/prespavky#sbalit" style="color:#2D5A27;">klubdetifort.cz/prespavky#sbalit</a> — pár dní před akcí to ještě připomeneme.</li>
+              <li>Zvláštní potřeby dítěte (léky, alergie, diety) proberte prosím předem s Lenkou Formánkovou, která přespávačky vede — detivpoho@gmail.com, 777 584 150.</li>
             </ul>
 
             <p style="margin-top:24px;">S čímkoli se ozvěte na
@@ -307,6 +327,7 @@ export async function POST(req: NextRequest) {
               <tr><td style="padding:6px 12px;font-weight:bold;">Dítě:</td><td style="padding:6px 12px;">${safeDite} (${vek} let)</td></tr>
               <tr><td style="padding:6px 12px;font-weight:bold;">Rodič:</td><td style="padding:6px 12px;">${safeRodic}</td></tr>
               <tr><td style="padding:6px 12px;font-weight:bold;">Kontakt:</td><td style="padding:6px 12px;"><a href="tel:${body.telefon}">${body.telefon}</a> · <a href="mailto:${body.email}">${body.email}</a></td></tr>
+              <tr><td style="padding:6px 12px;font-weight:bold;">Záložní kontakt:</td><td style="padding:6px 12px;">${safeZaloha}</td></tr>
               <tr><td style="padding:6px 12px;font-weight:bold;">Cena:</td><td style="padding:6px 12px;"><strong>${formatCZK(cenaKc)}</strong></td></tr>
               <tr><td style="padding:6px 12px;font-weight:bold;">Faktura:</td><td style="padding:6px 12px;">${invoiceUrl ? `<a href="${invoiceUrl}">${invoiceNumber}</a>` : "<em>nevytvořena (chyba Fakturoidu) — doplnit ručně</em>"}</td></tr>
               <tr><td style="padding:6px 12px;font-weight:bold;">Obsazenost po přihlášce:</td><td style="padding:6px 12px;">spí ${spici + (blok.spi ? 1 : 0)}/${KAPACITA_SPICI} · so ${so + (blok.dny.includes("so") ? 1 : 0)}/${KAPACITA_DENNI} · ne ${ne + (blok.dny.includes("ne") ? 1 : 0)}/${KAPACITA_DENNI}</td></tr>

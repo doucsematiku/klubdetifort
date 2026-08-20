@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import AcknowledgementChecklist from "@/components/AcknowledgementChecklist";
 import {
+  ACK_PRESPANI,
   PRESPAVKY_TERMINY,
   PRESPAVKY_BLOKY,
   PRESPAVKY_ACKS,
@@ -49,6 +50,9 @@ export default function PrespavkyForm() {
   const [email, setEmail] = useState("");
   const [telefon, setTelefon] = useState("");
   const [poznamka, setPoznamka] = useState("");
+  const [zalohaJmeno, setZalohaJmeno] = useState("");
+  const [zalohaTelefon, setZalohaTelefon] = useState("");
+  const [ackPrespani, setAckPrespani] = useState(false);
   const [acks, setAcks] = useState<PrespavkyAcksState>({});
   const [gdpr, setGdpr] = useState(false);
   const [website, setWebsite] = useState(""); // honeypot
@@ -89,12 +93,15 @@ export default function PrespavkyForm() {
       rodicJmeno.trim().length > 1 &&
       /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) &&
       telefon.trim().length >= 9 &&
+      zalohaJmeno.trim().length > 1 &&
+      zalohaTelefon.trim().length >= 9 &&
       acksComplete(acks) &&
+      (!vybranyBlok?.spi || ackPrespani) &&
       gdpr &&
       !blokPlny(terminId, blokId)
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [diteJmeno, diteVek, rodicJmeno, email, telefon, acks, gdpr, terminId, blokId, dostupnost]);
+  }, [diteJmeno, diteVek, rodicJmeno, email, telefon, zalohaJmeno, zalohaTelefon, acks, ackPrespani, gdpr, terminId, blokId, dostupnost]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -115,7 +122,9 @@ export default function PrespavkyForm() {
           email: email.trim(),
           telefon: telefon.trim(),
           poznamka: poznamka.trim(),
-          acks,
+          zalohaJmeno: zalohaJmeno.trim(),
+          zalohaTelefon: zalohaTelefon.trim(),
+          acks: vybranyBlok?.spi ? { ...acks, ack_prespani: ackPrespani } : acks,
           gdpr,
           website,
           _t: mountedAt,
@@ -172,7 +181,8 @@ export default function PrespavkyForm() {
           </p>
         )}
         <p className="text-brown-light text-sm">
-          Kdyby cokoliv, napište na reditel@doucse.cz nebo volejte 775 917 363.
+          Kdyby cokoliv, ozvěte se Lence Formánkové, která přespávačky vede —
+          detivpoho@gmail.com, 777 584 150.
         </p>
       </div>
     );
@@ -342,6 +352,44 @@ export default function PrespavkyForm() {
               className="w-full rounded-xl border-2 border-beige-dark bg-white px-4 py-3 text-dark focus:border-forest focus:outline-none"
             />
           </div>
+          <div className="sm:col-span-2 rounded-xl bg-beige p-4">
+            <p className="text-sm font-semibold text-dark mb-1">
+              Záložní kontakt <span className="font-normal text-brown-light">(povinný)</span>
+            </p>
+            <p className="text-xs text-brown-light mb-3 leading-relaxed">
+              Další osoba, které se dovoláme a která může dítě vyzvednout,
+              kdybychom se vám nemohli dovolat.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-semibold text-dark mb-1" htmlFor="p-zal-jmeno">
+                  Jméno a vztah k dítěti *
+                </label>
+                <input
+                  id="p-zal-jmeno"
+                  type="text"
+                  required
+                  placeholder="např. Marie Nováková, babička"
+                  value={zalohaJmeno}
+                  onChange={(e) => setZalohaJmeno(e.target.value)}
+                  className="w-full rounded-xl border-2 border-beige-dark bg-white px-4 py-3 text-dark focus:border-forest focus:outline-none"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-dark mb-1" htmlFor="p-zal-tel">
+                  Telefon *
+                </label>
+                <input
+                  id="p-zal-tel"
+                  type="tel"
+                  required
+                  value={zalohaTelefon}
+                  onChange={(e) => setZalohaTelefon(e.target.value)}
+                  className="w-full rounded-xl border-2 border-beige-dark bg-white px-4 py-3 text-dark focus:border-forest focus:outline-none"
+                />
+              </div>
+            </div>
+          </div>
           <div className="sm:col-span-2">
             <label className="block text-sm font-semibold text-dark mb-1" htmlFor="p-pozn">
               Poznámka — alergie, léky, diety, cokoliv důležitého
@@ -381,6 +429,20 @@ export default function PrespavkyForm() {
           heading="Prosíme o odsouhlasení"
           intro="Prosíme přečtěte si jednotlivé body — odkrývají se postupně, abyste si je opravdu mohli v klidu projít. Každý lze zaškrtnout 5 s po jeho zobrazení. Vaše souhlasy si k přihlášce uložíme."
         />
+        {vybranyBlok?.spi && (
+          <label className="flex items-start gap-3 mt-4 rounded-xl border-2 border-forest bg-forest-pale p-4 cursor-pointer">
+            <input
+              type="checkbox"
+              required
+              checked={ackPrespani}
+              onChange={(e) => setAckPrespani(e.target.checked)}
+              className="mt-1 w-4 h-4 accent-forest flex-shrink-0"
+            />
+            <span className="text-sm text-dark leading-relaxed">
+              🌙 <strong>{ACK_PRESPANI.text}</strong> *
+            </span>
+          </label>
+        )}
         <label className="flex items-start gap-3 mt-4 cursor-pointer">
           <input
             type="checkbox"

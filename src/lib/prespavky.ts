@@ -178,7 +178,12 @@ export const PRESPAVKY_ACKS: readonly PrespavkyAck[] = [
   {
     key: "ack_neprenosne",
     text:
-      "**Místo je vázané na přihlášené dítě** a nelze je předat jinému dítěti ani jiné rodině.",
+      "**Místo je vázané na přihlášené dítě.** (Po předchozí dohodě s námi ho ale lze předat jinému dítěti, které podmínky také splňuje — třeba v rámci rodiny nebo známých, ať vám nepropadne.)",
+  },
+  {
+    key: "ack_vyzvednuti",
+    text:
+      "Rozumím pravidlům vyzvedávání: **při pozdním vyzvednutí účtujeme 200 Kč za každou započatou půlhodinu** péče navíc. Kdybychom se nedovolali rodičům ani záložnímu kontaktu, po dvou hodinách postupujeme podle zákona (kontaktujeme orgán péče o dítě, případně Policii ČR) — věříme, že to nikdy nebude potřeba.",
   },
   {
     key: "ack_predani",
@@ -186,11 +191,26 @@ export const PRESPAVKY_ACKS: readonly PrespavkyAck[] = [
       "Vím, že **dokumenty k pobytu a předání dítěte** (kontakty, oprávněné osoby k vyzvednutí, zdravotní údaje) vyplníme a podepíšeme **na místě při příjezdu**.",
   },
   {
+    key: "ack_telefony",
+    text:
+      "**U nás jsou děti spolu, ne u obrazovek.** Telefon s sebou dítě klidně mít může (u starších to chápeme) — po příjezdu si ho ale uloží do šuplíčku a čas u nás tráví bez něj. Kdykoli budete chtít, zavoláte přímo průvodkyni — kontakt na ni dostanete před akcí.",
+  },
+  {
     key: "ack_specialni",
     text:
-      "**Zvláštní potřeby dítěte** (léky, alergie, diety, noční režim, cokoli důležitého) **proberu s klubem předem** — napíšu je do poznámky v objednávce, nebo se ozvu na reditel@doucse.cz / 775 917 363.",
+      "**Zvláštní potřeby dítěte** (léky, alergie, diety, noční režim, cokoli důležitého) **proberu předem s Lenkou Formánkovou**, která přespávačky vede — napíšu je do poznámky v objednávce, nebo se jí ozvu na detivpoho@gmail.com / 777 584 150.",
   },
 ];
+
+/**
+ * Extra souhlas jen pro spací bloky (vikend, noc) — potvrzuje se zvlášť
+ * mimo postupný checklist a loguje se do acks stejně jako ostatní.
+ */
+export const ACK_PRESPANI: PrespavkyAck = {
+  key: "ack_prespani",
+  text:
+    "Potvrzuji, že dítě přespání mimo domov zvládne — je na spaní bez rodičů připravené a chce to zkusit.",
+};
 
 export type PrespavkyAcksState = Record<string, boolean>;
 

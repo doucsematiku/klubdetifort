@@ -75,12 +75,49 @@ const PODMINKY: [string, string][] = [
     "Zrušení je zdarma do 7 dnů před akcí — vracíme vše. Později se platba nevrací, místo už neobsadíme.",
   ],
   ["🎂", `Věk od předškoláků (5 let) do ${VEK_DO} let.`],
-  ["🎟️", "Místo je vázané na přihlášené dítě — nejde předat jinému dítěti ani rodině."],
+  [
+    "🎟️",
+    "Místo je vázané na přihlášené dítě — po dohodě s námi ho ale lze předat jinému dítěti, které podmínky splňuje (v rodině či mezi známými), ať vám nepropadne.",
+  ],
   ["✍️", "Dokumenty k pobytu a předání dítěte podepíšeme společně na místě při příjezdu."],
   [
-    "💬",
-    "Léky, alergie, diety a další zvláštnosti proberte s námi prosím předem — stačí poznámka v přihlášce.",
+    "⏰",
+    "Vyzvedávejte prosím včas — za pozdní vyzvednutí účtujeme 200 Kč za každou započatou půlhodinu. Při nevyzvednutí a nedostupnosti rodičů i záložního kontaktu po dvou hodinách postupujeme podle zákona.",
   ],
+  [
+    "📵",
+    "Děti u nás tráví čas spolu, ne u obrazovek — telefon s sebou mít mohou, po příjezdu si ho ale uloží do šuplíčku. Volat můžete kdykoli přímo průvodkyni.",
+  ],
+  [
+    "💬",
+    "Léky, alergie, diety a další zvláštnosti proberte prosím předem s Lenkou Formánkovou (detivpoho@gmail.com, 777 584 150) — stačí i poznámka v přihlášce.",
+  ],
+];
+
+const SBALIT_DEN: string[] = [
+  "batůžek a lahev na pití",
+  "přezůvky",
+  "oblečení podle počasí — ideálně ve vrstvách",
+  "nepromokavá bunda nebo pláštěnka",
+  "náhradní triko a ponožky",
+  "čepice či kšiltovka podle sezóny",
+];
+
+const SBALIT_SPANI: string[] = [
+  "vlastní spacák a polštářek",
+  "pyžamo",
+  "hygiena — kartáček, pasta, ručník",
+  "kompletní náhradní oblečení",
+  "baterka",
+  "plyšák nebo oblíbená věc na usínání",
+];
+
+const PROSTORY: { src: string; popis: string }[] = [
+  { src: "/images/klubik/prostor-badatelna-1.jpg", popis: "Badatelna — tady se tvoří" },
+  { src: "/images/klubik/prostor-spolecenska-1.jpg", popis: "Společenská místnost" },
+  { src: "/images/klubik/prostor-klidova-1.jpg", popis: "Klidová teráska" },
+  { src: "/images/klubik/farma-03.jpg", popis: "BIO farma Fořt a krajina okolo" },
+  { src: "/images/klubik/klubik-42.jpg", popis: "Badatelská procházka okolím farmy" },
 ];
 
 export default function PrespavkyPage() {
@@ -255,6 +292,46 @@ export default function PrespavkyPage() {
           </div>
         </section>
 
+        {/* ============ KDE SE DĚTI BUDOU POHYBOVAT ============ */}
+        <section className="py-12 sm:py-20 bg-beige">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-8">
+              <p className="text-forest font-semibold text-xs sm:text-sm tracking-wide uppercase mb-2">
+                Zázemí a okolí
+              </p>
+              <h2 className="text-2xl sm:text-4xl font-bold text-dark mb-2">
+                Kde se děti budou pohybovat
+              </h2>
+              <p className="text-brown-light text-sm sm:text-base max-w-xl mx-auto">
+                Tvoří se v badatelně, jí a hraje ve společenské místnosti,
+                odpočívá na klidové terásce — a bádá po celé farmě i v krajině
+                okolo.
+              </p>
+            </div>
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+              {PROSTORY.map((f, i) => (
+                <figure
+                  key={f.src}
+                  className={`rounded-2xl overflow-hidden bg-white shadow-sm ${
+                    i === 3 ? "col-span-2 lg:col-span-1" : ""
+                  }`}
+                >
+                  <Image
+                    src={f.src}
+                    alt={f.popis}
+                    width={640}
+                    height={480}
+                    className="w-full h-40 sm:h-52 object-cover"
+                  />
+                  <figcaption className="px-3 py-2 text-xs sm:text-sm font-semibold text-dark">
+                    {f.popis}
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ============ CENÍK ============ */}
         <section id="cenik" className="py-12 sm:py-20 bg-forest text-white scroll-mt-24">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -313,6 +390,89 @@ export default function PrespavkyPage() {
           </div>
         </section>
 
+        {/* ============ CO SBALIT ============ */}
+        <section id="sbalit" className="py-12 sm:py-20 bg-forest-pale scroll-mt-24">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl sm:text-4xl font-bold text-dark mb-2">
+                🎒 Co dítěti sbalit
+              </h2>
+              <p className="text-brown-light text-sm sm:text-base">
+                Všechno prosím podepište nebo označte jménem dítěte.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="bg-white rounded-2xl p-6">
+                <h3 className="font-bold text-forest mb-3">Na každý den</h3>
+                <ul className="space-y-2">
+                  {SBALIT_DEN.map((v) => (
+                    <li key={v} className="flex items-start gap-2.5 text-sm text-dark">
+                      <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-forest flex-shrink-0" />
+                      {v}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="bg-white rounded-2xl p-6">
+                <h3 className="font-bold text-forest mb-3">Na přespání navíc</h3>
+                <ul className="space-y-2">
+                  {SBALIT_SPANI.map((v) => (
+                    <li key={v} className="flex items-start gap-2.5 text-sm text-dark">
+                      <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-forest flex-shrink-0" />
+                      {v}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ============ LENKA ============ */}
+        <section className="py-12 sm:py-20 bg-white">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-6 sm:gap-10 items-center">
+              <div className="mx-auto">
+                <Image
+                  src="/images/pruvodkyne/lenka-1.jpg"
+                  alt="Lenka Formánková, průvodkyně"
+                  width={220}
+                  height={220}
+                  className="w-40 h-40 sm:w-52 sm:h-52 rounded-full object-cover shadow-md"
+                />
+              </div>
+              <div className="text-center sm:text-left">
+                <p className="text-forest font-semibold text-xs sm:text-sm tracking-wide uppercase mb-2">
+                  Kdo bude s dětmi
+                </p>
+                <h2 className="text-2xl sm:text-3xl font-bold text-dark mb-3">
+                  Lenka Formánková
+                </h2>
+                <p className="text-brown-light leading-relaxed mb-4">
+                  Přespávačky vede naše průvodkyně Lenka — sociální pedagožka,
+                  maminka domškolačky a lektorka zážitkových a tvořivých kurzů
+                  pro děti. S dětmi stráví celý víkend, od příjezdu po
+                  vyzvednutí. Cokoliv budete potřebovat, napište jí na{" "}
+                  <a href="mailto:detivpoho@gmail.com" className="text-forest font-semibold underline">
+                    detivpoho@gmail.com
+                  </a>{" "}
+                  nebo volejte{" "}
+                  <a href="tel:+420777584150" className="text-forest font-semibold underline">
+                    777 584 150
+                  </a>
+                  .
+                </p>
+                <a
+                  href="/pruvodkyne"
+                  className="inline-block border-2 border-forest text-forest hover:bg-forest hover:text-white font-semibold px-6 py-3 rounded-full transition-colors text-sm"
+                >
+                  Přečíst si Lenčin medailonek →
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* ============ PŘIHLÁŠKA ============ */}
         <section id="prihlaska" className="py-12 sm:py-20 bg-beige scroll-mt-24">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -339,15 +499,15 @@ export default function PrespavkyPage() {
         <section className="bg-forest text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 text-center">
             <p className="text-white/85 leading-relaxed text-sm sm:text-base">
-              Máte otázku? Napište na{" "}
-              <a href="mailto:reditel@doucse.cz" className="font-bold underline">
-                reditel@doucse.cz
+              Máte otázku k přespávačkám? Napište Lence Formánkové na{" "}
+              <a href="mailto:detivpoho@gmail.com" className="font-bold underline">
+                detivpoho@gmail.com
               </a>{" "}
               nebo volejte{" "}
-              <a href="tel:+420775917363" className="font-bold underline">
-                775 917 363
+              <a href="tel:+420777584150" className="font-bold underline">
+                777 584 150
               </a>{" "}
-              — rádi přespávačky popíšeme do detailu.
+              — ráda vám víkend popíše do detailu.
             </p>
           </div>
         </section>
