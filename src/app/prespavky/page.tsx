@@ -116,7 +116,7 @@ const PROSTORY: { src: string; popis: string }[] = [
   { src: "/images/klubik/prostor-badatelna-1.jpg", popis: "Badatelna — tady se tvoří" },
   { src: "/images/klubik/prostor-spolecenska-1.jpg", popis: "Společenská místnost" },
   { src: "/images/klubik/prostor-klidova-1.jpg", popis: "Klidová teráska" },
-  { src: "/images/klubik/farma-03.jpg", popis: "BIO farma Fořt a krajina okolo" },
+  { src: "/images/park2.png", popis: "BIO farma Fořt a krajina okolo" },
   { src: "/images/klubik/klubik-42.jpg", popis: "Badatelská procházka okolím farmy" },
 ];
 
