@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Resend } from "resend";
 import { type FakturoidWebhookPayload } from "@/lib/fakturoid";
 import { markRowPaidByCustomId } from "@/lib/sheets-prazdniny";
+import { supabaseUpdate } from "@/lib/supabase";
 import crypto from "crypto";
 
 export const runtime = "nodejs";
@@ -80,6 +82,56 @@ export async function POST(req: NextRequest) {
       console.error("[fakturoid-webhook] forward do fort-klub-app selhal:", e);
       return NextResponse.json({ error: "forward failed" }, { status: 500 });
     }
+  }
+
+  // Přespávačky (custom_id `prespavky-<uuid>`): označíme zaplaceno v Supabase
+  // a pošleme rodiči potvrzení platby — místo je tím definitivně jeho.
+  if (customId.startsWith("prespavky-")) {
+    const paidOnDate = (invoice.paid_on ?? null) as string | null;
+    const rows = await supabaseUpdate<{
+      email: string;
+      rodic_jmeno: string;
+      dite_jmeno: string;
+      termin_id: string;
+      blok: string;
+      cena_kc: number;
+    }>("prespavky_registrace", `fakturoid_custom_id=eq.${encodeURIComponent(customId)}`, {
+      status: "zaplaceno",
+      paid_on: paidOnDate,
+    });
+
+    const reg = rows[0];
+    if (reg?.email) {
+      try {
+        const resend = new Resend(process.env.RESEND_API_KEY);
+        await resend.emails.send({
+          from: "Klubík Fořt <noreply@klubdetifort.cz>",
+          to: reg.email,
+          replyTo: "reditel@doucse.cz",
+          subject: "Platba přijata — místo na přespávačce je vaše 🎉",
+          html: `
+            <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#3A362D;line-height:1.6;">
+              <h2 style="color:#2D5A27;">Platba v pořádku dorazila</h2>
+              <p>Děkujeme! Platbu za víkendovou přespávačku (${reg.dite_jmeno}) jsme přijali
+              a místo je závazně rezervované.</p>
+              <p>Pár dní před akcí vám pošleme e-mail s tím, co dítěti sbalit
+              a jak bude víkend probíhat. Dokumenty k pobytu vyplníme společně na místě při příjezdu.</p>
+              <p>S čímkoli se ozvěte na <a href="mailto:reditel@doucse.cz" style="color:#2D5A27;">reditel@doucse.cz</a>
+              nebo <a href="tel:+420775917363" style="color:#2D5A27;">775 917 363</a>.</p>
+              <p>Těšíme se!<br><strong>Klubík Fořt</strong></p>
+              <hr style="margin-top:24px;border:none;border-top:1px solid #E8DFD0;">
+              <p style="font-size:12px;color:#8B6F5E;">Automatické potvrzení z klubdetifort.cz ·
+              Vzdělávací centrum Doučse z.s.</p>
+            </div>
+          `,
+        });
+      } catch (e) {
+        console.error("[fakturoid-webhook] prespavky payment email failed:", e);
+      }
+    } else {
+      console.warn("[fakturoid-webhook] prespavky paid, registrace nenalezena:", customId);
+    }
+    return NextResponse.json({ ok: true, prespavky: true, updated: rows.length, customId });
   }
 
   // Reagujeme jen na faktury z prázdninového programu (custom_id začíná `prazdniny-`).

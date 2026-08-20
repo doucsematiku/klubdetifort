@@ -95,6 +95,44 @@ export default function Home() {
           </div>
         </section>
 
+        {/* ============ PŘESPÁVAČKY — novinka ============ */}
+        <section id="prespavky" className="py-12 sm:py-16 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="rounded-3xl border-2 border-orange overflow-hidden grid grid-cols-1 lg:grid-cols-[2fr_3fr]">
+              <div className="relative min-h-[220px] lg:min-h-0">
+                <Image
+                  src="/images/klubik/klubik-31.jpg"
+                  alt="Večerní oheň na farmě"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="p-6 sm:p-10">
+                <span className="inline-block text-[11px] font-bold uppercase tracking-wide bg-orange text-dark rounded-full px-3 py-1 mb-3">
+                  🔥 Novinka — podzim 2026
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-bold text-dark mb-3">
+                  Víkendové přespávačky na farmě
+                </h2>
+                <p className="text-brown-light leading-relaxed mb-4">
+                  Čtyři tematické víkendy pro všechny děti{" "}
+                  <strong>od předškoláků do 13 let</strong> — tvoření, večerní
+                  oheň, zvířata a spaní na farmě. Ideální pro rodiny na horách
+                  i pro místní. Malá skupinka (max 6 spících dětí), jídlo
+                  v ceně, od <strong>1 090 Kč</strong>. První víkend už{" "}
+                  <strong>25.–27. září</strong> za zaváděcí ceny.
+                </p>
+                <Link
+                  href="/prespavky"
+                  className="inline-block bg-orange hover:bg-orange-hover text-dark font-bold px-7 py-3.5 rounded-full transition-colors"
+                >
+                  Termíny, ceny a přihláška →
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* ============ O NÁS ============ */}
         <section id="o-nas" className="py-20 sm:py-28 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -1,13 +1,17 @@
 "use client";
 
 import { Fragment, useEffect, useMemo, useState } from "react";
-import { PROHLIDKY_ACKS, type AcksState } from "@/lib/prohlidky-acks";
+import { PROHLIDKY_ACKS, type AckItem, type AcksState } from "@/lib/prohlidky-acks";
 
 interface Props {
   value: AcksState;
   onChange: (key: string, checked: boolean) => void;
   /** Volitelný nadpis sekce */
   heading?: string;
+  /** Seznam bodů k odsouhlasení — výchozí jsou body prohlídek. */
+  items?: readonly AckItem[];
+  /** Úvodní věta pod nadpisem — výchozí text mluví o prohlídce. */
+  intro?: string;
 }
 
 /** Čekací doba (ms) než lze nově odhalený checkbox zaškrtnout. */
@@ -27,14 +31,20 @@ function renderText(text: string) {
   });
 }
 
-export default function AcknowledgementChecklist({ value, onChange, heading }: Props) {
-  const total = PROHLIDKY_ACKS.length;
+export default function AcknowledgementChecklist({
+  value,
+  onChange,
+  heading,
+  items = PROHLIDKY_ACKS,
+  intro,
+}: Props) {
+  const total = items.length;
 
   // Při mountu zrekonstruujeme stav podle už-zaškrtnutých acks
   // (po opětovném mountu formuláře nemusí rodič začínat od nuly).
   const [revealedCount, setRevealedCount] = useState(() => {
     let checked = 0;
-    for (const a of PROHLIDKY_ACKS) if (value[a.key]) checked++;
+    for (const a of items) if (value[a.key]) checked++;
     return Math.min(total, Math.max(1, checked + 1));
   });
 
@@ -42,7 +52,7 @@ export default function AcknowledgementChecklist({ value, onChange, heading }: P
     const now = Date.now();
     const map: Record<string, number> = {};
     let checkedSoFar = 0;
-    for (const a of PROHLIDKY_ACKS) {
+    for (const a of items) {
       if (value[a.key]) {
         map[a.key] = now - LOCK_MS - 1000; // dávno → countdown už neběží
         checkedSoFar++;
@@ -50,7 +60,7 @@ export default function AcknowledgementChecklist({ value, onChange, heading }: P
     }
     // První dosud-nezaškrtnutý čerstvě odhalujeme (countdown startuje).
     if (checkedSoFar < total) {
-      map[PROHLIDKY_ACKS[checkedSoFar].key] = now;
+      map[items[checkedSoFar].key] = now;
     }
     return map;
   });
@@ -65,8 +75,8 @@ export default function AcknowledgementChecklist({ value, onChange, heading }: P
   }, []);
 
   const completed = useMemo(
-    () => PROHLIDKY_ACKS.filter((a) => value[a.key]).length,
-    [value]
+    () => items.filter((a) => value[a.key]).length,
+    [items, value]
   );
 
   function handleChange(key: string, idx: number, checked: boolean) {
@@ -75,7 +85,7 @@ export default function AcknowledgementChecklist({ value, onChange, heading }: P
     // Jakmile rodič zaškrtne aktuálně poslední odhalený a další ještě není odhalený,
     // odkryjeme ho a spustíme jeho 5s countdown.
     if (checked && idx === revealedCount - 1 && revealedCount < total) {
-      const nextKey = PROHLIDKY_ACKS[revealedCount].key;
+      const nextKey = items[revealedCount].key;
       setRevealedAt((p) => ({ ...p, [nextKey]: Date.now() }));
       setRevealedCount(revealedCount + 1);
     }
@@ -92,14 +102,12 @@ export default function AcknowledgementChecklist({ value, onChange, heading }: P
         </div>
       )}
       <p className="text-xs text-brown-light leading-relaxed mb-4">
-        Prosíme přečtěte si jednotlivé body — odkrývají se postupně, abyste
-        si je opravdu mohli v&nbsp;klidu projít. Každý lze zaškrtnout 5&nbsp;s po
-        jeho zobrazení. Díky tomu si na prohlídce hned rozumíme a&nbsp;můžeme
-        se v&nbsp;klidu věnovat tomu, co vás zajímá.
+        {intro ??
+          "Prosíme přečtěte si jednotlivé body — odkrývají se postupně, abyste si je opravdu mohli v klidu projít. Každý lze zaškrtnout 5 s po jeho zobrazení. Díky tomu si na prohlídce hned rozumíme a můžeme se v klidu věnovat tomu, co vás zajímá."}
       </p>
 
       <ul className="space-y-3">
-        {PROHLIDKY_ACKS.slice(0, revealedCount).map((ack, idx) => {
+        {items.slice(0, revealedCount).map((ack, idx) => {
           const since = revealedAt[ack.key] ?? nowTick;
           const elapsed = nowTick - since;
           const secondsLeft = Math.max(0, Math.ceil((LOCK_MS - elapsed) / 1000));

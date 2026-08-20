@@ -90,6 +90,15 @@ export default function Header() {
           <nav className="hidden lg:flex items-center gap-5">
             <Dropdown label="O klubíku" items={O_KLUBIKU} />
             <Link
+              href="/prespavky"
+              className="text-dark text-sm font-bold hover:text-forest transition-colors whitespace-nowrap"
+            >
+              Přespávačky
+              <span className="ml-1.5 text-[10px] font-bold uppercase tracking-wide bg-orange text-dark rounded-full px-1.5 py-0.5 align-middle">
+                nové
+              </span>
+            </Link>
+            <Link
               href="/pruvodkyne"
               className="text-dark text-sm font-medium hover:text-forest transition-colors"
             >
@@ -177,6 +186,16 @@ export default function Header() {
             <p className="text-xs font-semibold uppercase tracking-wider text-brown-light pt-4 pb-2 border-t border-beige-dark mt-3">
               Poznejte nás
             </p>
+            <Link
+              href="/prespavky"
+              onClick={() => setMobileOpen(false)}
+              className="text-dark font-bold py-2 hover:text-forest transition-colors"
+            >
+              Přespávačky
+              <span className="ml-1.5 text-[10px] font-bold uppercase tracking-wide bg-orange text-dark rounded-full px-1.5 py-0.5 align-middle">
+                nové
+              </span>
+            </Link>
             <Link
               href="/pruvodkyne"
               onClick={() => setMobileOpen(false)}
