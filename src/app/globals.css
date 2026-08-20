@@ -47,3 +47,24 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: #5C4033;
 }
+
+/* Přespávačky — noční dekorace (měsíček, hvězdy, spící medvídek) */
+@keyframes prespavky-float {
+  0%, 100% { transform: translateY(0) rotate(-8deg); }
+  50% { transform: translateY(-10px) rotate(-2deg); }
+}
+@keyframes prespavky-twinkle {
+  0%, 100% { opacity: 0.25; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.15); }
+}
+@keyframes prespavky-zzz {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.8); }
+  30% { opacity: 0.8; }
+  100% { opacity: 0; transform: translate(10px, -18px) scale(1.15); }
+}
+.prespavky-moon { animation: prespavky-float 7s ease-in-out infinite; }
+.prespavky-star { animation: prespavky-twinkle 3.5s ease-in-out infinite; }
+.prespavky-star-2 { animation: prespavky-twinkle 4.5s ease-in-out infinite 1.2s; }
+.prespavky-star-3 { animation: prespavky-twinkle 5s ease-in-out infinite 2.1s; }
+.prespavky-zzz { animation: prespavky-zzz 3s ease-out infinite; }
+.prespavky-zzz-2 { animation: prespavky-zzz 3s ease-out infinite 1s; }

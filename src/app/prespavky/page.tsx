@@ -140,6 +140,30 @@ export default function PrespavkyPage() {
             />
             <div className="absolute inset-0 bg-gradient-to-b from-dark/70 via-dark/55 to-dark/80" />
           </div>
+          {/* noční dekorace — měsíček, hvězdy a spící medvídek */}
+          <div aria-hidden="true" className="absolute inset-0 overflow-hidden pointer-events-none select-none">
+            <span className="prespavky-moon absolute top-8 right-6 sm:top-12 sm:right-16 text-5xl sm:text-7xl opacity-70">
+              🌙
+            </span>
+            <span className="prespavky-star absolute top-24 right-24 sm:top-32 sm:right-44 text-xl sm:text-2xl">
+              ⭐
+            </span>
+            <span className="prespavky-star-2 absolute top-10 left-8 sm:top-16 sm:left-24 text-lg sm:text-xl">
+              ✨
+            </span>
+            <span className="prespavky-star-3 absolute bottom-24 right-10 sm:bottom-28 sm:right-28 text-lg sm:text-xl">
+              ⭐
+            </span>
+            <span className="absolute bottom-4 left-4 sm:bottom-8 sm:left-14 text-4xl sm:text-6xl opacity-80">
+              🧸
+            </span>
+            <span className="prespavky-zzz absolute bottom-14 left-14 sm:bottom-24 sm:left-28 text-base sm:text-xl text-white/80 font-bold">
+              z
+            </span>
+            <span className="prespavky-zzz-2 absolute bottom-16 left-18 sm:bottom-28 sm:left-32 text-sm sm:text-lg text-white/70 font-bold">
+              Z
+            </span>
+          </div>
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 text-center">
             <p className="text-orange font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">
               Novinka · podzim 2026
@@ -333,8 +357,14 @@ export default function PrespavkyPage() {
         </section>
 
         {/* ============ CENÍK ============ */}
-        <section id="cenik" className="py-12 sm:py-20 bg-forest text-white scroll-mt-24">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="cenik" className="relative py-12 sm:py-20 bg-forest text-white scroll-mt-24 overflow-hidden">
+          <div aria-hidden="true" className="absolute inset-0 pointer-events-none select-none">
+            <span className="prespavky-star absolute top-8 left-[12%] text-lg">✨</span>
+            <span className="prespavky-star-2 absolute top-16 right-[15%] text-xl">⭐</span>
+            <span className="prespavky-star-3 absolute bottom-10 left-[20%] text-lg">⭐</span>
+            <span className="prespavky-moon absolute -bottom-3 right-6 text-5xl opacity-25">🌙</span>
+          </div>
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-8 sm:mb-10">
               <p className="text-orange font-semibold text-xs sm:text-sm tracking-wide uppercase mb-2">
                 Ceny za dítě · jídlo v ceně
@@ -483,7 +513,7 @@ export default function PrespavkyPage() {
                 </ul>
               </div>
               <div className="bg-white rounded-2xl p-6">
-                <h3 className="font-bold text-forest mb-3">Na přespání navíc</h3>
+                <h3 className="font-bold text-forest mb-3">Na přespání navíc 💤</h3>
                 <ul className="space-y-2">
                   {SBALIT_SPANI.map((v) => (
                     <li key={v} className="flex items-start gap-2.5 text-sm text-dark">
