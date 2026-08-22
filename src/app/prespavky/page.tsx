@@ -250,8 +250,10 @@ export default function PrespavkyPage() {
                   Jak to u nás o víkendu běží
                 </h2>
                 <p className="text-brown-light leading-relaxed mb-4">
-                  Volně a venku — kruh, tvoření, zvířata, oheň. Program je
-                  orientační: řídíme se počasím a tím, co děti zrovna táhne.
+                  Venku i v teple uvnitř — kruh, tvoření, zvířata, oheň.
+                  Když je zima nebo prší, přesouváme se do vytopené badatelny
+                  a společenské místnosti. Program je orientační: řídíme se
+                  počasím a tím, co děti zrovna táhne.
                 </p>
                 <div className="bg-forest-pale rounded-2xl p-4 sm:p-5">
                   <p className="text-sm text-dark leading-relaxed">

@@ -33,7 +33,7 @@ export const PRESPAVKY_TERMINY: readonly PrespavkyTermin[] = [
     tema: "Podzimní tvoření",
     emoji: "🍂",
     temaPopis:
-      "Ranní rutina s vlastní destičkou a velké podzimní tvoření — výzdoba z přírodnin, které si nasbíráme přímo na farmě.",
+      "Velké podzimní tvoření — přírodniny si nasbíráme přímo na farmě a vyrobíme z nich výzdobu, kterou si každý odveze domů.",
     ceny: { vikend: 3090, noc: 1890, dvadny: 1690, den: 1090 },
     zavadeci: true,
   },
