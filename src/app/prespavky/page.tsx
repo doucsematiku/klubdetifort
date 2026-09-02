@@ -67,10 +67,6 @@ const FOTKY: { src: string; alt: string }[] = [
 
 const PODMINKY: [string, string][] = [
   [
-    "🩺",
-    "Dítě musí být zdravé — po tělesné i duševní stránce. Nemocné nebo výrazně nesvé dítě můžeme při předání nepřijmout.",
-  ],
-  [
     "📅",
     "Zrušení je zdarma do 7 dnů před akcí — vracíme vše. Později se platba nevrací, místo už neobsadíme.",
   ],
@@ -80,10 +76,6 @@ const PODMINKY: [string, string][] = [
     "Místo je vázané na přihlášené dítě — po dohodě s námi ho ale lze předat jinému dítěti, které podmínky splňuje (v rodině či mezi známými), ať vám nepropadne.",
   ],
   ["✍️", "Dokumenty k pobytu a předání dítěte podepíšeme společně na místě při příjezdu."],
-  [
-    "⏰",
-    "Vyzvedávejte prosím včas — za pozdní vyzvednutí účtujeme 200 Kč za každou započatou půlhodinu. Při nevyzvednutí a nedostupnosti rodičů i záložního kontaktu po dvou hodinách postupujeme podle zákona.",
-  ],
   [
     "📵",
     "Děti u nás tráví čas spolu, ne u obrazovek — telefon s sebou mít mohou, po příjezdu si ho ale uloží do šuplíčku. Volat můžete kdykoli přímo průvodkyni.",
@@ -445,18 +437,16 @@ export default function PrespavkyPage() {
                   <strong>Předání a vyzvedávání:</strong> Dítě předávají
                   a vyzvedávají rodiče nebo osoby uvedené v dokumentech
                   vyplněných při příjezdu. Za pozdní vyzvednutí účtujeme
-                  200 Kč za každou započatou půlhodinu péče navíc. Nepodaří-li
-                  se nám spojit s rodiči ani se záložním kontaktem, jsme po
-                  dvou hodinách povinni postupovat podle obecně závazných
-                  předpisů (vyrozumět orgán sociálně-právní ochrany dětí,
-                  případně Policii ČR).
+                  200 Kč za každou započatou půlhodinu péče navíc;
+                  nepodaří-li se nám spojit s rodiči ani se záložním
+                  kontaktem, jsme po dvou hodinách povinni postupovat podle
+                  obecně závazných předpisů.
                 </p>
                 <p>
                   <strong>Zdraví:</strong> Akce se může zúčastnit jen zdravé
-                  dítě — po tělesné i duševní stránce. Vyhrazujeme si právo
-                  nepřijmout dítě s projevy nemoci, případně požádat rodiče
-                  o dřívější vyzvednutí. Léky dítěti podáváme jen po předchozí
-                  domluvě.
+                  dítě — po tělesné i duševní stránce. Dítě s projevy nemoci
+                  nemůžeme přijmout, případně vás poprosíme o dřívější
+                  vyzvednutí. Léky dítěti podáváme jen po předchozí domluvě.
                 </p>
                 <p>
                   <strong>Pojištění:</strong> Spolek má sjednáno pojištění
