@@ -444,9 +444,10 @@ export default function PrespavkyPage() {
                 </p>
                 <p>
                   <strong>Zdraví:</strong> Akce se může zúčastnit jen zdravé
-                  dítě — po tělesné i duševní stránce. Dítě s projevy nemoci
-                  nemůžeme přijmout, případně vás poprosíme o dřívější
-                  vyzvednutí. Léky dítěti podáváme jen po předchozí domluvě.
+                  dítě — po tělesné i duševní stránce. U dítěte s výraznými
+                  projevy nemoci si vyhrazujeme právo je nepřijmout, případně
+                  vás poprosíme o dřívější vyzvednutí. Léky dítěti podáváme jen
+                  po předchozí domluvě.
                 </p>
                 <p>
                   <strong>Pojištění:</strong> Spolek má sjednáno pojištění

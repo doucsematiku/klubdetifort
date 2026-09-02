@@ -220,7 +220,7 @@ export const PRESPAVKY_ACKS: readonly PrespavkyAck[] = [
   {
     key: "ack_zdravi",
     text:
-      "**Dítě je zdravé — po tělesné i duševní stránce** — a zvládne pobyt ve skupince dětí. Rozumím, že klub může nemocné nebo výrazně nesvé dítě při předání nepřijmout, případně požádat rodiče o dřívější vyzvednutí.",
+      "**Dítě je zdravé — po tělesné i duševní stránce** — a zvládne pobyt ve skupince dětí.",
   },
   {
     key: "ack_vek",
@@ -239,7 +239,7 @@ export const PRESPAVKY_ACKS: readonly PrespavkyAck[] = [
   {
     key: "ack_vyzvednuti",
     text:
-      "Rozumím pravidlům vyzvedávání: **při pozdním vyzvednutí účtujeme 200 Kč za každou započatou půlhodinu** péče navíc. Kdybychom se nedovolali rodičům ani záložnímu kontaktu, po dvou hodinách postupujeme podle zákona (kontaktujeme orgán péče o dítě, případně Policii ČR) — věříme, že to nikdy nebude potřeba.",
+      "Vím, že **dítě vyzvednu ve smluvený čas**. Kdybychom se nedovolali rodičům ani záložnímu kontaktu, po dvou hodinách postupujeme podle zákona (orgán péče o dítě, případně Policie ČR) — věříme, že to nikdy nebude potřeba.",
   },
   {
     key: "ack_predani",
