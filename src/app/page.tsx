@@ -28,7 +28,7 @@ export default function Home() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
             <div className="max-w-2xl">
               <p className="text-orange font-semibold text-sm sm:text-base tracking-wide uppercase mb-4">
-                Startujeme v září 2026
+                Školní rok 2026/27 · přijímáme děti od předškoláků
               </p>
               <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
                 Vzdělávací klub
@@ -324,10 +324,11 @@ export default function Home() {
                   Program Badatelé
                 </h2>
                 <p className="text-lg text-brown leading-relaxed mb-8">
-                  Pro děti 1.–5. ročníku ZŠ, které jsou vzdělávány v režimu
-                  individuálního vzdělávání. Vaše dítě zůstává zapsáno na
-                  kmenové škole — my mu poskytujeme inspirativní zázemí
-                  a průvodce na jeho cestě.
+                  Pro předškoláky a děti 1.–5. ročníku ZŠ. Školáci jsou
+                  u nás v režimu individuálního vzdělávání: dítě zůstává
+                  zapsáno na kmenové škole a my mu poskytujeme inspirativní
+                  zázemí a průvodce na jeho cestě. Předškoláci se přidávají
+                  ke skupince na stejný program.
                 </p>
 
                 <div className="space-y-4 mb-8">
@@ -602,10 +603,6 @@ export default function Home() {
             <p className="text-dark text-base sm:text-lg font-semibold max-w-2xl mx-auto mb-6">
               První dva měsíce v klubu jsou pro přihlášené děti zcela zdarma —
               přijďte zažít, jak to u nás funguje, bez finančního závazku.
-            </p>
-
-            <p className="inline-block bg-white/90 text-forest font-bold text-sm sm:text-base px-5 py-2 rounded-full shadow mb-6">
-              + Sleva 30 % pro prvních 10 přihlášených
             </p>
 
             <div>

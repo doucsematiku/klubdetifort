@@ -171,10 +171,9 @@ export default function ProNoveRodicePage() {
           Ceník na školní rok 2026/2027
         </h2>
         <p className="text-dark/70 mb-6 leading-relaxed">
-          Ceny docházky jsou <strong>zakladatelské</strong> — sleva z běžného
-          ceníku je v nich už odečtena a platí na celý první školní rok
-          (2 dny v týdnu 2 730 Kč místo běžných 3 900 Kč, tedy −30 %; ostatní
-          tarify −25 %). Za <strong>září a říjen 2026 se docházka nehradí</strong>;
+          Ceny docházky jsou <strong>zakladatelské</strong> a platí na celý
+          školní rok 2026/2027 (například 2 dny v týdnu 2 730 Kč měsíčně).
+          Za <strong>září a říjen 2026 se docházka nehradí</strong>;
           obědy a ostatní služby se hradí i v tomto období.
         </p>
         <div className="bg-white rounded-2xl overflow-hidden mb-6">
