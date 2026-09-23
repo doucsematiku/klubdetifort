@@ -19,6 +19,7 @@ const O_KLUBIKU = [
 
 const FOTKY = [
   { label: "Galerie", href: "/galerie" },
+  { label: "Ze života klubíku", href: "/ze-zivota-klubiku" },
   { label: "Proběhlé akce", href: "/probehle-akce" },
 ];
 

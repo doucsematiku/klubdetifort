@@ -33,6 +33,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: "https://klubdetifort.cz/ze-zivota-klubiku",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
       url: "https://klubdetifort.cz/probehle-akce",
       lastModified: new Date(),
       changeFrequency: "yearly",

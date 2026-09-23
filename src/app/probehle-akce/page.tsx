@@ -123,7 +123,11 @@ export default function ProbehleAkcePage() {
             </h2>
             <p className="mt-2 text-brown leading-relaxed">
               Od září 2026 běží klubík pravidelně — v pondělí, úterý a ve středu.
-              Přijďte se k nám nejdřív podívat, prohlídky domlouváme
+              Co děti zažívají, sepisujeme v{" "}
+              <Link href="/ze-zivota-klubiku" className="font-semibold text-forest underline">
+                deníku Ze života klubíku
+              </Link>
+              . Přijďte se k nám nejdřív podívat, prohlídky domlouváme
               individuálně.
             </p>
             <div className="mt-4 flex flex-wrap gap-3">

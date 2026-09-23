@@ -258,6 +258,11 @@ export default function Home() {
                 Podívejte se na fotky z letní akce pro děti →
               </Link>
             </p>
+            <p className="mt-2 text-center text-brown">
+              <Link href="/ze-zivota-klubiku" className="font-semibold text-forest underline">
+                Co děti v klubíku zažily v září →
+              </Link>
+            </p>
           </div>
         </section>
 
