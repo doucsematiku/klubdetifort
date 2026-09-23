@@ -152,8 +152,8 @@ export default function ZeZivotaKlubikuPage() {
                   U vybraných hub si děti označily výšku a do tabulky zapisujeme,
                   o kolik vyrostly. Kreslili jsme tělo houby s&nbsp;popisky,
                   listovali atlasem hub a každý si vymyslel vlastní houbu, třeba
-                  Mráčko Pink, která vás pošle cestovat v&nbsp;čase. Při kontrole
-                  23.&nbsp;září přišel nápad na nový pokus: shodí rostoucí bedla
+                  Mráčko Pink, která vás pošle cestovat v&nbsp;čase. Při jedné
+                  z&nbsp;kontrol přišel nápad na nový pokus: shodí rostoucí bedla
                   klacík?
                 </p>
                 <Fotky
@@ -172,9 +172,9 @@ export default function ZeZivotaKlubikuPage() {
                   délky, které jsme pak porovnali se skutečností.
                 </p>
                 <p>
-                  Ve středu 23.&nbsp;září přišlo na řadu kružítko: tři kružnice se
-                  třemi různými poloměry, vystřihnout, slepit do tvaru kloboučku
-                  a vybarvit podle skutečné houby z&nbsp;atlasu. U tabule pak každý
+                  Pak přišlo na řadu kružítko: tři kružnice se třemi různými
+                  poloměry, vystřihnout, slepit do tvaru kloboučku a vybarvit,
+                  někdo podle skutečné houby z&nbsp;atlasu, někdo po svém. U tabule pak každý
                   nakreslil kruh, označil střed a zapsal poloměr. Venku jsme si
                   udělali kružítko z&nbsp;klacků a z&nbsp;kruhu bylo hned hřiště
                   pro hru na policajta a zloděje šišek.
@@ -182,7 +182,7 @@ export default function ZeZivotaKlubikuPage() {
                 <Fotky
                   fotky={[
                     { src: `${D}/tabule-polomer.jpg`, alt: "Dítě zezadu u tabule zapisuje poloměr kružnice" },
-                    { src: `${D}/kloboucky-hub.jpg`, alt: "Papírové kloboučky hub vybarvené podle atlasu" },
+                    { src: `${D}/kloboucky-hub.jpg`, alt: "Barevné papírové kloboučky hub" },
                   ]}
                 />
               </Cast>
@@ -194,8 +194,8 @@ export default function ZeZivotaKlubikuPage() {
                   sestavení. V&nbsp;polovině září vzniklo spontánní divadlo: děti
                   samy postavily kulisy, srovnaly židle pro diváky, přidaly
                   hudební nástroje, nachystaly občerstvení a zahrály představení
-                  pro rodiče. A&nbsp;ve středu 23.&nbsp;září si vymyslely rovnou
-                  čtyři divadelní příběhy.
+                  pro rodiče. A&nbsp;jindy si vymyslely rovnou čtyři divadelní
+                  příběhy.
                 </p>
                 <Fotky
                   fotky={[
@@ -214,8 +214,8 @@ export default function ZeZivotaKlubikuPage() {
                 </p>
                 <p>
                   Obědy nám vaří kuchyně BIO farmy Fořt a u jídla si zkoušíme
-                  povídat anglicky (English lunch). Ve středu 23.&nbsp;září jsme
-                  obědvali venku a stolem nám byl velký kmen.
+                  povídat anglicky (English lunch). Jednou jsme obědvali venku
+                  a stolem nám byl velký kmen.
                 </p>
                 <Fotky
                   fotky={[
