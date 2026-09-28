@@ -251,7 +251,7 @@ export default function Home() {
               <p className="hero-in [animation-delay:300ms] text-base sm:text-lg text-white/85 leading-relaxed mb-8 max-w-xl">
                 Komunitní prostor pro děti na individuálním vzdělávání.
                 Příroda Krkonoš, život na farmě a radost z poznávání —
-                to vše v bezpečném společenství.
+                to vše v malé a bezpečné skupince.
               </p>
               <div className="hero-in [animation-delay:380ms] flex flex-col sm:flex-row gap-3">
                 <a
@@ -383,7 +383,9 @@ export default function Home() {
               <h2 className="text-[2.2rem] leading-[1.05] sm:text-5xl lg:text-6xl font-extrabold text-dark mb-6">
                 Nejsme škola.{" "}
                 <br className="sm:hidden" />
-                <span className="text-forest squiggle">Jsme společenství.</span>
+                <span className="text-forest">
+                  Jsme <span className="squiggle">klubík</span>.
+                </span>
               </h2>
               <p className="text-lg text-brown leading-relaxed">
                 Věříme, že návrat k přírodě a ke klidnému tempu je tou nejlepší
