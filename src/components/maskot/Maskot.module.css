@@ -1,0 +1,944 @@
+/*
+  Fořťáček v pravém dolním rohu (převzato z Jurťáčka na jurtyujezirka.cz,
+  ten zase z maskota půjčovny SKI Rental). Barvy z palety klubíku:
+    #3A362D dark   #8B6F5E brown-light   #E8DFD0 beige-dark   #F5F0E8 beige
+    #2D5A27 forest #1B3617 forest-deep   #FFB72B orange       #FF9900 orange-hover
+*/
+
+/* ---------------------------------------------------------------- */
+/* Kořen, rozložení a sezónní barvy                                   */
+/* ---------------------------------------------------------------- */
+
+.root {
+  position: fixed;
+  right: 12px;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 40;
+  /* Prázdná plocha kolem postavy a bubliny nesmí chytat kliknutí. */
+  pointer-events: none;
+  /* Výška celé postavy na počítači — z ní se počítá i poloha bubliny. */
+  --fig-h: clamp(240px, 34vh, 300px);
+  --lift: 0px;
+  /* Avatar: sluníčkově žlutý kruh jako podklad loga */
+  --maskot-a: #FFF1CF;
+  --maskot-b: #FFB72B;
+  --maskot-c: #E08E0B;
+  --maskot-rule: #2D5A27;
+  --maskot-leaf-1: #9CB77F;
+  --maskot-leaf-2: #4A7C42;
+  transform: translateY(var(--lift));
+  transition: transform 0.3s ease;
+}
+
+/* Na telefonu sedí nad lepicí lištou s tlačítky (StickyCta). */
+.root[data-lift='true'] {
+  --lift: -80px;
+}
+
+/* Dokud je otevřená lišta se souhlasem s měřením, maskot počká. */
+:global(body:has([aria-label='Souhlas s měřením návštěvnosti'])) .root {
+  visibility: hidden;
+}
+
+.root[data-shown='false'] {
+  visibility: hidden;
+}
+
+/* Dokud je schovaný, nic se nehýbe a tipy se nestřídají. */
+.root[data-shown='false'] * {
+  animation-play-state: paused !important;
+}
+
+.stage {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+@media (min-width: 1024px) {
+  .root {
+    right: 20px;
+    bottom: 16px;
+  }
+}
+
+@media print {
+  .root {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------- */
+/* Bublina                                                            */
+/* ---------------------------------------------------------------- */
+
+.dialog {
+  display: none;
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 14px);
+  width: min(20rem, calc(100vw - 24px));
+  padding: 6px 8px 16px 16px;
+  border-radius: 22px;
+  background: #fff;
+  /* Průhledný rámeček se ukáže v režimu vysokého kontrastu. */
+  border: 1px solid transparent;
+  box-shadow:
+    0 0 0 1px #E8DFD0,
+    0 22px 44px -16px rgb(58 54 45 / 0.45),
+    0 6px 14px -6px rgb(58 54 45 / 0.2);
+  pointer-events: auto;
+  transform-origin: calc(100% - 36px) calc(100% + 14px);
+  text-align: left;
+}
+
+.root[data-open='true'] .dialog {
+  display: block;
+}
+
+/* Animace příchodu až ve chvíli, kdy je maskot opravdu vidět — vykreslený
+   je už dřív (neviditelně), aby se stihl načíst obrázek. */
+.root[data-shown='true'][data-open='true'] .dialog {
+  animation: pop-in 0.38s cubic-bezier(0.2, 0.9, 0.3, 1.25) both;
+}
+
+.dialog:focus {
+  outline: none;
+}
+
+.dialog:focus-visible {
+  outline: 3px solid var(--maskot-b);
+  outline-offset: 3px;
+}
+
+/* Ocásek bubliny — na mobilu míří dolů na avatar. */
+.dialog::after {
+  content: '';
+  position: absolute;
+  right: 28px;
+  bottom: -8px;
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  box-shadow: 1px 1px 0 0 #E8DFD0;
+  transform: rotate(45deg);
+}
+
+@media (min-width: 1024px) {
+  /* Na počítači stojí bublina vlevo od postavy, ocásek míří na ni. */
+  .dialog {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: 20rem;
+    margin-bottom: calc(var(--fig-h) * 0.3);
+    transform-origin: 100% 60%;
+  }
+
+  .root[data-shown='true'][data-open='true'] .dialog {
+    animation-delay: 0.35s;
+  }
+
+  .root[data-shown='true'][data-calm='true'][data-open='true'] .dialog {
+    animation-delay: 0.1s;
+  }
+
+  .dialog::after {
+    right: -8px;
+    bottom: calc(var(--fig-h) * 0.3);
+    box-shadow: 1px -1px 0 0 #E8DFD0;
+  }
+}
+
+/* Na nízkém displeji (telefon na šířku) se obsah bubliny posouvá uvnitř. */
+.body {
+  max-height: calc(100dvh - 220px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+@media (min-width: 1024px) {
+  .body {
+    max-height: none;
+    overflow: visible;
+  }
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-height: 44px;
+}
+
+.name {
+  min-width: 0;
+  flex: 1;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+  color: #2D5A27;
+}
+
+/* Přepínač tipů: tečky, aktivní je protažená a plní se časem. */
+.dots {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 9999px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.dots:hover .dot:not([data-active='true']) {
+  background: #C9B8A0;
+}
+
+.dot {
+  position: relative;
+  display: block;
+  width: 7px;
+  height: 7px;
+  overflow: hidden;
+  border-radius: 9999px;
+  background: #E8DFD0;
+  transition:
+    width 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.dot[data-active='true'] {
+  width: 22px;
+  background: #F5F0E8;
+}
+
+.progress {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: #2D5A27;
+  transform-origin: left center;
+  animation: tip-progress 6s linear forwards;
+}
+
+.dialog[data-paused='true'] .progress {
+  animation-play-state: paused;
+}
+
+.close {
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 9999px;
+  background: transparent;
+  color: #8B6F5E;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.close:hover {
+  background: #F5F0E8;
+  color: #3A362D;
+}
+
+/* Tipy leží na sobě — viditelný je vždy jen jeden. */
+.tips {
+  display: grid;
+  margin: 2px 8px 0 0;
+}
+
+.tip {
+  grid-area: 1 / 1;
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: #3A362D;
+  text-wrap: pretty;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease,
+    visibility 0s linear 0.35s;
+}
+
+.tip[data-active='true'] {
+  opacity: 1;
+  /* `inherit`, ne `visible` — jinak by text prosvítal i ve chvíli, kdy je
+     celý maskot ještě schovaný. */
+  visibility: inherit;
+  transform: none;
+  transition-delay: 0s;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 8px 0 0;
+}
+
+/* Když se dvě tlačítka nevejdou, zalomí se pod sebe místo přetečení. */
+.action {
+  display: inline-flex;
+  flex: 1 1 8rem;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 46px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.15;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  transition: background-color 0.2s ease;
+}
+
+.actionBook {
+  flex: 1 1 auto;
+  background: #FFB72B;
+  color: #3A362D;
+  font-weight: 700;
+}
+
+.actionBook:hover {
+  background: #FF9900;
+}
+
+/* Telefon jen jako ikona — hlavní je rezervace, text se tak nikdy nezalomí. */
+.actionCall {
+  flex: 0 0 46px;
+  padding: 0;
+  background: #2D5A27;
+}
+
+.actionCall:hover {
+  background: #1B3617;
+}
+
+/* ---------------------------------------------------------------- */
+/* Lákadlo u avataru (mobil)                                          */
+/* ---------------------------------------------------------------- */
+
+.teaser {
+  display: none;
+  position: absolute;
+  right: calc(72px + 12px);
+  top: 50%;
+  width: max-content;
+  max-width: calc(100vw - 72px - 12px - 12px - 16px);
+  min-height: 44px;
+  padding: 10px 16px;
+  border: 1px solid transparent;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow:
+    0 0 0 1px #E8DFD0,
+    0 14px 30px -12px rgb(58 54 45 / 0.45);
+  font-size: 15px;
+  font-weight: 600;
+  color: #3A362D;
+  text-align: left;
+  line-height: 1.25;
+  pointer-events: auto;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.teaser::after {
+  content: '';
+  position: absolute;
+  right: -6px;
+  top: calc(50% - 6px);
+  width: 12px;
+  height: 12px;
+  background: #fff;
+  box-shadow: 1px -1px 0 0 #E8DFD0;
+  transform: rotate(45deg);
+}
+
+@media (max-width: 1023.98px) {
+  .root[data-shown='true'][data-teaser='true'][data-open='false'] .teaser {
+    display: block;
+    animation: teaser-in 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2) 0.7s both;
+  }
+}
+
+/* ---------------------------------------------------------------- */
+/* Kulatý avatar                                                      */
+/* ---------------------------------------------------------------- */
+
+.launcher {
+  position: relative;
+  display: block;
+  flex-shrink: 0;
+  width: 72px;
+  height: 72px;
+  padding: 0;
+  border: 3px solid #fff;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 50% 30%, var(--maskot-a), var(--maskot-b) 60%, var(--maskot-c));
+  box-shadow:
+    0 12px 26px -10px rgb(58 54 45 / 0.55),
+    0 0 0 1px rgb(58 54 45 / 0.1);
+  pointer-events: auto;
+  cursor: pointer;
+  transition: scale 0.2s ease;
+}
+
+.root[data-shown='true'] .launcher {
+  animation:
+    launcher-in 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.3) both,
+    bob 3.8s ease-in-out 0.9s infinite;
+}
+
+.launcher:hover {
+  scale: 1.06;
+}
+
+/* Kruh v barvě sezóny se třikrát rozvlní — nenápadné „tady jsem". */
+.launcher::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border: 3px solid var(--maskot-b);
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.root[data-shown='true'] .launcher::after {
+  animation: ring 2.6s ease-out 1.2s 3;
+}
+
+.avatar {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 9999px;
+}
+
+.avatarImg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Mávající ručička v rohu avataru. */
+.hand {
+  position: absolute;
+  top: -6px;
+  left: -8px;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 9999px;
+  background: #fff;
+  color: #3A362D;
+  box-shadow: 0 4px 10px -3px rgb(58 54 45 / 0.4);
+  transform-origin: 70% 85%;
+  animation: hand-wave 3.6s ease-in-out 1.4s infinite;
+}
+
+@media (min-width: 1024px) {
+  .launcher {
+    width: 76px;
+    height: 76px;
+  }
+
+  /* S otevřenou bublinou stojí na počítači celá postava místo avataru. */
+  .root[data-open='true'] .launcher {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------- */
+/* Celá postava (počítač)                                             */
+/* ---------------------------------------------------------------- */
+
+.figure {
+  display: none;
+  position: relative;
+  flex-shrink: 0;
+  height: var(--fig-h);
+  aspect-ratio: 444 / 560;
+  pointer-events: auto;
+  cursor: pointer;
+  /* Velikost písma na cedulce se řídí šířkou postavy. */
+  container-type: inline-size;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (min-width: 1024px) {
+  .root[data-open='true'] .figure {
+    display: block;
+  }
+
+  .root[data-shown='true'][data-open='true'] .figure {
+    animation: figure-in 0.95s cubic-bezier(0.25, 0.8, 0.3, 1) both;
+  }
+
+  .root[data-shown='true'][data-calm='true'][data-open='true'] .figure {
+    animation: fade-up 0.45s ease-out both;
+  }
+}
+
+.bob,
+.wave,
+.hi {
+  position: absolute;
+  inset: 0;
+}
+
+/* Dýchání: jemně nahoru a dolů, botky zůstávají na místě. */
+.bob {
+  transform-origin: 42% 100%;
+  animation: breathe 3.8s ease-in-out infinite;
+}
+
+/* Občasné přátelské zamávání — celá jurta se zhoupne kolem botek. */
+.wave {
+  transform-origin: 42% 98%;
+  animation: wave-hello 8s ease-in-out 1.6s infinite;
+}
+
+.hi {
+  transform-origin: 42% 98%;
+}
+
+.hi[data-hi='a'] {
+  animation: hi-a 0.9s ease-in-out;
+}
+
+.hi[data-hi='b'] {
+  animation: hi-b 0.9s ease-in-out;
+}
+
+.img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/*
+  Cedule. Deska v obrázku je vymazaná; tahle leží přesně na jejím místě
+  (čísla z výstupu skriptu maskot-pozadi.mjs, v % obrázku 444 × 560),
+  je o kousek větší a natočená jako původní. Houpe se kolem bodu, kde
+  do ní vede tyčka.
+*/
+.board {
+  position: absolute;
+  left: 56.2%;
+  top: 1.4%;
+  width: 42%;
+  height: 28.5%;
+  transform: rotate(4deg);
+}
+
+.boardSwing {
+  position: absolute;
+  inset: 0;
+  transform-origin: 46% 97%;
+  animation: swing 3.4s ease-in-out infinite alternate;
+}
+
+/* Jedno světlé prkno jako na původní ceduli: jemná léta, tmavší spodní hrana. */
+.boardFace {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.4cqw;
+  padding: 0 3cqw;
+  border-radius: 2.6cqw;
+  color: #4a2e17;
+  text-align: center;
+  background:
+    repeating-linear-gradient(179deg, transparent 0 2.2cqw, rgb(150 88 40 / 0.09) 2.2cqw 2.6cqw),
+    linear-gradient(180deg, #e9c08f 0%, #dcaa74 55%, #cf9860 100%);
+  box-shadow:
+    inset 0 -1.5cqw 0 #b77d47,
+    inset 0 0.7cqw 0 rgb(255 255 255 / 0.4),
+    0 2.2cqw 3.2cqw -1cqw rgb(58 54 45 / 0.45);
+}
+
+/* Dva hřebíčky nad sebou, jako na původní ceduli (tam, kde vede tyčka). */
+.boardFace::before,
+.boardFace::after {
+  content: '';
+  position: absolute;
+  left: calc(46% - 0.9cqw);
+  width: 1.8cqw;
+  height: 1.8cqw;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 35% 35%, #d9d4cc, #7d7468 70%);
+  box-shadow: 0 0.3cqw 0.4cqw rgb(58 54 45 / 0.4);
+}
+
+.boardFace::before {
+  top: 1.8cqw;
+}
+
+.boardFace::after {
+  bottom: 2.6cqw;
+}
+
+.signTop {
+  font-size: 8.4cqw;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.signRule {
+  display: block;
+  width: 58%;
+  height: 0.9cqw;
+  border-radius: 9999px;
+  background: var(--maskot-rule);
+}
+
+.signBottom {
+  font-size: 3.9cqw;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  line-height: 1.1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: #2D5A27;
+}
+
+/* Horní konec tyčky pod deskou — v obrázku ho ubral ořez desky. */
+.stub {
+  position: absolute;
+  left: 73.3%;
+  top: 27.5%;
+  width: 4.4%;
+  height: 5.5%;
+  border-radius: 1cqw;
+  background: linear-gradient(90deg, #8e5634, #c28352 40%, #e39b61 80%, #d6a46c);
+}
+
+/* Za postavou padá pár lístků, v zimě vloček. */
+.particles {
+  position: absolute;
+  inset: -6% -4% 0 -8%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  top: 0;
+  width: 13px;
+  height: 13px;
+  opacity: 0;
+  animation: particle-fall 8s linear infinite;
+}
+
+.leafIcon,
+.flakeIcon {
+  width: 100%;
+  height: 100%;
+}
+
+.leafIcon {
+  display: block;
+  color: var(--maskot-leaf-1);
+  fill: currentColor;
+}
+
+.flakeIcon {
+  display: none;
+  color: #a8d2ea;
+}
+
+.particle:nth-child(even) .leafIcon {
+  color: var(--maskot-leaf-2);
+}
+
+.particle:nth-child(1) { left: 4%; animation-duration: 7s; animation-delay: 0s; }
+.particle:nth-child(2) { left: 26%; width: 10px; height: 10px; animation-duration: 9s; animation-delay: 2.2s; }
+.particle:nth-child(3) { left: 52%; width: 15px; height: 15px; animation-duration: 8s; animation-delay: 4s; }
+.particle:nth-child(4) { left: 74%; width: 11px; height: 11px; animation-duration: 10s; animation-delay: 1s; }
+.particle:nth-child(5) { left: 92%; animation-duration: 7.5s; animation-delay: 5.5s; }
+.particle:nth-child(6) { left: 14%; width: 11px; height: 11px; animation-duration: 8.5s; animation-delay: 3.2s; }
+
+/* ---------------------------------------------------------------- */
+/* Animace                                                            */
+/* ---------------------------------------------------------------- */
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.86) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes teaser-in {
+  from {
+    opacity: 0;
+    transform: translate(12px, -50%) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes launcher-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Příjezd zpoza pravého dolního rohu s malým doskokem. */
+@keyframes figure-in {
+  0% {
+    transform: translate(35%, 105%) rotate(8deg);
+  }
+  58% {
+    transform: translate(0, -6%) rotate(-2deg);
+  }
+  78% {
+    transform: translate(0, 2%) rotate(1deg);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: translateY(0) scaleY(1);
+  }
+  50% {
+    transform: translateY(-1.2%) scaleY(1.01);
+  }
+}
+
+@keyframes wave-hello {
+  0%,
+  70%,
+  100% {
+    transform: rotate(0);
+  }
+  74% {
+    transform: rotate(-3.5deg);
+  }
+  79% {
+    transform: rotate(2.5deg);
+  }
+  84% {
+    transform: rotate(-2deg);
+  }
+  89% {
+    transform: rotate(1deg);
+  }
+  93% {
+    transform: rotate(0);
+  }
+}
+
+/* Dvě stejné animace pod různým jménem — přepnutí jména ji spustí znovu. */
+@keyframes hi-a {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  20% {
+    transform: rotate(-5deg);
+  }
+  45% {
+    transform: rotate(4deg);
+  }
+  70% {
+    transform: rotate(-2deg);
+  }
+}
+
+@keyframes hi-b {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  20% {
+    transform: rotate(-5deg);
+  }
+  45% {
+    transform: rotate(4deg);
+  }
+  70% {
+    transform: rotate(-2deg);
+  }
+}
+
+@keyframes swing {
+  from {
+    transform: rotate(-2deg);
+  }
+  to {
+    transform: rotate(2deg);
+  }
+}
+
+@keyframes hand-wave {
+  0%,
+  55%,
+  100% {
+    transform: rotate(0);
+  }
+  62% {
+    transform: rotate(-20deg);
+  }
+  69% {
+    transform: rotate(16deg);
+  }
+  76% {
+    transform: rotate(-12deg);
+  }
+  83% {
+    transform: rotate(6deg);
+  }
+  90% {
+    transform: rotate(0);
+  }
+}
+
+@keyframes ring {
+  0% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.45);
+  }
+}
+
+@keyframes tip-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes particle-fall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  12% {
+    opacity: 0.9;
+  }
+  85% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(14px, calc(var(--fig-h) * 0.95), 0) rotate(200deg);
+  }
+}
+
+/*
+  Kdo má v systému vypnuté animace, dostane postavu v klidu: bez příjezdu,
+  dýchání, mávání, houpání cedule a padajících lístků. Tipy se samy
+  nestřídají (ukazatel bez animace nikdy „nedoběhne"), přepnout jde tečkami.
+*/
+@media (prefers-reduced-motion: reduce) {
+  .root,
+  .dialog,
+  .root[data-shown='true'][data-open='true'] .dialog,
+  .tip,
+  .teaser,
+  .root[data-shown='true'][data-teaser='true'][data-open='false'] .teaser,
+  .launcher,
+  .root[data-shown='true'] .launcher,
+  .root[data-shown='true'] .launcher::after,
+  .hand,
+  .figure,
+  .root[data-shown='true'][data-open='true'] .figure,
+  .root[data-shown='true'][data-calm='true'][data-open='true'] .figure,
+  .bob,
+  .wave,
+  .hi[data-hi],
+  .boardSwing,
+  .progress {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .progress {
+    transform: scaleX(1);
+  }
+
+  .particles {
+    display: none;
+  }
+}

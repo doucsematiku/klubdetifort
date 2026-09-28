@@ -18,6 +18,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Hory from "@/components/design/Hory";
 import SnapRadek from "@/components/design/SnapRadek";
+import Maskot from "@/components/maskot/Maskot";
 
 export const metadata: Metadata = {
   title: "Ze života klubíku: září 2026 | Klub dětí Fořt",
@@ -378,6 +379,8 @@ export default function ZeZivotaKlubikuPage() {
       </main>
 
       <Footer />
+      {/* Fořťáček — maskot v pravém dolním rohu */}
+      <Maskot />
     </>
   );
 }

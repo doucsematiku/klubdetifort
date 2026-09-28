@@ -5,6 +5,7 @@ import { Check, Droplets, Flame, Images, Mountain, TreePine } from "lucide-react
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Hory from "@/components/design/Hory";
+import Maskot from "@/components/maskot/Maskot";
 
 export const metadata: Metadata = {
   title: "Proběhlé akce pro děti | Klub dětí Fořt",
@@ -198,6 +199,8 @@ export default function ProbehleAkcePage() {
       </main>
 
       <Footer />
+      {/* Fořťáček — maskot v pravém dolním rohu */}
+      <Maskot />
     </>
   );
 }

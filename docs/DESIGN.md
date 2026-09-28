@@ -45,6 +45,18 @@ Zobrazení v září: `/` 60 %, `/prespavky` 22 %, `/pruvodkyne` 10 %, `/galerie
 - `FotoPas` — pás fotek (dekorace, `alt=""`, `aria-hidden`).
 - Ikony: `lucide-react` (vždy `aria-hidden="true"`).
 
+## Maskot Fořťáček (`src/components/maskot/`)
+Kravička z loga (bílé telátko se žlutými skvrnami, absolventská čepička, zelený šátek) v pravém dolním rohu —
+stejný princip jako Jurťáček (jurtyujezirka.cz) a Jirka (skiverleih.cz). Na počítači celá postava s cedulkou
+a bublinou s tipy, na telefonu kulatý avatar nad lepicí lištou (StickyCta), bublina po klepnutí.
+- Texty a tlačítka: `texty.ts` — varianta `klub` (hlavní, průvodkyně, galerie, deník, archiv → Domluvit prohlídku)
+  a `prespavky` (→ Přihlásit dítě, telefon Lenky). Tipy jen pravdivé věci, které jsou i jinde na webu.
+- Obrázky: `public/maskot/fortacek-postava.webp` + `fortacek-avatar.webp` ze zdroje
+  `scripts/maskot-zdroj/fortacek-kling.png` (Kling IMAGE 3.0, 28. 9. 2026) skriptem
+  `node scripts/maskot-pozadi.mjs scripts/maskot-zdroj/fortacek-kling.png --nahled`.
+  Cedulka je z HTML — poloha v `Maskot.module.css` (.board/.stub) podle výstupu skriptu.
+- Uklidí se u formulářů (#kontakt, #prihlaska), u patičky na počítači a dokud je otevřená lišta souhlasu.
+
 ## Pravidla
 1. Texty 1:1 — ani čárka, ani pomlčka, ani emoji. Nové prvky jsou jen dekorace bez textu
    (ikony, tvary, fotky s `alt=""`). Kontrola: `node scripts/kontrola-textu.mjs http://localhost:3099 [/cesta…]`

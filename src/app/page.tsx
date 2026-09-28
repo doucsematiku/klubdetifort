@@ -37,6 +37,7 @@ import Hory from "@/components/design/Hory";
 import StickyCta from "@/components/design/StickyCta";
 import SnapRadek from "@/components/design/SnapRadek";
 import FotoPas from "@/components/design/FotoPas";
+import Maskot from "@/components/maskot/Maskot";
 
 /** Hodnoty klubu — každá karta má vlastní ikonu a barvu (bento). */
 const HODNOTY: { title: string; text: string; ikona: LucideIcon; styl: string; bublina: string; nadpis: string; popis: string }[] = [
@@ -1092,6 +1093,8 @@ export default function Home() {
       </main>
 
       <Footer />
+      {/* Fořťáček — maskot v pravém dolním rohu */}
+      <Maskot />
 
       {/* lepicí tlačítka na telefonu — stejné texty i cíle jako v hlavičce */}
       <StickyCta

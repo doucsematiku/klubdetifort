@@ -9,6 +9,7 @@ import Hory from "@/components/design/Hory";
 import SnapRadek from "@/components/design/SnapRadek";
 import StickyCta from "@/components/design/StickyCta";
 import { PRESPAVKY_BLOKY, PRESPAVKY_TERMINY, VEK_DO, terminProsel } from "@/lib/prespavky";
+import Maskot from "@/components/maskot/Maskot";
 
 // Stránka je statická — obnovuje se každou hodinu, aby se termín, který
 // právě začal, sám přepnul na „proběhlo".
@@ -863,6 +864,8 @@ export default function PrespavkyPage() {
         </section>
       </main>
       <Footer />
+      {/* Fořťáček — maskot v pravém dolním rohu */}
+      <Maskot varianta="prespavky" />
 
       {/* lepicí tlačítka na telefonu — stejné texty i cíle jako v úvodu */}
       <StickyCta

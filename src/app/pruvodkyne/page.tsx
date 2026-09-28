@@ -6,6 +6,7 @@ import { PRUVODKYNE } from "@/lib/medailonky";
 import Hory from "@/components/design/Hory";
 import StickyCta from "@/components/design/StickyCta";
 import PruvodkyneFotky from "@/components/PruvodkyneFotky";
+import Maskot from "@/components/maskot/Maskot";
 
 export const metadata: Metadata = {
   title: "Kdo bude s dětmi | Klub Fořt",
@@ -267,6 +268,8 @@ export default function PruvodkynePage() {
         akce={[{ label: "Domluvit prohlídku", href: "/prohlidky", hlavni: true }]}
         schovatU={["prijdte-se-podivat"]}
       />
+      {/* Fořťáček — maskot v pravém dolním rohu */}
+      <Maskot />
     </main>
   );
 }

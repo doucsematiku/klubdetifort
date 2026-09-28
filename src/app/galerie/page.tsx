@@ -4,6 +4,7 @@ import Link from "next/link";
 import { History, Images, Sun } from "lucide-react";
 import Galerie from "@/components/Galerie";
 import Hory from "@/components/design/Hory";
+import Maskot from "@/components/maskot/Maskot";
 
 export const metadata: Metadata = {
   title: "Galerie — letní akce pro děti | Klub Fořt",
@@ -153,6 +154,8 @@ export default function GaleriePage() {
           </div>
         </div>
       </section>
+      {/* Fořťáček — maskot v pravém dolním rohu */}
+      <Maskot />
     </main>
   );
 }
