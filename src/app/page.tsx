@@ -554,7 +554,7 @@ export default function Home() {
                   <p className="text-sm text-brown-light leading-relaxed">
                     Farma Fořt je certifikovaný BIO producent. Děti tak dostávají
                     to nejlepší, co krajina Krkonoš nabízí — čerstvé, sezónní
-                    a s&nbsp;příběhem. Oběd stojí 80&nbsp;Kč.
+                    a s&nbsp;příběhem. Oběd stojí 60–80&nbsp;Kč podle věku dítěte.
                   </p>
                 </div>
               </div>

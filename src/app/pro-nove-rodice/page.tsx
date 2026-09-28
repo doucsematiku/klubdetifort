@@ -83,7 +83,11 @@ const CENIK: { item: string; scope: string; price: string }[] = [
     scope: "z příspěvku každého dítěte",
     price: "− 5 %",
   },
-  { item: "Oběd dítěte (z produkce farmy)", scope: "za den", price: "80 Kč" },
+  {
+    item: "Oběd dítěte (z produkce farmy)",
+    scope: "za den (podle věku dítěte)",
+    price: "60–80 Kč",
+  },
   {
     item: "Den navíc mimo tarif (dle volné kapacity)",
     scope: "za den",
