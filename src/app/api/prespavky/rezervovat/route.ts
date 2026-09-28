@@ -14,6 +14,7 @@ import {
   getBlok,
   getTermin,
   splatnostDni,
+  terminProsel,
   volnoPreBlok,
   type PrespavkyPocty,
 } from "@/lib/prespavky";
@@ -91,6 +92,13 @@ export async function POST(req: NextRequest) {
     const blok = getBlok(body.blokId ?? "");
     if (!termin || !blok) {
       return NextResponse.json({ error: "Neplatný termín nebo blok." }, { status: 400 });
+    }
+    // proběhlý termín nejde objednat ani obejitím formuláře (ten ho jen zašedí)
+    if (terminProsel(termin)) {
+      return NextResponse.json(
+        { error: "Tento termín už proběhl — vyberte prosím některý z dalších víkendů." },
+        { status: 400 }
+      );
     }
     if (!Array.isArray(body.deti) || body.deti.length === 0) {
       return NextResponse.json(

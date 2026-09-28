@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Bricolage_Grotesque, Caveat, Inter } from "next/font/google";
 import CookieConsent from "@/components/CookieConsent";
 import "./globals.css";
 
@@ -14,10 +14,28 @@ const inter = Inter({
   subsets: ["latin", "latin-ext"],
 });
 
+// Nadpisy — moderní groteska s charakterem; osa opsz dělá velké titulky
+// sevřenější a drobné nadpisy čitelnější.
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-bricolage",
+  subsets: ["latin", "latin-ext"],
+  axes: ["opsz"],
+  display: "swap",
+});
+
+// Ručně psaný akcent — jen pro motto a drobné popisky, nikdy pro delší text.
+const caveat = Caveat({
+  variable: "--font-caveat",
+  subsets: ["latin", "latin-ext"],
+  display: "swap",
+});
+
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
+  // barva lišty prohlížeče na telefonu ladí s hlavičkou
+  themeColor: "#FBF8F2",
 };
 
 export const metadata: Metadata = {
@@ -78,7 +96,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="cs" className={`${inter.variable} h-full antialiased`}>
+    <html
+      lang="cs"
+      className={`${inter.variable} ${bricolage.variable} ${caveat.variable} h-full antialiased`}
+    >
       <body className="min-h-full flex flex-col">
         {children}
         {/* Měření návštěvnosti a reklamy se načte teprve po souhlasu návštěvníka. */}

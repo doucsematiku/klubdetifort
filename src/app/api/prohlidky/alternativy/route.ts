@@ -3,7 +3,7 @@ import { Resend } from "resend";
 import { google } from "googleapis";
 import { supabaseInsert } from "@/lib/supabase";
 import { allAcksAccepted, type AcksState } from "@/lib/prohlidky-acks";
-import { MAX_DATE, MAX_DATE_LABEL } from "@/lib/prohlidky-config";
+import { maxDatumISO, maxDatumLabel } from "@/lib/prohlidky-config";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -226,15 +226,17 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Termíny jen do konce srpna 2026 a ne v minulosti.
-    // Spodní mez = včerejšek v UTC (lenient kvůli časovým zónám).
+    // Termíny v posuvném okně (dnes + MAX_DNU_DOPREDU) a ne v minulosti.
+    // Spodní mez = včerejšek v UTC (lenient kvůli časovým zónám), horní mez
+    // o den volnější — klient mohl stránku otevřít před půlnocí.
     const lowerBound = new Date(Date.now() - 24 * 3600 * 1000).toISOString().slice(0, 10);
+    const upperBound = maxDatumISO(new Date(Date.now() + 24 * 3600 * 1000));
     const outOfRange = validNavrhy.some(
-      (n) => n.datum > MAX_DATE || n.datum < lowerBound
+      (n) => n.datum > upperBound || n.datum < lowerBound
     );
     if (outOfRange) {
       return NextResponse.json(
-        { error: `Termíny prosím navrhujte do ${MAX_DATE_LABEL} a ne v minulosti.` },
+        { error: `Termíny prosím navrhujte do ${maxDatumLabel()} a ne v minulosti.` },
         { status: 400 }
       );
     }

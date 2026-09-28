@@ -70,7 +70,7 @@ export default function ContactForm() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         {/* Parent name */}
         <div>
-          <label htmlFor="parentName" className="block text-sm font-medium text-dark mb-1.5">
+          <label htmlFor="parentName" className="block text-sm font-semibold text-dark mb-1.5 pl-1">
             Jméno rodiče *
           </label>
           <input
@@ -81,14 +81,14 @@ export default function ContactForm() {
             required
             value={form.parentName}
             onChange={(e) => update("parentName", e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-beige-dark bg-white focus:outline-none focus:ring-2 focus:ring-forest/30 focus:border-forest transition-colors"
+            className="w-full min-h-[3.25rem] px-4 py-3 rounded-2xl border border-beige-dark bg-cream/70 text-base text-dark placeholder:text-brown-light/50 hover:border-brown-light/40 focus:bg-white focus:outline-none focus:ring-4 focus:ring-orange/25 focus:border-orange transition-all"
             placeholder="Jana Nováková"
           />
         </div>
 
         {/* Email */}
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-dark mb-1.5">
+          <label htmlFor="email" className="block text-sm font-semibold text-dark mb-1.5 pl-1">
             E-mail *
           </label>
           <input
@@ -99,14 +99,14 @@ export default function ContactForm() {
             required
             value={form.email}
             onChange={(e) => update("email", e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-beige-dark bg-white focus:outline-none focus:ring-2 focus:ring-forest/30 focus:border-forest transition-colors"
+            className="w-full min-h-[3.25rem] px-4 py-3 rounded-2xl border border-beige-dark bg-cream/70 text-base text-dark placeholder:text-brown-light/50 hover:border-brown-light/40 focus:bg-white focus:outline-none focus:ring-4 focus:ring-orange/25 focus:border-orange transition-all"
             placeholder="jana@email.cz"
           />
         </div>
 
         {/* Phone */}
         <div>
-          <label htmlFor="phone" className="block text-sm font-medium text-dark mb-1.5">
+          <label htmlFor="phone" className="block text-sm font-semibold text-dark mb-1.5 pl-1">
             Telefon *
           </label>
           <input
@@ -117,14 +117,14 @@ export default function ContactForm() {
             required
             value={form.phone}
             onChange={(e) => update("phone", e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-beige-dark bg-white focus:outline-none focus:ring-2 focus:ring-forest/30 focus:border-forest transition-colors"
+            className="w-full min-h-[3.25rem] px-4 py-3 rounded-2xl border border-beige-dark bg-cream/70 text-base text-dark placeholder:text-brown-light/50 hover:border-brown-light/40 focus:bg-white focus:outline-none focus:ring-4 focus:ring-orange/25 focus:border-orange transition-all"
             placeholder="775 123 456"
           />
         </div>
 
         {/* Child name */}
         <div>
-          <label htmlFor="childName" className="block text-sm font-medium text-dark mb-1.5">
+          <label htmlFor="childName" className="block text-sm font-semibold text-dark mb-1.5 pl-1">
             Jméno dítěte
           </label>
           <input
@@ -132,21 +132,21 @@ export default function ContactForm() {
             type="text"
             value={form.childName}
             onChange={(e) => update("childName", e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-beige-dark bg-white focus:outline-none focus:ring-2 focus:ring-forest/30 focus:border-forest transition-colors"
+            className="w-full min-h-[3.25rem] px-4 py-3 rounded-2xl border border-beige-dark bg-cream/70 text-base text-dark placeholder:text-brown-light/50 hover:border-brown-light/40 focus:bg-white focus:outline-none focus:ring-4 focus:ring-orange/25 focus:border-orange transition-all"
             placeholder="Honzík"
           />
         </div>
 
         {/* Grade */}
         <div>
-          <label htmlFor="childGrade" className="block text-sm font-medium text-dark mb-1.5">
+          <label htmlFor="childGrade" className="block text-sm font-semibold text-dark mb-1.5 pl-1">
             Ročník ZŠ
           </label>
           <select
             id="childGrade"
             value={form.childGrade}
             onChange={(e) => update("childGrade", e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-beige-dark bg-white focus:outline-none focus:ring-2 focus:ring-forest/30 focus:border-forest transition-colors"
+            className="w-full min-h-[3.25rem] px-4 py-3 rounded-2xl border border-beige-dark bg-cream/70 text-base text-dark placeholder:text-brown-light/50 hover:border-brown-light/40 focus:bg-white focus:outline-none focus:ring-4 focus:ring-orange/25 focus:border-orange transition-all"
           >
             <option value="">Vyberte...</option>
             <option value="1">1. třída</option>
@@ -159,14 +159,14 @@ export default function ContactForm() {
 
         {/* IV status */}
         <div>
-          <label htmlFor="ivStatus" className="block text-sm font-medium text-dark mb-1.5">
+          <label htmlFor="ivStatus" className="block text-sm font-semibold text-dark mb-1.5 pl-1">
             Individuální vzdělávání
           </label>
           <select
             id="ivStatus"
             value={form.ivStatus}
             onChange={(e) => update("ivStatus", e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-beige-dark bg-white focus:outline-none focus:ring-2 focus:ring-forest/30 focus:border-forest transition-colors"
+            className="w-full min-h-[3.25rem] px-4 py-3 rounded-2xl border border-beige-dark bg-cream/70 text-base text-dark placeholder:text-brown-light/50 hover:border-brown-light/40 focus:bg-white focus:outline-none focus:ring-4 focus:ring-orange/25 focus:border-orange transition-all"
           >
             <option value="">Vyberte...</option>
             <option value="ano">Ano, máme schválené IV</option>
@@ -178,7 +178,7 @@ export default function ContactForm() {
 
       {/* Message */}
       <div>
-        <label htmlFor="message" className="block text-sm font-medium text-dark mb-1.5">
+        <label htmlFor="message" className="block text-sm font-semibold text-dark mb-1.5 pl-1">
           Zpráva nebo dotaz
         </label>
         <textarea
@@ -186,19 +186,19 @@ export default function ContactForm() {
           rows={4}
           value={form.message}
           onChange={(e) => update("message", e.target.value)}
-          className="w-full px-4 py-3 rounded-xl border border-beige-dark bg-white focus:outline-none focus:ring-2 focus:ring-forest/30 focus:border-forest transition-colors resize-none"
+          className="w-full min-h-[3.25rem] px-4 py-3 rounded-2xl border border-beige-dark bg-cream/70 text-base text-dark placeholder:text-brown-light/50 hover:border-brown-light/40 focus:bg-white focus:outline-none focus:ring-4 focus:ring-orange/25 focus:border-orange transition-all resize-none"
           placeholder="Napište nám cokoliv — rádi zodpovíme vaše otázky..."
         />
       </div>
 
       {/* GDPR */}
-      <label className="flex items-start gap-3 cursor-pointer">
+      <label className="flex items-start gap-3 cursor-pointer rounded-2xl bg-forest-pale/60 p-4">
         <input
           type="checkbox"
           required
           checked={form.gdpr}
           onChange={(e) => update("gdpr", e.target.checked)}
-          className="mt-1 w-4 h-4 rounded border-beige-dark text-forest focus:ring-forest/30 accent-forest"
+          className="mt-0.5 w-5 h-5 flex-shrink-0 rounded border-beige-dark text-forest focus:ring-forest/30 accent-forest"
         />
         <span className="text-sm text-brown-light leading-relaxed">
           Souhlasím se zpracováním osobních údajů za účelem odpovědi na můj
@@ -210,7 +210,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={status === "sending"}
-        className="w-full sm:w-auto bg-orange hover:bg-orange-hover disabled:opacity-60 text-dark font-bold px-10 py-4 rounded-full transition-colors text-lg"
+        className="btn btn-sun btn-shine w-full sm:w-auto sm:px-10 text-lg disabled:opacity-60"
       >
         {status === "sending" ? "Odesílám..." : "Odeslat zprávu"}
       </button>

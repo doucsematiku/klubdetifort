@@ -92,27 +92,28 @@ export default function CookieConsent({
     <div
       role="dialog"
       aria-label="Souhlas s měřením návštěvnosti"
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-black/10 bg-white p-4 shadow-[0_-4px_24px_rgba(0,0,0,0.12)] sm:p-5"
+      className="fade-in fixed inset-x-0 bottom-0 z-50 p-3 sm:p-5"
+      style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
     >
-      <div className="mx-auto flex max-w-4xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-sm leading-relaxed text-gray-700">
+      <div className="mx-auto flex max-w-4xl flex-col gap-3 rounded-[1.75rem] bg-white/95 p-4 shadow-[0_-8px_40px_-12px_rgba(58,54,45,0.35)] ring-1 ring-dark/5 backdrop-blur-xl sm:flex-row sm:items-center sm:justify-between sm:gap-5 sm:p-5">
+        <p className="text-[13px] leading-snug sm:text-sm sm:leading-relaxed text-dark/80">
           Abychom web mohli zlepšovat, rádi bychom měřili jeho návštěvnost
           nástroji Google a Meta. Bez vašeho souhlasu se nic takového
           nespustí — web funguje úplně stejně.{" "}
-          <Link href="/ochrana-osobnich-udaju" className="text-orange underline">
+          <Link href="/ochrana-osobnich-udaju" className="font-semibold text-forest underline">
             Jak nakládáme s údaji
           </Link>
         </p>
         <div className="flex shrink-0 gap-2">
           <button
             onClick={() => rozhodni("ne")}
-            className="rounded-xl border border-gray-300 px-4 py-2.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-50"
+            className="min-h-11 flex-1 rounded-full border-2 border-beige-dark px-5 py-2.5 text-sm font-semibold text-dark/80 transition hover:bg-beige sm:flex-none"
           >
             Odmítnout
           </button>
           <button
             onClick={() => rozhodni("ano")}
-            className="rounded-xl bg-orange px-4 py-2.5 text-sm font-semibold text-white transition hover:opacity-90"
+            className="min-h-11 flex-1 rounded-full bg-orange px-5 py-2.5 text-sm font-bold text-dark shadow-glow transition hover:bg-orange-hover sm:flex-none"
           >
             Souhlasím
           </button>

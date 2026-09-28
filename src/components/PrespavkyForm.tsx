@@ -228,8 +228,8 @@ export default function PrespavkyForm() {
   if (success) {
     const viceDeti = success.pocetDeti > 1;
     return (
-      <div className="bg-forest-pale rounded-3xl p-6 sm:p-10 ring-1 ring-forest/20">
-        <h3 className="text-2xl font-bold text-forest mb-3">
+      <div className="bg-forest-pale rounded-[1.75rem] p-6 sm:p-10 ring-1 ring-forest/20">
+        <h3 className="text-2xl sm:text-3xl font-extrabold leading-tight text-forest mb-4">
           🎒 Máme to! {viceDeti ? "Místa jsou rezervovaná" : "Místo je rezervované"}
         </h3>
         <p className="text-dark leading-relaxed mb-4">
@@ -267,10 +267,10 @@ export default function PrespavkyForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8">
+    <form onSubmit={handleSubmit} className="space-y-10">
       {/* ── termín ── */}
       <div>
-        <h3 className="flex items-center gap-2.5 font-bold text-dark mb-3"><span className="flex items-center justify-center w-7 h-7 rounded-full bg-forest text-white text-sm font-bold flex-shrink-0">1</span>Vyberte víkend</h3>
+        <h3 className="flex items-center gap-3.5 font-display text-lg sm:text-xl font-bold leading-snug text-dark mb-4"><span className="flex items-center justify-center w-9 h-9 rounded-full bg-forest text-white text-base font-bold flex-shrink-0 shadow-[0_0_0_5px_#E8F0E5]">1</span>Vyberte víkend</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {PRESPAVKY_TERMINY.map((t) => {
             const stav = terminStav(t);
@@ -278,12 +278,12 @@ export default function PrespavkyForm() {
             return (
               <label
                 key={t.id}
-                className={`rounded-2xl border-2 p-4 transition-colors ${
+                className={`relative rounded-2xl border-2 p-4 pb-4 transition-all duration-200 has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-orange/40 after:absolute after:bottom-4 after:right-4 after:h-5 after:w-5 after:rounded-full after:border-2 after:transition-all ${
                   disabled
-                    ? "border-beige-dark bg-beige opacity-60 cursor-not-allowed"
+                    ? "border-beige-dark bg-beige opacity-60 cursor-not-allowed after:border-beige-dark"
                     : terminId === t.id
-                      ? "border-forest bg-forest-pale cursor-pointer"
-                      : "border-beige-dark bg-white hover:border-forest/40 cursor-pointer"
+                      ? "border-forest bg-forest-pale cursor-pointer shadow-[0_14px_28px_-16px_rgb(45_90_39/0.7)] after:border-forest after:bg-forest after:shadow-[inset_0_0_0_3px_#E8F0E5]"
+                      : "border-beige-dark bg-white hover:border-forest/40 hover:-translate-y-0.5 cursor-pointer after:border-beige-dark after:bg-white"
                 }`}
               >
                 <input
@@ -296,22 +296,22 @@ export default function PrespavkyForm() {
                   className="sr-only"
                 />
                 <div className="flex items-baseline justify-between gap-2">
-                  <span className="font-bold text-dark">
+                  <span className="font-display text-[1.05rem] font-bold text-dark">
                     <span className="mr-1.5">{t.emoji}</span>
                     {t.label}
                   </span>
-                  {t.zavadeci && (
-                    <span className="text-[11px] font-bold uppercase tracking-wide bg-orange text-dark rounded-full px-2 py-0.5 whitespace-nowrap">
+                  {t.zavadeci && stav !== "prosel" && (
+                    <span className="text-xs font-bold uppercase tracking-wide bg-orange text-dark rounded-full px-2.5 py-0.5 whitespace-nowrap shadow-glow">
                       zaváděcí cena
                     </span>
                   )}
                 </div>
-                <p className="text-sm text-brown-light mt-1">{t.tema}</p>
+                <p className="text-sm text-brown mt-1 pr-8">{t.tema}</p>
                 {stav && (
                   <span
-                    className={`inline-block mt-2 text-[11px] font-bold uppercase tracking-wide rounded-full px-2 py-0.5 ${
+                    className={`inline-block mt-2.5 text-xs font-bold uppercase tracking-wide rounded-full px-2.5 py-0.5 ${
                       stav === "volno"
-                        ? "bg-forest-pale text-forest"
+                        ? "bg-forest/10 text-forest"
                         : stav === "posledni1" || stav === "posledni2"
                           ? "bg-orange/15 text-orange-hover"
                           : "bg-beige-dark/70 text-brown-light"
@@ -332,18 +332,18 @@ export default function PrespavkyForm() {
 
       {/* ── blok ── */}
       <div>
-        <h3 className="flex items-center gap-2.5 font-bold text-dark mb-3"><span className="flex items-center justify-center w-7 h-7 rounded-full bg-forest text-white text-sm font-bold flex-shrink-0">2</span>Jak dlouho s námi dítě bude?</h3>
+        <h3 className="flex items-center gap-3.5 font-display text-lg sm:text-xl font-bold leading-snug text-dark mb-4"><span className="flex items-center justify-center w-9 h-9 rounded-full bg-forest text-white text-base font-bold flex-shrink-0 shadow-[0_0_0_5px_#E8F0E5]">2</span>Jak dlouho s námi dítě bude?</h3>
         <div className="space-y-2">
           {PRESPAVKY_BLOKY.map((b) => {
             const plny = blokPlny(terminId, b.id);
             return (
               <label
                 key={b.id}
-                className={`flex items-center justify-between gap-3 rounded-xl border-2 px-4 py-3 transition-colors ${
+                className={`flex items-center justify-between gap-3 rounded-2xl border-2 px-4 py-3.5 transition-all duration-200 has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-orange/40 ${
                   plny
                     ? "border-beige-dark bg-beige opacity-60 cursor-not-allowed"
                     : blokId === b.id
-                      ? "border-forest bg-forest-pale cursor-pointer"
+                      ? "border-forest bg-forest-pale cursor-pointer shadow-[0_14px_28px_-16px_rgb(45_90_39/0.7)]"
                       : "border-beige-dark bg-white hover:border-forest/40 cursor-pointer"
                 }`}
               >
@@ -355,10 +355,10 @@ export default function PrespavkyForm() {
                     disabled={plny}
                     checked={blokId === b.id}
                     onChange={() => setBlokId(b.id)}
-                    className="w-4 h-4 accent-forest flex-shrink-0"
+                    className="w-5 h-5 accent-forest flex-shrink-0 outline-none!"
                   />
                   <span className="min-w-0">
-                    <span className="font-semibold text-dark block">
+                    <span className="font-bold text-dark block leading-snug">
                       {b.label}
                       {plny && (
                         <span className="ml-2 text-xs font-bold text-orange-hover uppercase">
@@ -366,10 +366,10 @@ export default function PrespavkyForm() {
                         </span>
                       )}
                     </span>
-                    <span className="text-xs text-brown-light">{b.casy}</span>
+                    <span className="text-[13px] text-brown-light">{b.casy}</span>
                   </span>
                 </span>
-                <span className="font-bold text-forest whitespace-nowrap">
+                <span className="font-display text-lg font-extrabold text-forest whitespace-nowrap">
                   {formatCZK(cenaBloku(termin, b))}
                 </span>
               </label>
@@ -385,13 +385,13 @@ export default function PrespavkyForm() {
 
       {/* ── děti + rodič ── */}
       <div>
-        <h3 className="flex items-center gap-2.5 font-bold text-dark mb-3"><span className="flex items-center justify-center w-7 h-7 rounded-full bg-forest text-white text-sm font-bold flex-shrink-0">3</span>Kdo přijede?</h3>
+        <h3 className="flex items-center gap-3.5 font-display text-lg sm:text-xl font-bold leading-snug text-dark mb-4"><span className="flex items-center justify-center w-9 h-9 rounded-full bg-forest text-white text-base font-bold flex-shrink-0 shadow-[0_0_0_5px_#E8F0E5]">3</span>Kdo přijede?</h3>
 
         <div className="space-y-3 mb-4">
           {deti.map((d, i) => (
             <div
               key={i}
-              className="grid grid-cols-[1fr_auto] sm:grid-cols-[1fr_auto_auto] gap-3 items-end bg-beige/60 rounded-xl p-3"
+              className="grid grid-cols-[1fr_auto] sm:grid-cols-[1fr_auto_auto] gap-3 items-end bg-beige/70 rounded-2xl p-3 sm:p-4 ring-1 ring-beige-dark/50"
             >
               <div>
                 <label className="block text-sm font-semibold text-dark mb-1" htmlFor={`p-dite-${i}`}>
@@ -403,7 +403,7 @@ export default function PrespavkyForm() {
                   required
                   value={d.jmeno}
                   onChange={(e) => upravDite(i, { jmeno: e.target.value })}
-                  className="w-full rounded-xl border-2 border-beige-dark bg-white px-4 py-3 text-dark focus:border-forest focus:outline-none"
+                  className="w-full rounded-2xl! border-2 border-beige-dark bg-white px-4 py-3 text-base text-dark shadow-[inset_0_1px_2px_rgb(58_54_45/0.06)] outline-none! transition placeholder:text-brown-light/60 hover:border-forest/35 focus:border-orange focus:ring-4 focus:ring-orange/30"
                 />
               </div>
               <div>
@@ -418,14 +418,14 @@ export default function PrespavkyForm() {
                   max={VEK_DO}
                   value={d.vek}
                   onChange={(e) => upravDite(i, { vek: e.target.value })}
-                  className="w-full sm:w-24 rounded-xl border-2 border-beige-dark bg-white px-4 py-3 text-dark focus:border-forest focus:outline-none"
+                  className="w-full sm:w-24 rounded-2xl! border-2 border-beige-dark bg-white px-4 py-3 text-base text-dark shadow-[inset_0_1px_2px_rgb(58_54_45/0.06)] outline-none! transition hover:border-forest/35 focus:border-orange focus:ring-4 focus:ring-orange/30"
                 />
               </div>
               {deti.length > 1 && (
                 <button
                   type="button"
                   onClick={() => odebratDite(i)}
-                  className="col-span-2 sm:col-span-1 text-sm font-semibold text-brown-light hover:text-orange-hover py-1 sm:py-3 text-left sm:text-center whitespace-nowrap"
+                  className="col-span-2 sm:col-span-1 min-h-11 text-sm font-semibold text-brown-light underline decoration-dotted underline-offset-4 hover:text-orange-hover sm:py-3 text-left sm:text-center whitespace-nowrap"
                 >
                   Odebrat
                 </button>
@@ -438,12 +438,12 @@ export default function PrespavkyForm() {
           <button
             type="button"
             onClick={pridatDite}
-            className="mb-5 inline-flex items-center gap-1.5 text-sm font-bold text-forest border-2 border-forest rounded-full px-4 py-2 hover:bg-forest-pale transition-colors"
+            className="mb-6 inline-flex min-h-11 items-center gap-1.5 text-sm font-bold text-forest border-2 border-forest rounded-full px-5 py-2 hover:bg-forest hover:text-white transition-colors"
           >
             + Přidat další dítě
           </button>
         ) : (
-          <p className="mb-5 text-sm text-orange-hover font-semibold">
+          <p className="mb-6 text-sm text-orange-hover font-semibold">
             Na tento termín zbývá poslední volné místo.
           </p>
         )}
@@ -459,7 +459,7 @@ export default function PrespavkyForm() {
               required
               value={rodicJmeno}
               onChange={(e) => setRodicJmeno(e.target.value)}
-              className="w-full rounded-xl border-2 border-beige-dark bg-white px-4 py-3 text-dark focus:border-forest focus:outline-none"
+              className="w-full rounded-2xl! border-2 border-beige-dark bg-white px-4 py-3 text-base text-dark shadow-[inset_0_1px_2px_rgb(58_54_45/0.06)] outline-none! transition placeholder:text-brown-light/60 hover:border-forest/35 focus:border-orange focus:ring-4 focus:ring-orange/30"
             />
           </div>
           <div>
@@ -472,7 +472,7 @@ export default function PrespavkyForm() {
               required
               value={telefon}
               onChange={(e) => setTelefon(e.target.value)}
-              className="w-full rounded-xl border-2 border-beige-dark bg-white px-4 py-3 text-dark focus:border-forest focus:outline-none"
+              className="w-full rounded-2xl! border-2 border-beige-dark bg-white px-4 py-3 text-base text-dark shadow-[inset_0_1px_2px_rgb(58_54_45/0.06)] outline-none! transition placeholder:text-brown-light/60 hover:border-forest/35 focus:border-orange focus:ring-4 focus:ring-orange/30"
             />
           </div>
           <div className="sm:col-span-2">
@@ -485,14 +485,14 @@ export default function PrespavkyForm() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-xl border-2 border-beige-dark bg-white px-4 py-3 text-dark focus:border-forest focus:outline-none"
+              className="w-full rounded-2xl! border-2 border-beige-dark bg-white px-4 py-3 text-base text-dark shadow-[inset_0_1px_2px_rgb(58_54_45/0.06)] outline-none! transition placeholder:text-brown-light/60 hover:border-forest/35 focus:border-orange focus:ring-4 focus:ring-orange/30"
             />
           </div>
-          <div className="sm:col-span-2 rounded-xl bg-beige p-4">
+          <div className="sm:col-span-2 rounded-2xl bg-sun/70 p-4 sm:p-5 ring-1 ring-orange/25">
             <p className="text-sm font-semibold text-dark mb-1">
               Záložní kontakt <span className="font-normal text-brown-light">(povinný)</span>
             </p>
-            <p className="text-xs text-brown-light mb-3 leading-relaxed">
+            <p className="text-[13px] text-brown mb-4 leading-relaxed">
               Další osoba, které se dovoláme a která může dítě vyzvednout,
               kdybychom se vám nemohli dovolat.
             </p>
@@ -508,7 +508,7 @@ export default function PrespavkyForm() {
                   placeholder="např. Marie Nováková, babička"
                   value={zalohaJmeno}
                   onChange={(e) => setZalohaJmeno(e.target.value)}
-                  className="w-full rounded-xl border-2 border-beige-dark bg-white px-4 py-3 text-dark focus:border-forest focus:outline-none"
+                  className="w-full rounded-2xl! border-2 border-beige-dark bg-white px-4 py-3 text-base text-dark shadow-[inset_0_1px_2px_rgb(58_54_45/0.06)] outline-none! transition placeholder:text-brown-light/60 hover:border-forest/35 focus:border-orange focus:ring-4 focus:ring-orange/30"
                 />
               </div>
               <div>
@@ -521,7 +521,7 @@ export default function PrespavkyForm() {
                   required
                   value={zalohaTelefon}
                   onChange={(e) => setZalohaTelefon(e.target.value)}
-                  className="w-full rounded-xl border-2 border-beige-dark bg-white px-4 py-3 text-dark focus:border-forest focus:outline-none"
+                  className="w-full rounded-2xl! border-2 border-beige-dark bg-white px-4 py-3 text-base text-dark shadow-[inset_0_1px_2px_rgb(58_54_45/0.06)] outline-none! transition placeholder:text-brown-light/60 hover:border-forest/35 focus:border-orange focus:ring-4 focus:ring-orange/30"
                 />
               </div>
             </div>
@@ -535,7 +535,7 @@ export default function PrespavkyForm() {
               rows={3}
               value={poznamka}
               onChange={(e) => setPoznamka(e.target.value)}
-              className="w-full rounded-xl border-2 border-beige-dark bg-white px-4 py-3 text-dark focus:border-forest focus:outline-none"
+              className="w-full rounded-2xl! border-2 border-beige-dark bg-white px-4 py-3 text-base text-dark shadow-[inset_0_1px_2px_rgb(58_54_45/0.06)] outline-none! transition placeholder:text-brown-light/60 hover:border-forest/35 focus:border-orange focus:ring-4 focus:ring-orange/30"
             />
           </div>
         </div>
@@ -557,35 +557,38 @@ export default function PrespavkyForm() {
 
       {/* ── podmínky ── */}
       <div>
-        <h3 className="flex items-center gap-2.5 font-bold text-dark mb-3"><span className="flex items-center justify-center w-7 h-7 rounded-full bg-forest text-white text-sm font-bold flex-shrink-0">4</span>Podmínky účasti</h3>
-        <AcknowledgementChecklist
-          value={acks}
-          onChange={(key, checked) => setAcks((p) => ({ ...p, [key]: checked }))}
-          items={PRESPAVKY_ACKS}
-          heading="Prosíme o odsouhlasení"
-          intro="Prosíme přečtěte si jednotlivé body — odkrývají se postupně, abyste si je opravdu mohli v klidu projít. Každý lze zaškrtnout 5 s po jeho zobrazení. Vaše souhlasy si k přihlášce uložíme."
-        />
+        <h3 className="flex items-center gap-3.5 font-display text-lg sm:text-xl font-bold leading-snug text-dark mb-4"><span className="flex items-center justify-center w-9 h-9 rounded-full bg-forest text-white text-base font-bold flex-shrink-0 shadow-[0_0_0_5px_#E8F0E5]">4</span>Podmínky účasti</h3>
+        {/* obal jen pro vzhled — sdílený seznam zůstává beze změny, tady má větší drobné písmo a zaoblení */}
+        <div className="[&>div]:rounded-2xl [&>div]:ring-1 [&>div]:ring-beige-dark/50 [&_.text-xs]:text-[13px] [&_input[type=checkbox]]:h-5 [&_input[type=checkbox]]:w-5 [&_input[type=checkbox]]:mt-0.5">
+          <AcknowledgementChecklist
+            value={acks}
+            onChange={(key, checked) => setAcks((p) => ({ ...p, [key]: checked }))}
+            items={PRESPAVKY_ACKS}
+            heading="Prosíme o odsouhlasení"
+            intro="Prosíme přečtěte si jednotlivé body — odkrývají se postupně, abyste si je opravdu mohli v klidu projít. Každý lze zaškrtnout 5 s po jeho zobrazení. Vaše souhlasy si k přihlášce uložíme."
+          />
+        </div>
         {vybranyBlok?.spi && (
-          <label className="flex items-start gap-3 mt-4 rounded-xl border-2 border-forest bg-forest-pale p-4 cursor-pointer">
+          <label className="flex items-start gap-3 mt-4 rounded-2xl bg-night p-4 sm:p-5 cursor-pointer shadow-lift ring-1 ring-white/10">
             <input
               type="checkbox"
               required
               checked={ackPrespani}
               onChange={(e) => setAckPrespani(e.target.checked)}
-              className="mt-1 w-4 h-4 accent-forest flex-shrink-0"
+              className="mt-0.5 w-5 h-5 accent-forest flex-shrink-0"
             />
-            <span className="text-sm text-dark leading-relaxed">
+            <span className="text-sm text-white/90 leading-relaxed">
               🌙 <strong>{ACK_PRESPANI.text}</strong> *
             </span>
           </label>
         )}
-        <label className="flex items-start gap-3 mt-4 cursor-pointer">
+        <label className="flex items-start gap-3 mt-5 cursor-pointer">
           <input
             type="checkbox"
             required
             checked={ackPodminky}
             onChange={(e) => setAckPodminky(e.target.checked)}
-            className="mt-1 w-4 h-4 accent-forest flex-shrink-0"
+            className="mt-0.5 w-5 h-5 accent-forest flex-shrink-0"
           />
           <span className="text-sm text-dark leading-relaxed">
             Přečetl(a) jsem si{" "}
@@ -604,7 +607,7 @@ export default function PrespavkyForm() {
             required
             checked={gdpr}
             onChange={(e) => setGdpr(e.target.checked)}
-            className="mt-1 w-4 h-4 accent-forest flex-shrink-0"
+            className="mt-0.5 w-5 h-5 accent-forest flex-shrink-0"
           />
           <span className="text-sm text-dark leading-relaxed">
             Souhlasím se zpracováním osobních údajů za účelem přihlášení dítěte
@@ -615,28 +618,28 @@ export default function PrespavkyForm() {
       </div>
 
       {error && (
-        <p className="bg-orange/15 border-2 border-orange rounded-xl px-4 py-3 text-dark font-semibold">
+        <p className="bg-orange/15 border-2 border-orange rounded-2xl px-4 py-3 text-dark font-semibold">
           {error}
         </p>
       )}
 
       {/* ── souhrn objednávky ── */}
-      <div className="bg-beige rounded-2xl px-4 sm:px-5 py-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
-        <div className="text-sm text-dark min-w-0">
-          <span className="font-bold">
+      <div className="relative overflow-hidden rounded-3xl bg-night bg-[radial-gradient(circle_at_88%_15%,rgb(255_183_43/0.28),transparent_45%),radial-gradient(circle_at_1px_1px,rgb(255_255_255/0.09)_1px,transparent_0)] bg-[length:auto,22px_22px] px-5 sm:px-6 py-5 text-white shadow-lift flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-x-4">
+        <div className="text-sm text-white min-w-0 leading-relaxed">
+          <span className="font-display text-base font-bold">
             {termin.emoji} {termin.label}
           </span>
-          <span className="text-brown-light"> · {termin.tema}</span>
-          <span className="block text-brown-light">
+          <span className="text-white/70"> · {termin.tema}</span>
+          <span className="block text-white/70">
             {vybranyBlok?.label} ({vybranyBlok?.casy})
             {jmenaDeti ? ` · ${jmenaDeti}` : ""}
           </span>
         </div>
-        <div className="text-right">
-          <span className="block text-2xl font-bold text-forest whitespace-nowrap">
+        <div className="sm:text-right">
+          <span className="block font-display text-3xl font-extrabold leading-tight tracking-tight text-orange whitespace-nowrap">
             {formatCZK(cena * deti.length)}
           </span>
-          <span className="text-[11px] text-brown-light">
+          <span className="text-[13px] text-white/65">
             vč. jídla{deti.length > 1 ? ` · ${deti.length} × ${formatCZK(cena)}` : ""}
           </span>
         </div>
@@ -646,11 +649,11 @@ export default function PrespavkyForm() {
         type="submit"
         disabled={!formOk || sending}
         title={!formOk ? "Vyplňte prosím všechna pole a potvrďte podmínky" : undefined}
-        className="w-full bg-orange hover:bg-orange-hover text-dark font-bold px-10 py-4 rounded-full transition-colors text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+        className="btn btn-sun btn-shine w-full min-h-[3.75rem] px-6 text-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none disabled:hover:transform-none disabled:hover:bg-orange disabled:active:transform-none disabled:after:hidden"
       >
         {sending ? "Odesílám…" : `Závazně objednat za ${formatCZK(cena * deti.length)}`}
       </button>
-      <p className="text-xs text-brown-light -mt-4 text-center">
+      <p className="text-[13px] text-brown-light leading-relaxed -mt-6 text-center">
         Po odeslání vám přijde potvrzení a faktura — splatnost max. 7 dní, u
         termínů blíž než týden kratší, ať platba dorazí před začátkem akce.
         Místo je závazně drženo po připsání platby.

@@ -1,6 +1,18 @@
 "use client";
 
 import { useState, useRef, type FormEvent } from "react";
+import { HandHeart, Package, PiggyBank, UserRound, type LucideIcon } from "lucide-react";
+
+/** ikony karet v pořadí karet (čistá dekorace) */
+const IKONY: { ikona: LucideIcon; bublina: string }[] = [
+  { ikona: UserRound, bublina: "bg-forest text-white" },
+  { ikona: HandHeart, bublina: "bg-sun text-brown" },
+  { ikona: PiggyBank, bublina: "bg-orange/25 text-brown" },
+  { ikona: Package, bublina: "bg-forest-pale text-forest" },
+];
+
+const POLE =
+  "w-full min-h-[3.25rem] border border-beige-dark bg-cream/70 rounded-2xl px-4 py-3 text-base text-dark placeholder:text-brown-light/50 hover:border-brown-light/40 focus:bg-white focus:outline-none focus:ring-4 focus:ring-orange/25 focus:border-orange transition-all";
 
 interface CoopFormData {
   name: string;
@@ -101,7 +113,7 @@ export default function CooperationSection() {
 
   return (
     <div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-10">
         {[
           {
             title: "Průvodce / Mentor",
@@ -119,21 +131,29 @@ export default function CooperationSection() {
             title: "Materiální podpora",
             text: "Knihy, pomůcky, sportovní vybavení, nábytek, nářadí — pokud máte něco, co by se nám hodilo, rádi to přijmeme.",
           },
-        ].map((item) => (
-          <div
-            key={item.title}
-            className="bg-white rounded-2xl p-6 shadow-sm"
-          >
-            <h3 className="font-bold text-dark mb-2">{item.title}</h3>
-            <p className="text-sm text-brown leading-relaxed">{item.text}</p>
-          </div>
-        ))}
+        ].map((item, i) => {
+          const { ikona: Ikona, bublina } = IKONY[i % IKONY.length];
+          return (
+            <div
+              key={item.title}
+              className="reveal card card-lift flex gap-4 p-5 sm:block sm:p-7"
+            >
+              <span aria-hidden="true" className={`icon-bubble h-11 w-11 sm:mb-4 ${bublina}`}>
+                <Ikona className="h-5 w-5" />
+              </span>
+              <div>
+                <h3 className="font-bold text-dark text-lg leading-snug mb-1.5">{item.title}</h3>
+                <p className="text-sm text-brown leading-relaxed">{item.text}</p>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       <div className="text-center">
         <button
           onClick={() => { setOpen(!open); if (!open) setFormLoadedAt(Date.now()); }}
-          className="inline-flex items-center gap-2 bg-forest hover:bg-forest-light text-white font-bold px-8 py-4 rounded-full transition-colors text-lg"
+          className="btn btn-forest text-lg w-full sm:w-auto sm:px-9"
         >
           {open ? "Skrýt formulář" : "Chci se zapojit"}
           <svg
@@ -155,7 +175,7 @@ export default function CooperationSection() {
       {open && (
         <form
           onSubmit={handleSubmit}
-          className="max-w-2xl mx-auto mt-8 bg-white rounded-2xl p-6 sm:p-10 shadow-sm space-y-5"
+          className="fade-in max-w-2xl mx-auto mt-8 bg-white rounded-[2rem] p-6 sm:p-10 shadow-lift space-y-5"
         >
           {/* Honeypot — hidden from humans, filled by bots */}
           <div className="absolute -left-[9999px]" aria-hidden="true">
@@ -178,7 +198,7 @@ export default function CooperationSection() {
                 value={form.name}
                 onChange={(e) => update("name", e.target.value)}
                 placeholder="Jan Novák"
-                className="w-full border border-beige-dark rounded-xl px-4 py-3 text-dark placeholder:text-brown-light/50 focus:outline-none focus:ring-2 focus:ring-forest/30"
+                className={POLE}
               />
             </div>
             <div>
@@ -193,7 +213,7 @@ export default function CooperationSection() {
                 value={form.email}
                 onChange={(e) => update("email", e.target.value)}
                 placeholder="jan@email.cz"
-                className="w-full border border-beige-dark rounded-xl px-4 py-3 text-dark placeholder:text-brown-light/50 focus:outline-none focus:ring-2 focus:ring-forest/30"
+                className={POLE}
               />
             </div>
           </div>
@@ -210,7 +230,7 @@ export default function CooperationSection() {
                 value={form.phone}
                 onChange={(e) => update("phone", e.target.value)}
                 placeholder="775 123 456"
-                className="w-full border border-beige-dark rounded-xl px-4 py-3 text-dark placeholder:text-brown-light/50 focus:outline-none focus:ring-2 focus:ring-forest/30"
+                className={POLE}
               />
             </div>
             <div>
@@ -221,7 +241,7 @@ export default function CooperationSection() {
                 required
                 value={form.interest}
                 onChange={(e) => update("interest", e.target.value)}
-                className="w-full border border-beige-dark rounded-xl px-4 py-3 text-dark focus:outline-none focus:ring-2 focus:ring-forest/30"
+                className={POLE}
               >
                 <option value="">Vyberte...</option>
                 <option value="pruvodce">Průvodcování / Mentoring</option>
@@ -242,7 +262,7 @@ export default function CooperationSection() {
               value={form.message}
               onChange={(e) => update("message", e.target.value)}
               placeholder="Napište nám o sobě, svých zkušenostech nebo jak byste nám chtěli pomoci..."
-              className="w-full border border-beige-dark rounded-xl px-4 py-3 text-dark placeholder:text-brown-light/50 focus:outline-none focus:ring-2 focus:ring-forest/30 resize-none"
+              className={`${POLE} resize-none`}
             />
           </div>
 
@@ -257,7 +277,7 @@ export default function CooperationSection() {
                 type="file"
                 accept=".pdf,application/pdf"
                 onChange={handleFileChange}
-                className="w-full text-sm text-brown file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-forest-pale file:text-forest hover:file:bg-forest/10 file:cursor-pointer cursor-pointer border border-beige-dark rounded-xl"
+                className="w-full text-sm text-brown file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-forest-pale file:text-forest hover:file:bg-forest/10 file:cursor-pointer cursor-pointer border-2 border-dashed border-beige-dark bg-cream/70 rounded-2xl p-2"
               />
             </div>
             {cvFile && (
@@ -287,7 +307,7 @@ export default function CooperationSection() {
           <button
             type="submit"
             disabled={status === "sending"}
-            className="bg-orange hover:bg-orange-hover text-dark font-bold px-8 py-3.5 rounded-full transition-colors disabled:opacity-50"
+            className="btn btn-sun w-full sm:w-auto disabled:opacity-50"
           >
             {status === "sending" ? "Odesílám..." : "Odeslat zprávu"}
           </button>
