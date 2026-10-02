@@ -6,6 +6,7 @@ import {
   ACK_PODMINKY,
   ACK_PRESPANI,
   PRESPAVKY_ACKS,
+  PRESPAVKY_AKTIVNI,
   KAPACITA_DENNI,
   KAPACITA_SPICI,
   VEK_DO,
@@ -69,6 +70,14 @@ function pluralMista(n: number): string {
 }
 
 export async function POST(req: NextRequest) {
+  // Vypnuté přespávačky (src/lib/prespavky.ts) — žádné nové přihlášky ani faktury.
+  if (!PRESPAVKY_AKTIVNI) {
+    return NextResponse.json(
+      { error: "Víkendové přespávačky teď nepořádáme, přihlášky jsou uzavřené." },
+      { status: 410 }
+    );
+  }
+
   try {
     const ip = req.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "unknown";
     const last = submissions.get(ip);

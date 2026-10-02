@@ -6,6 +6,28 @@
  * pro první (zářijový) víkend, další termíny mají běžné ceny.
  */
 
+/**
+ * HLAVNÍ VYPÍNAČ přespávaček na webu — ve školním roce 2026/27 je nepořádáme.
+ *
+ * `false` = přespávačky jsou schované, nic se nemaže: zmizí odkaz v menu,
+ * sekce na úvodní stránce i položka v sitemap, /prespavky přesměruje na úvod
+ * a API (/api/prespavky/rezervovat i /dostupnost) nové přihlášky odmítne.
+ * Platby už vystavených faktur (fakturoid-webhook) se zpracovávají dál.
+ *
+ * Jak je příště zapnout:
+ *  1. přepnout na `true`,
+ *  2. v PRESPAVKY_TERMINY níže přepsat termíny (label, od, do), témata,
+ *     popisy a ceny — každý termín s NOVÝM id (např. "2027-rijen"), stará id
+ *     mají v DB historii a jejich registrace by se počítaly do kapacity;
+ *     `zavadeci: true` jen u případného zaváděcího termínu,
+ *  3. přepsat texty, které termíny a ceny zmiňují natvrdo: sekce na úvodu
+ *     (src/app/page.tsx — „Novinka — podzim 2026", „Čtyři tematické víkendy",
+ *     „od 1 290 Kč"), úvod stránky src/app/prespavky/page.tsx („Novinka ·
+ *     podzim 2026", „Čtyři víkendy · čtyři témata") a štítek faktur
+ *     „prespavky-2026" v src/app/api/prespavky/rezervovat/route.ts.
+ */
+export const PRESPAVKY_AKTIVNI: boolean = false;
+
 export type PrespavkyBlokId = "vikend" | "nocpatek" | "noc" | "dvadny" | "sobota" | "nedele";
 
 export interface PrespavkyTermin {

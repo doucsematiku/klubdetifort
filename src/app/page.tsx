@@ -38,6 +38,7 @@ import StickyCta from "@/components/design/StickyCta";
 import SnapRadek from "@/components/design/SnapRadek";
 import FotoPas from "@/components/design/FotoPas";
 import Maskot from "@/components/maskot/Maskot";
+import { PRESPAVKY_AKTIVNI } from "@/lib/prespavky";
 
 /** Hodnoty klubu — každá karta má vlastní ikonu a barvu (bento). */
 const HODNOTY: { title: string; text: string; ikona: LucideIcon; styl: string; bublina: string; nadpis: string; popis: string }[] = [
@@ -322,58 +323,65 @@ export default function Home() {
         </section>
 
         {/* ============ PŘESPÁVAČKY — novinka ============ */}
-        <section id="prespavky" className="py-14 sm:py-20 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="reveal relative isolate overflow-hidden rounded-[2rem] bg-night text-white shadow-lift grid grid-cols-1 lg:grid-cols-[2fr_3fr]">
-              {/* noční obloha — hvězdy a měsíček */}
-              <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-                <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-orange/15 blur-3xl" />
-                <Moon className="prespavky-moon absolute right-5 top-5 h-9 w-9 text-sun/80 sm:right-8 sm:top-8 sm:h-12 sm:w-12" fill="currentColor" />
-                <span className="prespavky-star absolute right-24 top-10 h-1.5 w-1.5 rounded-full bg-white" />
-                <span className="prespavky-star-2 absolute right-40 top-20 h-1 w-1 rounded-full bg-white" />
-                <span className="prespavky-star-3 absolute right-14 top-28 h-1 w-1 rounded-full bg-sun" />
-                <span className="prespavky-star-2 absolute left-[48%] top-8 hidden h-1 w-1 rounded-full bg-white lg:block" />
-                <span className="prespavky-star absolute left-[60%] bottom-10 hidden h-1.5 w-1.5 rounded-full bg-white lg:block" />
-              </div>
-              <div className="relative min-h-[240px] sm:min-h-[300px] lg:min-h-0 overflow-hidden">
-                <Image
-                  src="/images/klubik/klubik-31.jpg"
-                  alt="Večerní oheň na farmě"
-                  fill
-                  sizes="(min-width: 1024px) 40vw, 100vw"
-                  className="object-cover parallax-img"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-night via-night/20 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-night/10 lg:to-night" />
-                <div aria-hidden="true" className="absolute bottom-6 left-1/2 h-24 w-24 -translate-x-1/2 rounded-full bg-orange/40 blur-2xl" />
-              </div>
-              <div className="relative p-6 pt-2 sm:p-10 lg:p-12">
-                <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide bg-orange text-dark rounded-full px-3 py-1 mb-4 shadow-glow">
-                  🔥 Novinka — podzim 2026
-                </span>
-                <h2 className="text-[1.9rem] leading-[1.08] sm:text-4xl font-extrabold text-white mb-4">
-                  Víkendové přespávačky na farmě
-                </h2>
-                <p className="text-white/75 leading-relaxed mb-6 max-w-xl">
-                  Čtyři tematické víkendy pro všechny děti{" "}
-                  <strong className="text-white">od předškoláků do 13 let</strong> — tvoření, večerní
-                  oheň, zvířata a spaní na farmě. Ideální pro rodiny na horách
-                  i pro místní. Malá skupinka (max 6 spících dětí), jídlo
-                  v ceně, od <strong className="text-sun">1 290 Kč</strong>.
-                </p>
-                <Link
-                  href="/prespavky"
-                  className="btn btn-sun btn-shine w-full sm:w-auto"
-                >
-                  Termíny, ceny a přihláška →
-                </Link>
-                <Flame aria-hidden="true" className="absolute bottom-6 right-6 hidden h-16 w-16 text-orange/10 sm:block" />
+        {/* jen se zapnutým vypínačem PRESPAVKY_AKTIVNI (src/lib/prespavky.ts) */}
+        {PRESPAVKY_AKTIVNI && (
+          <section id="prespavky" className="py-14 sm:py-20 bg-white">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="reveal relative isolate overflow-hidden rounded-[2rem] bg-night text-white shadow-lift grid grid-cols-1 lg:grid-cols-[2fr_3fr]">
+                {/* noční obloha — hvězdy a měsíček */}
+                <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
+                  <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-orange/15 blur-3xl" />
+                  <Moon className="prespavky-moon absolute right-5 top-5 h-9 w-9 text-sun/80 sm:right-8 sm:top-8 sm:h-12 sm:w-12" fill="currentColor" />
+                  <span className="prespavky-star absolute right-24 top-10 h-1.5 w-1.5 rounded-full bg-white" />
+                  <span className="prespavky-star-2 absolute right-40 top-20 h-1 w-1 rounded-full bg-white" />
+                  <span className="prespavky-star-3 absolute right-14 top-28 h-1 w-1 rounded-full bg-sun" />
+                  <span className="prespavky-star-2 absolute left-[48%] top-8 hidden h-1 w-1 rounded-full bg-white lg:block" />
+                  <span className="prespavky-star absolute left-[60%] bottom-10 hidden h-1.5 w-1.5 rounded-full bg-white lg:block" />
+                </div>
+                <div className="relative min-h-[240px] sm:min-h-[300px] lg:min-h-0 overflow-hidden">
+                  <Image
+                    src="/images/klubik/klubik-31.jpg"
+                    alt="Večerní oheň na farmě"
+                    fill
+                    sizes="(min-width: 1024px) 40vw, 100vw"
+                    className="object-cover parallax-img"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-night via-night/20 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-night/10 lg:to-night" />
+                  <div aria-hidden="true" className="absolute bottom-6 left-1/2 h-24 w-24 -translate-x-1/2 rounded-full bg-orange/40 blur-2xl" />
+                </div>
+                <div className="relative p-6 pt-2 sm:p-10 lg:p-12">
+                  <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide bg-orange text-dark rounded-full px-3 py-1 mb-4 shadow-glow">
+                    🔥 Novinka — podzim 2026
+                  </span>
+                  <h2 className="text-[1.9rem] leading-[1.08] sm:text-4xl font-extrabold text-white mb-4">
+                    Víkendové přespávačky na farmě
+                  </h2>
+                  <p className="text-white/75 leading-relaxed mb-6 max-w-xl">
+                    Čtyři tematické víkendy pro všechny děti{" "}
+                    <strong className="text-white">od předškoláků do 13 let</strong> — tvoření, večerní
+                    oheň, zvířata a spaní na farmě. Ideální pro rodiny na horách
+                    i pro místní. Malá skupinka (max 6 spících dětí), jídlo
+                    v ceně, od <strong className="text-sun">1 290 Kč</strong>.
+                  </p>
+                  <Link
+                    href="/prespavky"
+                    className="btn btn-sun btn-shine w-full sm:w-auto"
+                  >
+                    Termíny, ceny a přihláška →
+                  </Link>
+                  <Flame aria-hidden="true" className="absolute bottom-6 right-6 hidden h-16 w-16 text-orange/10 sm:block" />
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
-        {/* běžící pás fotek — „život" hned po prvním scrollu */}
-        <FotoPas fotky={PAS_FOTEK} className="bg-white pb-10 sm:pb-16" />
+        {/* běžící pás fotek — „život" hned po prvním scrollu; bez sekce
+            přespávaček nad sebou si horní odsazení dá sám */}
+        <FotoPas
+          fotky={PAS_FOTEK}
+          className={`bg-white pb-10 sm:pb-16 ${PRESPAVKY_AKTIVNI ? "" : "pt-10 sm:pt-16"}`}
+        />
 
         {/* ============ O NÁS ============ */}
         <section id="o-nas" className="relative py-20 sm:py-28 bg-cream grain overflow-hidden">

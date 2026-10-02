@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { PRESPAVKY_AKTIVNI } from "@/lib/prespavky";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
@@ -14,12 +15,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "daily",
       priority: 0.9,
     },
-    {
-      url: "https://klubdetifort.cz/prespavky",
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
+    // přespávačky jen se zapnutým vypínačem (src/lib/prespavky.ts)
+    ...(PRESPAVKY_AKTIVNI
+      ? [
+          {
+            url: "https://klubdetifort.cz/prespavky",
+            lastModified: new Date(),
+            changeFrequency: "weekly" as const,
+            priority: 0.9,
+          },
+        ]
+      : []),
     {
       url: "https://klubdetifort.cz/pruvodkyne",
       lastModified: new Date(),

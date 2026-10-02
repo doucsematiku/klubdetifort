@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 import { Backpack, Check, ChevronDown, Moon, MoonStar, Plus, Star } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -8,7 +9,7 @@ import PrespavkyJiskry from "@/components/PrespavkyJiskry";
 import Hory from "@/components/design/Hory";
 import SnapRadek from "@/components/design/SnapRadek";
 import StickyCta from "@/components/design/StickyCta";
-import { PRESPAVKY_BLOKY, PRESPAVKY_TERMINY, VEK_DO, terminProsel } from "@/lib/prespavky";
+import { PRESPAVKY_AKTIVNI, PRESPAVKY_BLOKY, PRESPAVKY_TERMINY, VEK_DO, terminProsel } from "@/lib/prespavky";
 import Maskot from "@/components/maskot/Maskot";
 
 // Stránka je statická — obnovuje se každou hodinu, aby se termín, který
@@ -190,6 +191,10 @@ function Trpyt({ className = "" }: { className?: string }) {
 }
 
 export default function PrespavkyPage() {
+  // Vypnuté přespávačky (src/lib/prespavky.ts): dočasné přesměrování na úvod,
+  // ať staré odkazy (příspěvky, letáky, vyhledávání) nekončí chybou 404.
+  if (!PRESPAVKY_AKTIVNI) redirect("/");
+
   // zaváděcí (zářijový) víkend už proběhl — ceník ukazuje běžné ceny
   const bezne = PRESPAVKY_TERMINY.find((t) => !t.zavadeci)!;
   // nadcházející víkendy napřed, proběhlé na konec (a zašedlé)

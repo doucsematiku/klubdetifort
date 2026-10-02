@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { PRESPAVKY_AKTIVNI } from "@/lib/prespavky";
 
 /**
  * Menu drží jen pár položek — sekce hlavní stránky jsou schované
@@ -134,15 +135,18 @@ export default function Header() {
             {/* Desktop nav — 4 položky + 2 tlačítka */}
             <nav className="hidden lg:flex items-center gap-1">
               <Dropdown label="O klubíku" items={O_KLUBIKU} />
-              <Link
-                href="/prespavky"
-                className="rounded-full px-3 py-2 text-dark text-sm font-bold hover:bg-white/80 hover:text-forest transition-colors whitespace-nowrap"
-              >
-                Přespávačky
-                <span className="ml-1.5 text-[10px] font-bold uppercase tracking-wide bg-orange text-dark rounded-full px-1.5 py-0.5 align-middle">
-                  nové
-                </span>
-              </Link>
+              {/* přespávačky jen se zapnutým vypínačem (src/lib/prespavky.ts) */}
+              {PRESPAVKY_AKTIVNI && (
+                <Link
+                  href="/prespavky"
+                  className="rounded-full px-3 py-2 text-dark text-sm font-bold hover:bg-white/80 hover:text-forest transition-colors whitespace-nowrap"
+                >
+                  Přespávačky
+                  <span className="ml-1.5 text-[10px] font-bold uppercase tracking-wide bg-orange text-dark rounded-full px-1.5 py-0.5 align-middle">
+                    nové
+                  </span>
+                </Link>
+              )}
               <Link
                 href="/pruvodkyne"
                 className="rounded-full px-3 py-2 text-dark text-sm font-semibold hover:bg-white/80 hover:text-forest transition-colors"
@@ -236,19 +240,21 @@ export default function Header() {
               Poznejte nás
             </p>
             <div className="flex flex-col gap-2">
-              <Link
-                href="/prespavky"
-                onClick={zavri}
-                className="hero-in [animation-delay:250ms] flex items-center justify-between rounded-2xl bg-night px-4 py-3.5 font-display text-[1.05rem] font-bold text-white shadow-soft"
-              >
-                <span>
-                  Přespávačky
-                  <span className="ml-1.5 text-[10px] font-sans font-bold uppercase tracking-wide bg-orange text-dark rounded-full px-1.5 py-0.5 align-middle">
-                    nové
+              {PRESPAVKY_AKTIVNI && (
+                <Link
+                  href="/prespavky"
+                  onClick={zavri}
+                  className="hero-in [animation-delay:250ms] flex items-center justify-between rounded-2xl bg-night px-4 py-3.5 font-display text-[1.05rem] font-bold text-white shadow-soft"
+                >
+                  <span>
+                    Přespávačky
+                    <span className="ml-1.5 text-[10px] font-sans font-bold uppercase tracking-wide bg-orange text-dark rounded-full px-1.5 py-0.5 align-middle">
+                      nové
+                    </span>
                   </span>
-                </span>
-                <ArrowRight aria-hidden="true" className="h-4 w-4 flex-shrink-0 text-orange" />
-              </Link>
+                  <ArrowRight aria-hidden="true" className="h-4 w-4 flex-shrink-0 text-orange" />
+                </Link>
+              )}
               <Link
                 href="/pruvodkyne"
                 onClick={zavri}

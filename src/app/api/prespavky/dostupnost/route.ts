@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { supabaseSelect } from "@/lib/supabase";
 import {
+  PRESPAVKY_AKTIVNI,
   PRESPAVKY_TERMINY,
   PRESPAVKY_BLOKY,
   KAPACITA_SPICI,
@@ -31,6 +32,14 @@ export interface DostupnostTermin {
  * všechny nezrušené registrace.
  */
 export async function GET() {
+  // Vypnuté přespávačky (src/lib/prespavky.ts) — žádné volné termíny k přihlášení.
+  if (!PRESPAVKY_AKTIVNI) {
+    return NextResponse.json(
+      { error: "Víkendové přespávačky teď nepořádáme, přihlášky jsou uzavřené." },
+      { status: 410 }
+    );
+  }
+
   const rows = await supabaseSelect<{ termin_id: string; blok: string }>(
     "prespavky_registrace",
     "status=neq.zruseno&select=termin_id,blok"
