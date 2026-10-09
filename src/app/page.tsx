@@ -19,13 +19,11 @@ import {
   Plus,
   Salad,
   Smile,
-  Sparkles,
   Sprout,
   Sunrise,
   Trees,
   User,
   Users,
-  Waves,
   type LucideIcon,
 } from "lucide-react";
 import Header from "@/components/Header";
@@ -136,27 +134,27 @@ const JAK_TRAVIME: { title: string; text: React.ReactNode; ikona: LucideIcon }[]
 
 const AKTIVITY: { title: string; text: string; ikona: LucideIcon; bublina: string }[] = [
   {
-    title: "Výlety a expedice",
-    text: "Poznávání okolní krajiny, orientace v terénu a úcta k regionu.",
+    title: "Výlety do okolí",
+    text: "Poznáváme okolní krajinu a přírodu podle počasí a věku dětí.",
     ikona: Compass,
     bublina: "bg-forest-pale text-forest",
   },
   {
-    title: "Plavání a lyže",
-    text: "Pravidelný plavecký výcvik a zimní kurzy v krkonošských střediscích.",
-    ikona: Waves,
+    title: "Sport a pohyb",
+    text: "Pohyb venku i v hale, hry a sportovní aktivity podle ročního období.",
+    ikona: Bike,
     bublina: "bg-sun text-brown",
   },
   {
-    title: "Sezónní slavnosti",
-    text: "Dožínky, slunovraty, masopust — slavíme rytmy roku společně s rodinami.",
-    ikona: Sparkles,
+    title: "Vzdělávací aktivity",
+    text: "Projekty, pokusy a práce na farmě, které navazují na to, co se děti učí.",
+    ikona: Lightbulb,
     bublina: "bg-orange/20 text-brown",
   },
   {
-    title: "Sport a pohyb",
-    text: "Bruslení, atletika, cyklistika — podle zájmu a sezóny, v malé skupince.",
-    ikona: Bike,
+    title: "Společné chvíle",
+    text: "Občas se potkáme i s rodinami, třeba na konci pololetí.",
+    ikona: Users,
     bublina: "bg-forest text-white",
   },
 ];
@@ -768,8 +766,8 @@ export default function Home() {
                 Život v <span className="text-forest squiggle">pohybu</span>
               </h2>
               <p className="text-lg text-brown text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-                Vzdělávání nekončí za branami farmy. Pořádáme aktivity, které
-                rozšiřují obzory a budují komunitu.
+                Vzdělávání nekončí za branami farmy. Postupně přidáváme aktivity,
+                které rozšiřují obzory a budují komunitu.
               </p>
             </div>
 
