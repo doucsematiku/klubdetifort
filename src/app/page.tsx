@@ -151,12 +151,6 @@ const AKTIVITY: { title: string; text: string; ikona: LucideIcon; bublina: strin
     ikona: Lightbulb,
     bublina: "bg-orange/20 text-brown",
   },
-  {
-    title: "Společné chvíle",
-    text: "Občas se potkáme i s rodinami, třeba na konci pololetí.",
-    ikona: Users,
-    bublina: "bg-forest text-white",
-  },
 ];
 
 /** Fotky do běžícího pásu — jen snímky, které už na webu jsou. */
@@ -771,13 +765,16 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
-              {AKTIVITY.map((activity) => {
+            {/* na telefonu 2 + 1 (poslední karta přes celou šířku), od 640 px tři vedle sebe */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-6">
+              {AKTIVITY.map((activity, i) => {
                 const Ikona = activity.ikona;
                 return (
                   <div
                     key={activity.title}
-                    className="reveal card card-lift p-5 sm:p-7"
+                    className={`reveal card card-lift p-5 sm:p-7 ${
+                      i === AKTIVITY.length - 1 ? "col-span-2 sm:col-span-1" : ""
+                    }`}
                   >
                     <span aria-hidden="true" className={`icon-bubble mb-4 h-11 w-11 sm:h-12 sm:w-12 ${activity.bublina}`}>
                       <Ikona className="h-5 w-5 sm:h-6 sm:w-6" />
