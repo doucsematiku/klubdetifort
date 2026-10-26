@@ -605,7 +605,7 @@ export default function Home() {
 
                 <p className="inline-flex items-center gap-2.5 rounded-full bg-sun px-4 py-2 text-sm font-semibold text-brown mb-8">
                   <CalendarDays aria-hidden="true" className="h-4 w-4 text-orange-hover" />
-                  Docházka 2&nbsp;dny v&nbsp;týdnu od&nbsp;2&nbsp;730&nbsp;Kč/měs.
+                  Docházka 1–3&nbsp;dny v&nbsp;týdnu (Po–St) od&nbsp;1&nbsp;600&nbsp;Kč/měs.
                 </p>
 
                 <div>
