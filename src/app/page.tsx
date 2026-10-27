@@ -846,7 +846,7 @@ export default function Home() {
                           href="/pruvodkyne"
                           className="mt-4 inline-flex items-center gap-2 rounded-full bg-forest-pale px-4 py-2 text-sm font-semibold text-forest transition hover:bg-forest hover:text-white"
                         >
-                          Poznejte naše průvodkyně →
+                          Poznejte naši průvodkyni →
                         </Link>
                       )}
                     </div>

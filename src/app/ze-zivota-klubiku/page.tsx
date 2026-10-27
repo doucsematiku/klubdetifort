@@ -165,7 +165,7 @@ export default function ZeZivotaKlubikuPage() {
               vzdělávání (domškoláky), od předškoláků do 5.&nbsp;třídy.
               Scházíme se v&nbsp;pondělí, v&nbsp;úterý a ve středu od 8 do 16
               hodin. Tady sepisujeme, co děti opravdu zažily, podle zápisů
-              našich průvodkyň.
+              naší průvodkyně.
             </p>
           </div>
           <div className="absolute inset-x-0 -bottom-px">

@@ -60,27 +60,4 @@ export const PRUVODKYNE: Pruvodkyne[] = [
     otazka:
       "Text vychází z vašeho dokumentu, jen je učesaný do odstavců a s opravenými překlepy. Obě profilovky jsme nechali vedle sebe.",
   },
-  {
-    id: "ivana",
-    jmeno: "Ivana Hrubá",
-    role: "průvodkyně",
-    podtitul: "koordinátorka mimoškolního vzdělávání, maminka dvou dětí",
-    odstavce: [
-      "Jmenuji se Ivana Hrubá. Jsem maminka dvou dětí a dobře vím, jak důležité je, aby se děti cítily přijaté, v bezpečí a mohly být samy sebou.",
-      "Věřím, že děti se nejlépe učí tehdy, když mají prostor objevovat svět vlastním tempem a s radostí. Společně budeme poznávat přírodu, tvořit, hrát si, zkoumat, spolupracovat i rozvíjet to, co je v každém dítěti jedinečné. Mým přáním je, aby si děti odnášely nejen nové zážitky, ale také radost, odvahu zkoušet nové věci a důvěru v sebe sama.",
-      "Jako koordinátorka mimoškolního vzdělávání v Diakonii jsem připravovala a organizovala programy pro děti — hledala jsem cesty, jak je zaujmout a podpořit jejich spolupráci i radost z objevování. Vytvořila jsem také vlastní program pro dětský tábor, který propojoval zážitky, přírodu, tvořivost a společné dobrodružství.",
-      "Těším se na společnou cestu plnou objevů, zážitků a radosti.",
-    ],
-    fotky: [
-      {
-        src: "/images/pruvodkyne/ivana-2.jpg",
-        popis: "portrét",
-        pozice: "50% 62%",
-      },
-    ],
-    zeZivota: [
-      { src: "/images/klubik/klubik-44.jpg", popis: "výprava do krajiny pod Krkonošemi" },
-      { src: "/images/klubik/klubik-52.jpg", popis: "společné zkoumání nálezu" },
-    ],
-  },
 ];
