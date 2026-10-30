@@ -28,9 +28,6 @@ const FOTKY = [
   { src: "/images/klubik/klubik-30.jpg", alt: "Připravená jablka na pečení v ohni" },
   { src: "/images/klubik/klubik-31.jpg", alt: "Hadovka z těsta opékaná nad ohněm" },
   { src: "/images/klubik/klubik-33.jpg", alt: "Barevné šátky rozložené na louce" },
-  { src: "/images/klubik/klubik-42.jpg", alt: "Cesta na výlet mezi loukami" },
-  { src: "/images/klubik/klubik-43.jpg", alt: "Výprava krajinou pod Krkonošemi", naSirku: true },
-  { src: "/images/klubik/klubik-45.jpg", alt: "Polní cesta lemovaná stromy" },
   { src: "/images/klubik/klubik-47.jpg", alt: "Brouzdání v potoce" },
   { src: "/images/klubik/klubik-48.jpg", alt: "Zkoumání potoka a jeho okolí", naSirku: true },
   { src: "/images/klubik/klubik-50.jpg", alt: "Děti u vody v lese" },
@@ -147,7 +144,7 @@ export default function GaleriePage() {
                   <Image src="/images/klubik/klubik-30.jpg" alt="" width={352} height={352} className="aspect-square w-full rounded object-cover" />
                 </div>
                 <div className="polaroid float-slow absolute bottom-0 right-0 w-44 rotate-[5deg]">
-                  <Image src="/images/klubik/klubik-43.jpg" alt="" width={352} height={352} className="aspect-square w-full rounded object-cover" />
+                  <Image src="/images/klubik/klubik-47.jpg" alt="" width={352} height={352} className="aspect-square w-full rounded object-cover" />
                 </div>
               </div>
             </div>

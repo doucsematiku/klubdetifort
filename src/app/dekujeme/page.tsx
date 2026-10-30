@@ -100,7 +100,7 @@ export default function DekujemePage() {
           <div className="float-slow absolute left-[7%] top-[22%] w-56">
             <div className="polaroid -rotate-[7deg]">
               <div className="relative aspect-square overflow-hidden rounded-[0.35rem]">
-                <Image src="/images/klubik/klubik-43.jpg" alt="" fill sizes="14rem" className="object-cover" />
+                <Image src="/images/klubik/klubik-03.jpg" alt="" fill sizes="14rem" className="object-cover" />
               </div>
             </div>
           </div>

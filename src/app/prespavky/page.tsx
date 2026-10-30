@@ -72,7 +72,7 @@ const HARMONOGRAM: { den: string; emoji: string; body: [string, string][] }[] = 
 const FOTKY: { src: string; alt: string }[] = [
   { src: "/images/klubik/klubik-07.jpg", alt: "Děti tvoří z barevných papírů" },
   { src: "/images/klubik/klubik-22.jpg", alt: "Výrobek z přírodnin" },
-  { src: "/images/klubik/klubik-43.jpg", alt: "Výprava krajinou pod Krkonošemi" },
+  { src: "/images/klubik/klubik-47.jpg", alt: "Brouzdání v potoce" },
   { src: "/images/klubik/klubik-30.jpg", alt: "Pečení jablek na ohni" },
 ];
 
@@ -120,7 +120,7 @@ const PROSTORY: { src: string; popis: string }[] = [
   { src: "/images/klubik/prostor-spolecenska-1.jpg", popis: "Společenská místnost" },
   { src: "/images/klubik/prostor-klidova-1.jpg", popis: "Klidová teráska" },
   { src: "/images/park2.png", popis: "BIO farma Fořt a krajina okolo" },
-  { src: "/images/klubik/klubik-42.jpg", popis: "Badatelská procházka okolím farmy" },
+  { src: "/images/klubik/klubik-03.jpg", popis: "Park u farmy se starými stromy" },
 ];
 
 /** Bento mřížka zázemí — první fotka velká, farma přes dva sloupce. */

@@ -158,7 +158,7 @@ const AKTIVITY: { title: string; text: string; ikona: LucideIcon; bublina: strin
 /** Fotky do běžícího pásu — jen snímky, které už na webu jsou. */
 const PAS_FOTEK = [
   "/images/klubik/klubik-18.jpg",
-  "/images/klubik/klubik-43.jpg",
+  "/images/klubik/klubik-03.jpg",
   "/images/klubik/klubik-12.jpg",
   "/images/klubik/klubik-31.jpg",
   "/images/klubik/klubik-57.jpg",
@@ -219,7 +219,7 @@ export default function Home() {
           {/* polaroidy na velké obrazovce — jen dekorace */}
           <div aria-hidden="true" className="pointer-events-none absolute right-[4%] top-1/2 hidden h-[36rem] w-[30rem] -translate-y-[44%] xl:block">
             <div className="polaroid float-slow absolute right-6 top-0 w-64 [--r:6deg] rotate-6">
-              <Image src="/images/klubik/klubik-43.jpg" alt="" width={512} height={512} className="aspect-square w-full rounded object-cover" />
+              <Image src="/images/klubik/klubik-03.jpg" alt="" width={512} height={512} className="aspect-square w-full rounded object-cover" />
             </div>
             <div className="polaroid float-slow absolute left-0 top-40 w-56 [--r:-7deg] -rotate-[7deg] [animation-delay:1.5s]">
               <Image src="/images/klubik/klubik-12.jpg" alt="" width={448} height={448} className="aspect-square w-full rounded object-cover" />
@@ -622,7 +622,7 @@ export default function Home() {
 
                 <p className="inline-flex items-center gap-2.5 rounded-full bg-sun px-4 py-2 text-sm font-semibold text-brown mb-8">
                   <CalendarDays aria-hidden="true" className="h-4 w-4 text-orange-hover" />
-                  Docházka 1–3&nbsp;dny v&nbsp;týdnu (Po–St) od&nbsp;1&nbsp;600&nbsp;Kč/měs.
+                  Docházka 1–3&nbsp;dny v&nbsp;týdnu (Po–St) od&nbsp;2&nbsp;133&nbsp;Kč/měs.
                 </p>
 
                 <div>
@@ -725,7 +725,7 @@ export default function Home() {
                   title: "Badatelské procházky v okolí farmy",
                   desc: "Vyrážíme do krajiny kolem farmy — k potoku, na louky a do lesa. Co děti cestou najdou, spolu prozkoumáme, a pak si to třeba i namalujeme.",
                   fotky: [
-                    { src: "/images/klubik/klubik-43.jpg", alt: "Výprava krajinou pod Krkonošemi" },
+                    { src: "/images/klubik/klubik-47.jpg", alt: "Brouzdání v potoce" },
                     { src: "/images/klubik/klubik-48.jpg", alt: "Zkoumání potoka" },
                     { src: "/images/klubik/klubik-39.jpg", alt: "Malování venku na dece" },
                   ],
@@ -884,7 +884,7 @@ export default function Home() {
           <div aria-hidden="true" className="absolute -top-24 left-1/2 -z-10 h-72 w-[36rem] -translate-x-1/2 rounded-full bg-orange/20 blur-3xl" />
           <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden lg:block">
             <div className="polaroid float-slow absolute left-[6%] top-16 w-48 [--r:-8deg] -rotate-[8deg]">
-              <Image src="/images/klubik/klubik-44.jpg" alt="" width={384} height={384} className="aspect-square w-full rounded object-cover" />
+              <Image src="/images/klubik/klubik-34.jpg" alt="" width={384} height={384} className="aspect-square w-full rounded object-cover" />
             </div>
             <div className="polaroid float-slow absolute right-[6%] bottom-16 w-52 [--r:7deg] rotate-[7deg] [animation-delay:2s]">
               <Image src="/images/klubik/klubik-47.jpg" alt="" width={416} height={416} className="aspect-square w-full rounded object-cover" />

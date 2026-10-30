@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 
 /** Pět fotek do ohlédnutí. Celá galerie je na /galerie. */
 const FOTKY = [
-  { src: "/images/klubik/klubik-43.jpg", alt: "Výprava krajinou pod Krkonošemi" },
+  { src: "/images/klubik/klubik-03.jpg", alt: "Děti v parku u farmy" },
   { src: "/images/klubik/klubik-21.jpg", alt: "Společné dílo dětí rozložené na trávě" },
   { src: "/images/klubik/klubik-48.jpg", alt: "Zkoumání potoka" },
   { src: "/images/klubik/klubik-31.jpg", alt: "Hadovka z těsta opékaná nad ohněm" },

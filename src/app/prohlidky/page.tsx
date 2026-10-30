@@ -186,7 +186,7 @@ export default function ProhlidkyPage() {
                   <div className="polaroid absolute left-2 top-2 w-44 -rotate-[5deg]">
                     <div className="relative aspect-[4/3] overflow-hidden rounded-[0.35rem]">
                       <Image
-                        src="/images/klubik/klubik-44.jpg"
+                        src="/images/klubik/klubik-47.jpg"
                         alt=""
                         fill
                         sizes="11rem"
