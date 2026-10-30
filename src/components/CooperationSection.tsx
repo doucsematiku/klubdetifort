@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useRef, type FormEvent } from "react";
+import { useEffect, useState, useRef, type FormEvent } from "react";
 import { HandHeart, Package, PiggyBank, UserRound, type LucideIcon } from "lucide-react";
+import { KOTVA_PRUVODKYNE } from "@/lib/hledame-pruvodkyni";
 
 /** ikony karet v pořadí karet (čistá dekorace) */
 const IKONY: { ikona: LucideIcon; bublina: string }[] = [
@@ -44,6 +45,38 @@ export default function CooperationSection() {
     "idle"
   );
   const fileRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const [skocitNaFormular, setSkocitNaFormular] = useState(false);
+
+  /** otevře formulář rovnou s průvodcováním a posune stránku k němu */
+  function chciBytPruvodcem() {
+    setForm((prev) => ({ ...prev, interest: prev.interest || "pruvodce" }));
+    if (!open) setFormLoadedAt(Date.now());
+    setOpen(true);
+    setSkocitNaFormular(true);
+  }
+
+  // příchod přes odkaz /#hledame-pruvodkyni (i z jiné stránky)
+  useEffect(() => {
+    const zKotvy = () => {
+      if (window.location.hash === `#${KOTVA_PRUVODKYNE}`) chciBytPruvodcem();
+    };
+    zKotvy();
+    window.addEventListener("hashchange", zKotvy);
+    return () => window.removeEventListener("hashchange", zKotvy);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (!skocitNaFormular || !open) return;
+    setSkocitNaFormular(false);
+    // až po vykreslení formuláře, jinak by stránka skočila jen k banneru
+    const t = window.setTimeout(
+      () => formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }),
+      350
+    );
+    return () => window.clearTimeout(t);
+  }, [skocitNaFormular, open]);
 
   function update(field: keyof CoopFormData, value: string | boolean) {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -113,6 +146,41 @@ export default function CooperationSection() {
 
   return (
     <div>
+      {/* Hledáme průvodkyni — podle inzerátu na Fajn brigádách, podrobnosti až po domluvě */}
+      <div
+        className="reveal relative overflow-hidden bg-white rounded-[2rem] p-6 sm:p-10 mb-10 text-center shadow-lift ring-2 ring-forest"
+      >
+        <div aria-hidden="true" className="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-sun blur-2xl" />
+        <div aria-hidden="true" className="absolute -left-16 -bottom-16 h-48 w-48 rounded-full bg-forest-pale blur-2xl" />
+        <div className="relative">
+          <div className="inline-flex items-center gap-2 bg-forest text-white font-bold text-sm px-4 py-1.5 rounded-full mb-4">
+            <span className="live-dot" aria-hidden="true" />
+            Hledáme do týmu
+          </div>
+          <h3 className="text-2xl sm:text-3xl font-extrabold text-dark mb-3">
+            Průvodce / průvodkyně do Klubíku
+          </h3>
+          <p className="text-brown max-w-xl mx-auto leading-relaxed mb-4">
+            Hledáme ještě jednoho průvodce nebo průvodkyni k malé skupince dětí
+            na individuálním vzdělávání, od předškoláků do 5.&nbsp;třídy. Klubík
+            je otevřený v&nbsp;pondělí, úterý a středu od 8 do 16&nbsp;hodin —
+            kolik dní s&nbsp;námi budete, domluvíme podle vašich možností.
+            Hodí se zkušenost s&nbsp;dětmi, samostatnost a chuť být hodně venku.
+          </p>
+          <p className="text-sm text-brown-light max-w-xl mx-auto mb-6">
+            Pošlete nám pár vět o sobě a životopis v&nbsp;PDF. Víc vám rádi
+            řekneme po domluvě — nejlépe přímo na farmě.
+          </p>
+          <button
+            type="button"
+            onClick={chciBytPruvodcem}
+            className="btn btn-sun btn-shine w-full sm:w-auto sm:px-9"
+          >
+            Mám zájem být průvodcem / průvodkyní
+          </button>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-10">
         {[
           {
@@ -172,11 +240,23 @@ export default function CooperationSection() {
         </button>
       </div>
 
+      {/* kotva /#hledame-pruvodkyni míří sem, ať odkaz vede rovnou na formulář */}
+      <div id={KOTVA_PRUVODKYNE}>
       {open && (
         <form
+          ref={formRef}
           onSubmit={handleSubmit}
           className="fade-in max-w-2xl mx-auto mt-8 bg-white rounded-[2rem] p-6 sm:p-10 shadow-lift space-y-5"
         >
+          {/* kdo přišel přes „Hledáme průvodce", ať ví, kde je (popis je výš u banneru) */}
+          {form.interest === "pruvodce" && (
+            <div className="rounded-2xl bg-forest-pale px-5 py-4 text-sm text-forest leading-relaxed">
+              <strong className="block text-base mb-0.5">Průvodce / průvodkyně do Klubíku</strong>
+              Napište nám pár vět o sobě a s&nbsp;jakými dětmi už máte zkušenosti,
+              ideálně přiložte i životopis. Víc vám rádi řekneme po domluvě.
+            </div>
+          )}
+
           {/* Honeypot — hidden from humans, filled by bots */}
           <div className="absolute -left-[9999px]" aria-hidden="true">
             <label>
@@ -319,6 +399,7 @@ export default function CooperationSection() {
           )}
         </form>
       )}
+      </div>
     </div>
   );
 }

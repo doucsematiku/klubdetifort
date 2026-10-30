@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ZmenitSouhlas } from "@/components/CookieConsent";
 import Hory from "@/components/design/Hory";
+import { HLEDAME_PRUVODKYNI, ODKAZ_PRUVODKYNE } from "@/lib/hledame-pruvodkyni";
 
 export default function Footer() {
   return (
@@ -92,6 +93,9 @@ export default function Footer() {
                 <p><a href="#program" className="hover:text-orange transition-colors">Program</a></p>
                 <p><a href="#zazemi" className="hover:text-orange transition-colors">Zázemí</a></p>
                 <p><a href="#spoluprace" className="hover:text-orange transition-colors">Spolupráce</a></p>
+                {HLEDAME_PRUVODKYNI && (
+                  <p><a href={ODKAZ_PRUVODKYNE} className="hover:text-orange transition-colors">Hledáme průvodce/průvodkyni</a></p>
+                )}
                 <p><a href="#kontakt" className="hover:text-orange transition-colors">Kontakt</a></p>
               </div>
             </div>

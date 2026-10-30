@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { PRESPAVKY_AKTIVNI } from "@/lib/prespavky";
+import { HLEDAME_PRUVODKYNI, ODKAZ_PRUVODKYNE } from "@/lib/hledame-pruvodkyni";
 
 /**
  * Menu drží jen pár položek — sekce hlavní stránky jsou schované
@@ -147,12 +148,24 @@ export default function Header() {
                   </span>
                 </Link>
               )}
-              <Link
-                href="/pruvodkyne"
-                className="rounded-full px-3 py-2 text-dark text-sm font-semibold hover:bg-white/80 hover:text-forest transition-colors"
-              >
-                Průvodkyně
-              </Link>
+              <span className="flex items-center">
+                <Link
+                  href="/pruvodkyne"
+                  className="rounded-full px-3 py-2 text-dark text-sm font-semibold hover:bg-white/80 hover:text-forest transition-colors"
+                >
+                  Průvodkyně
+                </Link>
+                {/* štítek vede rovnou na formulář spolupráce (src/lib/hledame-pruvodkyni.ts) */}
+                {HLEDAME_PRUVODKYNI && (
+                  <a
+                    href={ODKAZ_PRUVODKYNE}
+                    title="Hledáme průvodce / průvodkyni do týmu"
+                    className="-ml-2 mr-1 text-[10px] font-bold uppercase tracking-wide bg-forest-pale text-forest rounded-full px-1.5 py-0.5 hover:bg-forest hover:text-white transition-colors"
+                  >
+                    hledáme
+                  </a>
+                )}
+              </span>
               <Dropdown label="Fotky" items={FOTKY} />
               <a
                 href="/#kontakt"
@@ -263,6 +276,16 @@ export default function Header() {
                 Průvodkyně
                 <ArrowRight aria-hidden="true" className="h-4 w-4 flex-shrink-0 text-forest/40" />
               </Link>
+              {HLEDAME_PRUVODKYNI && (
+                <a
+                  href={ODKAZ_PRUVODKYNE}
+                  onClick={zavri}
+                  className="hero-in [animation-delay:295ms] flex items-center justify-between gap-3 rounded-2xl bg-forest-pale px-4 py-3 text-sm font-semibold text-forest shadow-soft"
+                >
+                  Hledáme průvodce / průvodkyni do týmu
+                  <ArrowRight aria-hidden="true" className="h-4 w-4 flex-shrink-0" />
+                </a>
+              )}
               <div className="grid grid-cols-3 gap-2">
                 {FOTKY.map((link, i) => (
                   <Link

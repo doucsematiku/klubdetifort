@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { DoorOpen, Heart, Leaf, Quote, Sprout } from "lucide-react";
+import { DoorOpen, HandHeart, Heart, Leaf, Quote, Sprout } from "lucide-react";
 import { PRUVODKYNE } from "@/lib/medailonky";
+import { HLEDAME_PRUVODKYNI, ODKAZ_PRUVODKYNE } from "@/lib/hledame-pruvodkyni";
 import Hory from "@/components/design/Hory";
 import StickyCta from "@/components/design/StickyCta";
 import PruvodkyneFotky from "@/components/PruvodkyneFotky";
@@ -208,6 +209,39 @@ export default function PruvodkynePage() {
               </section>
             );
           })}
+
+          {/* hledáme další průvodkyni — světlá karta, ať nepřebije prohlídky pod ní */}
+          {HLEDAME_PRUVODKYNI && (
+            <section
+              id="pridejte-se"
+              className="reveal card rounded-[2rem] p-6 sm:p-10 shadow-soft ring-2 ring-forest/15"
+            >
+              <div className="grid gap-5 sm:grid-cols-[auto_1fr_auto] sm:items-center sm:gap-8">
+                <span
+                  aria-hidden="true"
+                  className="icon-bubble h-12 w-12 rounded-2xl bg-forest-pale text-forest"
+                >
+                  <HandHeart className="h-6 w-6" />
+                </span>
+                <div>
+                  <p className="eyebrow text-forest">Hledáme do týmu</p>
+                  <h2 className="mt-2 text-2xl sm:text-3xl font-extrabold text-dark leading-tight">
+                    Chcete být s dětmi na farmě i vy?
+                  </h2>
+                  <p className="mt-2 max-w-2xl text-brown leading-relaxed">
+                    Hledáme ještě jednoho průvodce nebo průvodkyni. Pošlete nám
+                    pár vět o sobě — víc vám rádi řekneme po domluvě.
+                  </p>
+                </div>
+                <a
+                  href={ODKAZ_PRUVODKYNE}
+                  className="btn btn-forest whitespace-nowrap"
+                >
+                  Mám zájem →
+                </a>
+              </div>
+            </section>
+          )}
 
           <section
             id="prijdte-se-podivat"

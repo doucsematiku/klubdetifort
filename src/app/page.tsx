@@ -8,6 +8,7 @@ import {
   Compass,
   DoorOpen,
   Flame,
+  HandHeart,
   HeartHandshake,
   Leaf,
   Lightbulb,
@@ -37,6 +38,7 @@ import SnapRadek from "@/components/design/SnapRadek";
 import FotoPas from "@/components/design/FotoPas";
 import Maskot from "@/components/maskot/Maskot";
 import { PRESPAVKY_AKTIVNI } from "@/lib/prespavky";
+import { HLEDAME_PRUVODKYNI, KOTVA_PRUVODKYNE } from "@/lib/hledame-pruvodkyni";
 
 /** Hodnoty klubu — každá karta má vlastní ikonu a barvu (bento). */
 const HODNOTY: { title: string; text: string; ikona: LucideIcon; styl: string; bublina: string; nadpis: string; popis: string }[] = [
@@ -261,6 +263,21 @@ export default function Home() {
                   Zjistit více
                 </a>
               </div>
+              {/* nenápadné, ale vidět hned na první obrazovce */}
+              {HLEDAME_PRUVODKYNI && (
+                <a
+                  href={`#${KOTVA_PRUVODKYNE}`}
+                  className="hero-in [animation-delay:460ms] mt-6 inline-flex items-center gap-2.5 rounded-full bg-white/10 px-4 py-2 text-sm text-white/90 ring-1 ring-white/20 backdrop-blur-md hover:bg-white/20 transition-colors"
+                >
+                  <HandHeart aria-hidden="true" className="h-4 w-4 flex-shrink-0 text-orange" />
+                  <span>
+                    Hledáme průvodce / průvodkyni do týmu{" "}
+                    <span className="font-semibold text-orange whitespace-nowrap">
+                      Více&nbsp;→
+                    </span>
+                  </span>
+                </a>
+              )}
             </div>
           </div>
 
@@ -907,29 +924,7 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Hiring banner */}
-            <div className="reveal relative overflow-hidden bg-white rounded-[2rem] p-6 sm:p-10 mb-10 text-center shadow-lift ring-2 ring-forest">
-              <div aria-hidden="true" className="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-sun blur-2xl" />
-              <div aria-hidden="true" className="absolute -left-16 -bottom-16 h-48 w-48 rounded-full bg-forest-pale blur-2xl" />
-              <div className="relative">
-                <div className="inline-flex items-center gap-2 bg-forest text-white font-bold text-sm px-4 py-1.5 rounded-full mb-4">
-                  <span className="live-dot" aria-hidden="true" />
-                  Hledáme do týmu
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-extrabold text-dark mb-3">
-                  Průvodce / Průvodkyně
-                </h3>
-                <p className="text-brown max-w-xl mx-auto leading-relaxed mb-4">
-                  Hledáme ještě jednoho průvodce nebo průvodkyni pro náš vzdělávací klub.
-                  Pokud máte zkušenosti s prací s dětmi, sdílíte naše hodnoty a baví vás
-                  provázet děti na cestě za poznáním — ozvěte se nám. Rádi se s vámi
-                  potkáme.
-                </p>
-                <p className="text-sm text-brown-light">
-                  Využijte formulář níže — v sekci „Mám zájem o" vyberte <strong>Průvodcování / Mentoring</strong> a přiložte své CV v PDF.
-                </p>
-              </div>
-            </div>
+            {/* banner „Hledáme do týmu" je součástí CooperationSection (otevírá formulář) */}
             <CooperationSection />
           </div>
         </section>
