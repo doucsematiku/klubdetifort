@@ -788,7 +788,7 @@ export default function PrespavkyPage() {
                   Kdo bude s dětmi
                 </p>
                 <h2 className="text-[2.1rem] leading-[1.05] sm:text-5xl font-extrabold text-dark mb-4">
-                  Lenka Formánková
+                  Mgr. Lenka Formánková
                 </h2>
                 <p className="text-brown text-[1.05rem] leading-relaxed mb-6">
                   Přespávačky vede naše průvodkyně Lenka — sociální pedagožka,

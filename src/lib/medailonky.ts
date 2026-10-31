@@ -19,6 +19,8 @@ export type Pruvodkyne = {
   /** klíč do formuláře souhlasu */
   id: string;
   jmeno: string;
+  /** akademický titul před jménem (Nela 31. 10. 2026: Lence „Mgr.“) */
+  titul?: string;
   role: string;
   /** jedna věta pod jméno — nic, co se mění podle rozpisu služeb */
   podtitul: string;
@@ -35,6 +37,7 @@ export const PRUVODKYNE: Pruvodkyne[] = [
   {
     id: "lenka",
     jmeno: "Lenka Formánková",
+    titul: "Mgr.",
     role: "průvodkyně",
     podtitul: "sociální pedagožka, maminka domškolačky",
     odstavce: [

@@ -129,6 +129,9 @@ export default function PruvodkynePage() {
                     >
                       <p className="eyebrow text-forest">{p.role}</p>
                       <h2 className="mt-3 text-[2.5rem] leading-[1] sm:text-5xl lg:text-[3.5rem] font-extrabold text-dark">
+                        {p.titul && (
+                          <span className="mr-[0.25em] text-[0.6em] font-bold text-brown">{p.titul}</span>
+                        )}
                         {krestni}{" "}
                         <span className="text-forest">{prijmeni.join(" ")}</span>
                       </h2>
