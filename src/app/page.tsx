@@ -1007,9 +1007,15 @@ export default function Home() {
                       <p className="text-xs font-bold uppercase tracking-[0.12em] text-brown-light">E-mail</p>
                       <a
                         href="mailto:reditel@doucse.cz"
-                        className="text-forest font-bold text-lg hover:text-forest-light transition-colors break-all"
+                        className="block text-forest font-bold text-lg hover:text-forest-light transition-colors break-all"
                       >
                         reditel@doucse.cz
+                      </a>
+                      <a
+                        href="mailto:nela@doucse.cz"
+                        className="block text-forest font-bold text-lg hover:text-forest-light transition-colors break-all"
+                      >
+                        nela@doucse.cz
                       </a>
                     </div>
                   </div>
