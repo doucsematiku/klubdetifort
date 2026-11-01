@@ -232,8 +232,9 @@ export default function PruvodkynePage() {
                     Chcete být s dětmi na farmě i vy?
                   </h2>
                   <p className="mt-2 max-w-2xl text-brown leading-relaxed">
-                    Hledáme ještě jednoho průvodce nebo průvodkyni. Pošlete nám
-                    pár vět o sobě — víc vám rádi řekneme po domluvě.
+                    Hledáme ještě jednoho průvodce nebo průvodkyni – a na úterní
+                    odpoledne i lidi s&nbsp;nápadem na workshop. Pošlete nám pár
+                    vět o sobě, víc vám rádi řekneme po domluvě.
                   </p>
                 </div>
                 <a

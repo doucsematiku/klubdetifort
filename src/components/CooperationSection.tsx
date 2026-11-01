@@ -167,6 +167,12 @@ export default function CooperationSection() {
             kolik dní s&nbsp;námi budete, domluvíme podle vašich možností.
             Hodí se zkušenost s&nbsp;dětmi, samostatnost a chuť být hodně venku.
           </p>
+          {/* úterní odpoledne pro workshopy – text schválila Nela 1. 11. 2026 */}
+          <p className="text-brown max-w-xl mx-auto leading-relaxed mb-4">
+            V&nbsp;úterý odpoledne (zhruba 13:00–15:45) navíc hledáme lidi, kteří
+            s&nbsp;dětmi rádi udělají jednorázový workshop nebo občas přijedou
+            s&nbsp;tím, co je baví.
+          </p>
           <p className="text-sm text-brown-light max-w-xl mx-auto mb-6">
             Pošlete nám pár vět o sobě a životopis v&nbsp;PDF. Víc vám rádi
             řekneme po domluvě — nejlépe přímo na farmě.
