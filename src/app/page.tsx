@@ -16,7 +16,6 @@ import {
   MapPin,
   Moon,
   Palette,
-  Phone,
   Plus,
   Salad,
   Smile,
@@ -977,35 +976,27 @@ export default function Home() {
                       <User className="h-5 w-5" />
                     </span>
                     <div>
-                      <p className="text-xs font-bold uppercase tracking-[0.12em] text-brown-light">Kontaktní osoba</p>
+                      <p className="text-xs font-bold uppercase tracking-[0.12em] text-brown-light">Kontaktní osoby</p>
                       <p className="text-dark font-semibold">
                         Ing. et Bc. Ivan Jadrný
                         <br />
-                        <span className="text-brown-light text-sm font-normal">ředitel{" "}
-                          <a
-                            href="https://doucse.cz"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-forest hover:underline"
-                          >
-                            Vzdělávacího centra Doučse z.s.
-                          </a>
-                        </span>
+                        <a
+                          href="tel:+420775917363"
+                          className="text-forest font-bold hover:text-forest-light transition-colors"
+                        >
+                          775 917 363
+                        </a>
                       </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-4 rounded-3xl bg-white/85 p-4 shadow-soft">
-                    <span aria-hidden="true" className="icon-bubble bg-orange text-dark">
-                      <Phone className="h-5 w-5" />
-                    </span>
-                    <div>
-                      <p className="text-xs font-bold uppercase tracking-[0.12em] text-brown-light">Telefon</p>
-                      <a
-                        href="tel:+420775917363"
-                        className="font-display text-forest font-extrabold text-2xl hover:text-forest-light transition-colors"
-                      >
-                        775 917 363
-                      </a>
+                      <p className="text-dark font-semibold mt-3">
+                        Mgr. Nela Jadrná
+                        <br />
+                        <a
+                          href="tel:+420732934956"
+                          className="text-forest font-bold hover:text-forest-light transition-colors"
+                        >
+                          732 934 956
+                        </a>
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-center gap-4 rounded-3xl bg-white/85 p-4 shadow-soft">
