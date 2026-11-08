@@ -48,10 +48,26 @@ export default function Footer() {
                 </p>
                 <p>
                   <a
+                    href="tel:+420732934956"
+                    className="font-display text-xl font-bold text-white hover:text-orange transition-colors"
+                  >
+                    732 934 956
+                  </a>
+                </p>
+                <p>
+                  <a
                     href="mailto:reditel@doucse.cz"
                     className="text-white hover:text-orange transition-colors"
                   >
                     reditel@doucse.cz
+                  </a>
+                </p>
+                <p>
+                  <a
+                    href="mailto:nela@doucse.cz"
+                    className="text-white hover:text-orange transition-colors"
+                  >
+                    nela@doucse.cz
                   </a>
                 </p>
                 <p className="text-white/60">
