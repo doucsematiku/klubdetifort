@@ -102,10 +102,11 @@ const JAK_TRAVIME: { title: string; text: React.ReactNode; ikona: LucideIcon }[]
     title: "Život v přírodě",
     text: (
       <>
-        Děti jsou v prostředí živé BIO farmy. Po domluvě s&nbsp;majiteli
-        farmy se mohou občas připojit k&nbsp;jejímu dění — třeba
-        pozorovat zvířata nebo růst plodin. Hlavní náplní programu je
-        však klidná hra, tvoření a&nbsp;pobyt v&nbsp;přírodě.
+        Místo lavic máme farmu. Všude kolem nás jsou krávy, koně, slepice,
+        prasátka a&nbsp;další zvířecí sousedé. Děti pěstují na vlastním
+        záhonu. V&nbsp;nádherném přilehlém parku, v&nbsp;lesích, na loukách,
+        u&nbsp;rybníků a&nbsp;potůčků bádají, tvoří i&nbsp;řádí. Učíme se tam,
+        kde se věci opravdu dějí.
       </>
     ),
     ikona: Trees,
@@ -693,12 +694,12 @@ export default function Home() {
                   title: "Badatelské prostory",
                   desc: "Klidná a vybavená místnost v historické budově pro soustředěné učení.",
                   fotky: [
+                    { src: "/images/klubik/prostor-badatelna-4.jpg", alt: "Tabule a mapy světa a Evropy na stěně, kulatý stolek a podsedáky", pozice: "50% 32%" },
+                    { src: "/images/klubik/prostor-badatelna-5.jpg", alt: "Mapy Evropy a Česka a dětské obrázky na šňůře" },
                     { src: "/images/klubik/prostor-badatelna-3.jpg", alt: "Badatelská místnost s dřevěným stropem" },
                     { src: "/images/klubik/prostor-badatelna-1.jpg", alt: "Světlá místnost s kobercem a podsedáky" },
                     { src: "/images/klubik/prostor-badatelna-2.jpg", alt: "Místnost s mapou a policemi u okna" },
                     { src: "/images/klubik/klubik-35.jpg", alt: "Děti u tabule v badatelské místnosti" },
-                    { src: "/images/klubik/prostor-badatelna-4.jpg", alt: "Mapy světa a Evropy na stěně, kulatý stolek a podsedáky", pozice: "50% 32%" },
-                    { src: "/images/klubik/prostor-badatelna-5.jpg", alt: "Mapy Evropy a Česka a dětské obrázky na šňůře" },
                     { src: "/images/klubik/prostor-badatelna-6.jpg", alt: "Kelímky s pokusy na okenním parapetu" },
                   ],
                 },
