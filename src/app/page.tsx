@@ -547,7 +547,7 @@ export default function Home() {
                   Lokální BIO strava z&nbsp;produkce farmy
                 </h2>
                 <p className="text-lg text-brown leading-relaxed mb-7">
-                  Děti u nás obědvají plnohodnotnou stravu připravenou z&nbsp;čerstvých
+                  Děti u nás mají možnost obědvat plnohodnotnou stravu připravenou z&nbsp;čerstvých
                   surovin přímo z&nbsp;BIO farmy Fořt. Žádné polotovary, žádné
                   dodavatelské firmy — jídlo roste tam, kde se děti učí.
                 </p>
