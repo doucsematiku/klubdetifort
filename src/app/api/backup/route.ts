@@ -440,6 +440,10 @@ export async function GET(req: NextRequest) {
         stats.codeBytes = codeBuffer.length;
         await uploadToDrive(drive, `fort-klub-code-${today}.zip`, "application/zip", codeBuffer);
         stats.codeStatus = "ok";
+      } else if (ghRes.status === 401) {
+        // Klíč GitHubu ve Vercelu skončil 11. 11. 2026. Zip kódu nahrává most na serveru (code-zaloha-drive),
+        // a kdyby nedorazil, ozve se ranní kontrola záloh (/api/backup/verify).
+        stats.codeStatus = "most_na_serveru";
       } else {
         stats.codeStatus = `github_${ghRes.status}`;
         errors.push(`GitHub zipball failed: ${ghRes.status}`);
