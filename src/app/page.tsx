@@ -102,8 +102,8 @@ const JAK_TRAVIME: { title: string; text: React.ReactNode; ikona: LucideIcon }[]
     title: "Život v přírodě",
     text: (
       <>
-        Místo lavic máme farmu. Všude kolem nás jsou krávy, koně, slepice,
-        prasátka a&nbsp;další zvířecí sousedé. Děti pěstují na vlastním
+        Všude kolem nás jsou krávy, koně, slepice, prasátka a&nbsp;další
+        zvířecí sousedé. Děti pěstují na vlastním
         záhonu. V&nbsp;nádherném přilehlém parku, v&nbsp;lesích, na loukách,
         u&nbsp;rybníků a&nbsp;potůčků bádají, tvoří i&nbsp;řádí. Učíme se tam,
         kde se věci opravdu dějí.
