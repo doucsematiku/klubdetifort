@@ -697,6 +697,9 @@ export default function Home() {
                     { src: "/images/klubik/prostor-badatelna-1.jpg", alt: "Světlá místnost s kobercem a podsedáky" },
                     { src: "/images/klubik/prostor-badatelna-2.jpg", alt: "Místnost s mapou a policemi u okna" },
                     { src: "/images/klubik/klubik-35.jpg", alt: "Děti u tabule v badatelské místnosti" },
+                    { src: "/images/klubik/prostor-badatelna-4.jpg", alt: "Mapy světa a Evropy na stěně, kulatý stolek a podsedáky", pozice: "50% 32%" },
+                    { src: "/images/klubik/prostor-badatelna-5.jpg", alt: "Mapy Evropy a Česka a dětské obrázky na šňůře" },
+                    { src: "/images/klubik/prostor-badatelna-6.jpg", alt: "Kelímky s pokusy na okenním parapetu" },
                   ],
                 },
                 {

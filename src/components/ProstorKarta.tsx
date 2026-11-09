@@ -7,7 +7,8 @@ export type Prostor = {
   title: string;
   desc: string;
   /** první fotka je hlavní, ostatní jdou pod ni jako náhledy */
-  fotky: { src: string; alt: string }[];
+  /** `pozice` = co z fotky ukázat ve výřezu 4 : 3 (CSS object-position), výchozí střed */
+  fotky: { src: string; alt: string; pozice?: string }[];
 };
 
 /** Karta prostoru s několika fotkami — kliknutím na náhled se vymění velká fotka. */
@@ -25,6 +26,7 @@ export default function ProstorKarta({ prostor }: { prostor: Prostor }) {
           alt={hlavni.alt}
           fill
           sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 85vw"
+          style={hlavni.pozice ? { objectPosition: hlavni.pozice } : undefined}
           className="fade-in object-cover transition-transform duration-700 group-hover:scale-105"
         />
         <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-dark/35 to-transparent" />
