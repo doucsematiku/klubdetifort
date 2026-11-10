@@ -325,7 +325,7 @@ export async function POST(req: NextRequest) {
       resend.emails.send({
         from: "Klub Fořt <noreply@klubdetifort.cz>",
         to: "reditel@doucse.cz",
-        cc: "jadrna.nela@gmail.com",
+        cc: "nela@doucse.cz",
         replyTo: sanitized.email,
         subject: `Nový návrh termínu prohlídky: ${sanitized.parentName}`,
         html: adminHtml,

@@ -181,7 +181,7 @@ export async function POST(req: NextRequest) {
     await resend.emails.send({
       from: "Klub Fořt <noreply@klubdetifort.cz>",
       to: "reditel@doucse.cz",
-      cc: "jadrna.nela@gmail.com",
+      cc: "nela@doucse.cz",
       replyTo: email,
       subject: `Nabídka spolupráce: ${name} — ${interestLabel}`,
       html: `
